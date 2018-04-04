@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><tt xmlns="http://www.w3.org/ns/ttml" xmlns:tt="http://www.w3.org/ns/ttml" xmlns:ttp="http://www.w3.org/ns/ttml#parameter" xmlns:tts="http://www.w3.org/ns/ttml#styling" xmlns:ttm="http://www.w3.org/ns/ttml#metadata" ttp:frameRate="25">
+  <head>
+    <metadata>
+      <ttm:title>ELLIS ISLAND</ttm:title>
+    </metadata>
+    <styling>
+      <style xml:id="color-m" tts:color="magenta" />
+      <style xml:id="color-g" tts:color="green" />
+      <style xml:id="color-y" tts:color="yellow" />
+      <style xml:id="color-b" tts:color="blue" />
+
+    </styling>
+    <layout>
+      <region xml:id="region-tl" tts:origin="0% 0.00%" tts:extent="100% 10%" tts:textAlign="left" />
+      <region xml:id="region-tc" tts:origin="0% 0.00%" tts:extent="100% 10%" tts:textAlign="center"/>
+      <region xml:id="region-tr" tts:origin="0% 0.00%" tts:extent="100% 10%" tts:textAlign="right"/>
+      <region xml:id="region-ml" tts:origin="0% 0.00%" tts:extent="100% 50%" tts:textAlign="left" />
+      <region xml:id="region-mc" tts:origin="0% 0.00%" tts:extent="100% 50%" tts:textAlign="center" />
+      <region xml:id="region-mr" tts:origin="0% 0.00%" tts:extent="100% 50%" tts:textAlign="right" />
+      <region xml:id="region-bl" tts:origin="0% 0.00%" tts:extent="100% 90%" tts:textAlign="left" />
+      <region xml:id="region-bc" tts:origin="0% 0.00%" tts:extent="100% 90%" tts:textAlign="center" />
+      <region xml:id="region-br" tts:origin="0% 0.00%" tts:extent="100% 90%" tts:textAlign="right" />
+    </layout>
+  </head>
+  <body>
+    <div>
+      <p xml:id="cue-1" begin="00:00:02.320" end="00:00:05.360">
+        <span>One line</span>
+      </p>
+      <p xml:id="cue-2" begin="00:00:05.560" end="00:00:08.320">
+        <span>Two</span>
+        <br/>
+        <span>lines</span>
+      </p>
+      <p xml:id="cue-3" region="region-tl" begin="00:00:08.520" end="00:00:10.640">
+        <span>Top left</span>
+      </p>
+      <p xml:id="cue-4" region="region-tc" begin="00:00:11.800" end="00:00:13.520">
+        <span>Top center</span>
+      </p>
+      <p xml:id="cue-5" region="region-tr" begin="00:00:13.720" end="00:00:16.520">
+        <span>Top right</span>
+      </p>
+      <p xml:id="cue-6" region="region-ml" begin="00:00:16.720" end="00:00:18.600">
+        <span>Middle left</span>
+      </p>
+      <p xml:id="cue-7" region="region-mc" begin="00:00:18.800" end="00:00:22.520">
+        <span>Middle center</span>
+      </p>
+      <p xml:id="cue-8" region="region-mr" begin="00:00:25.520" end="00:00:28.920">
+        <span>Middle right</span>
+      </p>
+      <p xml:id="cue-9" region="region-bl" begin="00:00:29.120" end="00:00:32.720">
+        <span>Bottom left</span>
+      </p>
+      <p xml:id="cue-10" region="region-bc" begin="00:00:33.040" end="00:00:36.080">
+        <span>Bottom center</span>
+      </p>
+      <p xml:id="cue-11" region="region-br" begin="00:00:36.280" end="00:00:38.440">
+        <span>Bottom right</span>
+      </p>
+      <p xml:id="cue-12" region="region-1" style="color-m" begin="00:00:41.840" end="00:00:44.080">
+        <span>Magenta</span>
+      </p>
+      <p xml:id="cue-13" region="region-1" style="color-g" begin="00:00:44.280" end="00:00:48.240">
+        <span>Green</span>
+      </p>
+      <p xml:id="cue-14" region="region-1" begin="00:00:48.440" end="00:00:52.600">
+        <span style="color-y">Yellow</span>
+        <br/>
+        <span style="color-b">Blue</span>
+      </p>
+    </div>
+  </body>
+</tt>
