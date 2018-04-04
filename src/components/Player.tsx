@@ -39,17 +39,17 @@ export class Player extends React.Component<undefined, States> {
     private markerList: Marker[] = [
         {
             timecode: 0,
-            image: "https://cdn.pixabay.com/photo/2018/01/04/18/58/cats-3061372_960_720.jpg",
+            image: "./images/classe.jpg",
             title: "start",
         },
         {
             timecode: 60,
-            image: "https://cdn.pixabay.com/photo/2017/10/01/00/43/rat-2804058_960_720.jpg",
+            image: "./images/livre.jpg",
             title: "other",
         },
         {
             timecode: 600,
-            image: "https://cdn.pixabay.com/photo/2017/02/27/12/11/rat-2103087_960_720.jpg",
+            image: "./images/cantine.jpg",
             title: "???",
         },
     ];
