@@ -1,16 +1,12 @@
-import "reflect-metadata";
-
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as injectTapEventPlugin from "react-tap-event-plugin";
 
 import { HashRouter } from "react-router-dom";
 
-import { Store } from "redux";
-
 import { App } from "app/components/App";
 
-import { container } from "app/di";
+import * as polyfill from "app/polyfill";
 
 // Render React App component
 export function start() {
@@ -27,5 +23,7 @@ export function start() {
 }
 
 export function init() {
-    const store = container.get<Store<any>>("store");
+    // Install polyfills
+    console.log("Install fullscreen");
+    polyfill.install();
 }

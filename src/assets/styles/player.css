@@ -1,129 +1,296 @@
-:root {
-    --controls_button_size: 1.4rem;
-    --marker_size: 3rem;
-}
-
-.root {
-    display: flex;
-}
-
-.players_container {
-    flex-grow: 8;
-    position: relative;
-}
-
-.players_container_fullscreen {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: black;
+*:focus {
+    outline: 1px dotted #666;
 }
 
 .player {
-    position: absolute;
-    
+    display: block;
+    position: relative;
+    background: #000;
+
+    & :global(.video-wrapper) {
+        position: relative;
+        width: 100%;
+        /* 16:9 https://stackoverflow.com/questions/11243075/css-scale-height-to-match-width-possibly-with-a-formfactor */
+        padding-bottom: 57%;
+    }
 
     & video {
+        position: absolute;
+        display: block;
         width: 100%;
+        height: 100%;
+    }
+
+    & :global(.loader) {
+        position: absolute;
+        display: none;
+        width: 100%;
+        height: 100%;
+        background: #333;
+        opacity: 0.5;
+
+        & svg {
+            position: absolute;
+            display: block;
+            fill: none;
+            margin: auto;
+            width: 4rem;
+            height: 4rem;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
     }
 }
 
-.lsf_player {
-    width: 25%;
-
-    top: 0px;
-    right:0px
-}
-
-.lsf_player_hidden {
-    display: none;
-}
-
-.main_player {
+.player.fullscreen {
     width: 100%;
 
-    top: 0px;
-    left: 0px;
+    & :global(.control-bar) {
+        position: absolute;
+        background: #333;
+        padding: 1rem;
+        border-radius: 1rem;
+        left: 10rem;
+        right: 10rem;
+        bottom: 3rem;
+        opacity: 1;
+        transition: opacity 0.5s;
+    }
+
+    & :global(.loader) {
+        & svg {
+            width: 10rem;
+            height: 10rem;
+        }
+    }
 }
 
-.main_player_minified {
-    width: 75%;
-}
-
-.options_root {
-    flex-grow: 1;
-
-    display: flex;
-    flex-direction: column;
+.player.fullscreen.no-mouse-activity {
+    cursor: none;
 
     & * {
-        flex-grow: 1;
-        width: 100%;
+        cursor: none;
+    }
+
+    & :global(.control-bar) {
+        opacity: 0;
+        cursor: none;
     }
 }
 
-.controls {
-    display: flex;
-
-    & div progress {
-        width: 100%;
-        border: 1px black solid;
+.player.buffering {
+    & :global(.loader) {
+        display: block;
     }
+}
 
-    & div{
-        flex-grow: 1;
-        position: relative;
+.player.minimal {
+    width: 50%;
+}
+
+:global(.control-bar) {
+    padding: 0 1rem;
+    color: #fff;
+    background: #000;
+
+    & svg {
+        height: 2rem;
+        fill: #fff;
     }
 
     & button {
-        width: var(--controls_button_size);
-        height: var(--controls_button_size);
-        padding: 0px;
+        border: none;
+        padding: 0;
+        background: transparent;
+        cursor: pointer;
+    }
 
-        & svg {
-            width: 100%;
-            height: 100%
+    & :global(.bottom) {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    & :global(.left) {
+        display: flex;
+        align-content: flex-start;
+
+        & > * {
+            margin-right: 0.5rem;
         }
     }
 
-    & svg {
-        width: var(--controls_button_size);
-        height: var(--controls_button_size);
+    & :global(.right) {
+        display: flex;
+        align-content: flex-end;
     }
 
-    & input {
-        width: 5rem;
-    }
-
-    & .marker {
-        position: absolute;
-        z-index: 5000;
-        top: -2.7rem;
-        margin: 0;
-        width: var(--marker_size);
-        height: var(--marker_size);
-        fill: red;
-    }
-}
-
-.controls_fullscreen {
-    position: absolute;
-    left: 30px;
-    right: 30px;
-    bottom: 30px;
-    background-color: grey;
-    padding: 2px;
-    border: 1px black solid;
-}
-
-.marker_container {
-    horflow: auto;
-    width: 100%;
-    & img {
+    & :global(.time) {
         display: inline-block;
-        height: 10rem;
-        margin: 0 1px;
+        padding: 0.5rem 0;
+        font-size: 1rem;
+        line-height: 1;
+
+        & :global(.separator) {
+            display: inline-block;
+            padding: 0 0.2rem;
+        }
+    }
+}
+
+:global(.progress-bar-wrapper) {
+    position: relative;
+    height: 1.4rem;
+    cursor: pointer;
+}
+
+:global(.progress-bar-container) {
+    position: absolute;
+    z-index: 10;
+}
+
+:global(.progress-bar-full),
+:global(.progress-bar-current),
+:global(.progress-bar-over) {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: 0.3rem;
+    overflow: hidden;
+}
+
+:global(.progress-bar-tooltip) {
+    position: absolute;
+    top: -10000rem;
+    height: 0;
+    opacity: 0;
+    z-index: 20;
+    margin-left: -0.5rem;
+    background: #777;
+    padding: 0.4rem;
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1;
+    height: 1rem;
+    border: 1pt solid #666;
+    border-radius: 0.5rem;
+}
+
+:global(.progress-bar-tooltip.open) {
+    opacity: 1;
+    height: auto;
+    top: -2rem;
+}
+
+:global(.progress-bar-full) {
+    z-index: 0;
+    width: 100%;
+}
+
+:global(.progress-bar-over) {
+    z-index: 10;
+}
+
+:global(.progress-bar-current) {
+    z-index: 15;
+}
+
+:global(.progress-bar-cursor) {
+    position: absolute;
+    z-index: 15;
+}
+
+.video-progress-bar {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+
+    & :global(.progress-bar-container) {
+        height: 1.4rem;
+        position: relative;
+    }
+
+    & :global(.progress-bar-full) {
+        padding: 0;
+        background: rgba(200, 200, 200, 0.5);
+        transition: padding 0.3s;
+
+    }
+
+    & :global(.progress-bar-current) {
+        padding: 0;
+        background: rgb(250, 10, 10);
+        transition: padding 0.3s;
+    }
+
+    & :global(.progress-bar-cursor) {
+        overflow: hidden;
+        z-index: 15;
+        top: -0.1rem;
+        width: 1.5rem;
+        height: 1.5rem;
+        opacity: 0;
+    }
+
+    & :global(.progress-bar-over) {
+        padding: 0;
+        background: rgb(150, 150, 150);
+        transition: padding 0.3s;
+    }
+
+    & :global(.progress-bar-container.over) {
+        & :global(.progress-bar-full),
+        & :global(.progress-bar-current),
+        & :global(.progress-bar-over) {
+            padding: 0.1rem 0;
+        }
+
+        & :global(.progress-bar-cursor) {
+            background: rgb(250, 10, 10);
+            border-radius: 0.75rem;
+            margin-left: -0.75rem;
+            opacity: 1;
+        }
+    }
+
+    & :global(.progress-bar-tooltip.open) {
+        top: -2.5rem;
+    }
+}
+
+.volume-bar {
+    display: inline-block;
+    box-sizing: border-box;
+    min-width: 5rem;
+    height: 2rem;
+    padding: 0.25rem;
+
+    & :global(.progress-bar-container) {
+        height: 1.5rem;
+        position: relative;
+    }
+
+    & :global(.progress-bar-full) {
+        padding: 0;
+        background: rgba(200, 200, 200, 0.8);
+        transition: padding 0.3s;
+    }
+
+    & :global(.progress-bar-current) {
+        padding: 0;
+        background: rgb(100, 100, 200);
+        transition: padding 0.3s;
+    }
+
+    & :global(.progress-bar-cursor) {
+        display: none;
+    }
+
+    & :global(.progress-bar-over) {
+        padding: 0;
+        background: rgb(150, 150, 150);
+        transition: padding 0.3s;
     }
 }

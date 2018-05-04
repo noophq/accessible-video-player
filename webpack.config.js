@@ -60,6 +60,8 @@ let config = {
         // Add '.ts' and '.tsx' as resolvable extensions.
         extensions: [".ts", ".tsx", ".js", ".jsx"],
     },
+
+    target: "web",
 };
 
 if (process.env.NODE_ENV === "production") {
