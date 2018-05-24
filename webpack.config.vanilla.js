@@ -14,12 +14,7 @@ let definePlugin = new webpack.DefinePlugin({
 });
 
 let config = {
-    entry: "./src/main.tsx",
-
-    externals: {
-        "react": "React",
-        "react-dom": "ReactDOM",
-    },
+    entry: "./src/vanilla/main.ts",
 
     module: {
         loaders: [
@@ -27,7 +22,6 @@ let config = {
             // by 'awesome-typescript-loader' or 'react-hot-loader'.
             {
                 loaders: [
-                    "react-hot-loader/webpack",
                     "awesome-typescript-loader",
                 ],
                 test: /\.tsx?$/,
@@ -41,15 +35,15 @@ let config = {
     },
 
     output: {
-        filename: "bundle.js",
-        library: "app",
+        filename: "vanilla.bundle.js",
+        library: "accessibleVideoPlayer",
         libraryTarget: "var",
         path: path.join(__dirname, "dist"),
         publicPath: "/dist",
     },
 
     plugins: [
-        new ExtractTextPlugin("[name].bundle.css"),
+        new ExtractTextPlugin("vanilla.bundle.css"),
         definePlugin,
     ],
     resolve: {
@@ -90,6 +84,8 @@ if (process.env.NODE_ENV === "production") {
             "Access-Control-Allow-Origin": "*",
         },
         historyApiFallback: true,
+        open: true,
+        openPage: "test/vanilla-app",
         hot: true,
         watchContentBase: true,
     };
