@@ -4,7 +4,7 @@ import * as injectTapEventPlugin from "react-tap-event-plugin";
 
 import { HashRouter } from "react-router-dom";
 
-import { App } from "app/components/App";
+import { App } from "app/react/components/App";
 
 import * as polyfill from "app/polyfill";
 
