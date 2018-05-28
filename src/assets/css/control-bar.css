@@ -51,8 +51,10 @@
 
     & .avp-control-bar-volume-panel {
         position: absolute;
-        display: inline-block;
-        left: -1.5rem;
+        display: block;
+        opacity: 0;
+        left: -20000rem;
+        z-index: -1;
         bottom: 2rem;
         padding: 0.5rem;
         height: 2rem;
@@ -60,6 +62,7 @@
         background: red;
         border-radius: 0.5rem;
         transform: translateY(-100%) rotate(270deg);
+        transition: opacity 0.2s;
 
         & .avp-ranges-slider {
             width: 6rem;
@@ -69,5 +72,11 @@
         & .avp-range-slider-total {
             background: orange;
         }
+    }
+
+    & .avp-control-bar-volume-panel.open {
+        z-index: 10;
+        opacity: 1;
+        left: -1.5rem;
     }
 }

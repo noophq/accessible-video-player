@@ -9,7 +9,12 @@ import { MarkerManager } from "lib/core/marker";
 
 import { PlayerComponent } from "./components/player";
 
+import { install as installPolyfills } from "lib/polyfill";
+
 import "lib/assets/css/player.css";
+
+// Install polyfills
+installPolyfills();
 
 export async function init(
     containerElement: HTMLElement,

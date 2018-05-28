@@ -13,6 +13,7 @@ import controlBarView from "ejs-loader!lib/vanilla/views/control-bar.ejs";
 import { BaseComponent } from "./base";
 
 import { renderRangeSlider } from "lib/utils/range-slider";
+import { toggleElementAttribute, trapFocus, undoTrapFocus } from "lib/utils/dom";
 
 export class ControlBarComponent extends BaseComponent {
     private eventRegistry: EventRegistry;
@@ -29,15 +30,37 @@ export class ControlBarComponent extends BaseComponent {
     private volumePanelElement: HTMLDivElement;
     private playHandler: any;
     private pauseHandler: any;
-    private volumeHandler: any;
+    private volumeSetHandler: any;
+    private volumeClickHandler: any;
+    private volumePanelEscapeHandler: any;
 
     constructor(avp: AvpObject) {
         super(avp);
         this.eventRegistry = new EventRegistry();
         this.playHandler = this.avp.player.play.bind(this.avp.player);
         this.pauseHandler = this.avp.player.pause.bind(this.avp.player);
-        this.volumeHandler = (event: any) => {
+        this.volumeSetHandler = (event: any) => {
             this.avp.player.setVolume(event.target.value);
+        };
+        this.volumeClickHandler = (event: any) => {
+            toggleElementAttribute(this.volumeInputElement, "tabindex", -1);
+            this.volumePanelElement.classList.toggle("open");
+
+            if (this.volumeInputElement.hasAttribute("tabIndex")) {
+                undoTrapFocus();
+            } else  {
+                // Trap focus
+                trapFocus(this.volumePanelElement);
+            }
+        };
+
+        this.volumePanelEscapeHandler = (event: any) => {
+            // Escape key closes the volume
+            if (event.key == "Escape") {
+                undoTrapFocus();
+                this.volumeButtonElement.click();
+                this.volumeButtonElement.focus();
+            }
         };
     }
 
@@ -88,7 +111,17 @@ export class ControlBarComponent extends BaseComponent {
         this.eventRegistry.register(
             this.volumeInputElement,
             "input",
-            this.volumeHandler
+            this.volumeSetHandler
+        );
+        this.eventRegistry.register(
+            this.volumeButtonElement,
+            "click",
+            this.volumeClickHandler,
+        );
+        this.eventRegistry.register(
+            this.volumePanelElement,
+            "keydown",
+            this.volumePanelEscapeHandler,
         );
     }
 }
