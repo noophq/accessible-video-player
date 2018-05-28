@@ -35,23 +35,23 @@ export class Player extends React.Component<undefined, PlayerState> {
     private textTrackUrl =
         "https://raw.githubusercontent.com/noophq/html5-video-subtitle/master/test/resources/subtitles/test.xml";
 
-    private markerList: Marker[] = [
-        {
-            timecode: 0,
-            image: "./images/classe.jpg",
-            title: "start",
-        },
-        {
-            timecode: 60,
-            image: "./images/livre.jpg",
-            title: "other",
-        },
-        {
-            timecode: 600,
-            image: "./images/cantine.jpg",
-            title: "???",
-        },
-    ];
+    // private markerList: Marker[] = [
+    //     {
+    //         timecode: 0,
+    //         image: "./images/classe.jpg",
+    //         title: "start",
+    //     },
+    //     {
+    //         timecode: 60,
+    //         image: "./images/livre.jpg",
+    //         title: "other",
+    //     },
+    //     {
+    //         timecode: 600,
+    //         image: "./images/cantine.jpg",
+    //         title: "???",
+    //     },
+    // ];
 
     public constructor() {
         super(undefined);

@@ -4,7 +4,7 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "es2015",
-    "lib": ["es6", "dom"],
+    "lib": ["es6", "dom", "es2017.object"],
     "target": "es5",
     "jsx": "react",
     "moduleResolution": "node",
@@ -12,7 +12,8 @@
     "emitDecoratorMetadata": true,
     "baseUrl": ".",
     "paths": {
-      "app/*": ["./src/*"]
+      "app/*": ["./src/*"],
+      "lib/*": ["./src/*"]
     }
   },
   "include": [

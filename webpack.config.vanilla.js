@@ -31,12 +31,16 @@ let config = {
                 loader: "svg-sprite-loader",
                 test: /\.svg$/,
             },
+            {
+                loader: "ejs-loader",
+                test: /\.svg$/,
+            },
         ],
     },
 
     output: {
         filename: "vanilla.bundle.js",
-        library: "accessibleVideoPlayer",
+        library: "avp",
         libraryTarget: "var",
         path: path.join(__dirname, "dist"),
         publicPath: "/dist",
@@ -49,6 +53,7 @@ let config = {
     resolve: {
         alias: {
             "app": path.resolve(__dirname, "src"),
+            "lib": path.resolve(__dirname, "src"),
         },
 
         // Add '.ts' and '.tsx' as resolvable extensions.
@@ -66,10 +71,6 @@ if (process.env.NODE_ENV === "production") {
             use: [
                 {
                     loader: "css-loader",
-                    options: {
-                        importLoaders: 1,
-                        modules: true,
-                    },
                 },
                 "postcss-loader",
             ],
@@ -99,10 +100,6 @@ if (process.env.NODE_ENV === "production") {
             use: [
                 {
                     loader: "css-loader",
-                    options: {
-                        importLoaders: 1,
-                        modules: true,
-                    },
                 },
                 "postcss-loader",
             ],

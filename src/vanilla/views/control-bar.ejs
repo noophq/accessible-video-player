@@ -1,0 +1,57 @@
+<div id="<%= id %>" class="avp-control-bar">
+    <div class="avp-left">
+        <button class="avp-control-bar-play">
+            <svg viewBox="<%= playIcon.viewBox %>">
+                <title><%= t("controlBar.play") %></title>
+                <use xlink:href="#<%= playIcon.id %>" />
+            </svg>
+        </button>
+        <button class="avp-control-bar-pause">
+            <svg viewBox="<%= pauseIcon.viewBox %>">
+                <title><%= t("controlBar.pause") %></title>
+                <use xlink:href="#<%= pauseIcon.id %>" />
+            </svg>
+        </button>
+        <div class="avp-time">
+            <span>00:03</span>
+            <span class="avp-time-separator">/</span>
+            <span>10:52</span>
+        </div>
+    </div>
+    <div class="avp-right">
+        <button class="avp-control-bar-marker">
+            <svg viewBox="<%= markerIcon.viewBox %>">
+                <title><%= t("controlBar.marker") %></title>
+                <use xlink:href="#<%= markerIcon.id %>" />
+            </svg>
+        </button>
+        <div class="avp-control-bar-volume-container">
+            <button class="avp-control-bar-volume">
+                <svg viewBox="<%= volumeIcon.viewBox %>">
+                    <title><%= t("controlBar.volume") %></title>
+                    <use xlink:href="#<%= volumeIcon.id %>" />
+                </svg>
+            </button>
+            <div class="avp-control-bar-volume-panel">
+                <div class="avp-range-slider">
+                    <input type="range" min="1" max="100" value="<%= currentVolume %>" />
+                    <div class="avp-range-slider-total">
+                        <div class="avp-range-slider-lower"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="avp-control-bar-settings">
+            <svg viewBox="<%= settingsIcon.viewBox %>">
+                <title><%= t("controlBar.marker") %></title>
+                <use xlink:href="#<%= settingsIcon.id %>" />
+            </svg>
+        </button>
+        <button class="avp-control-bar-enter-fullscreen">
+            <svg viewBox="<%= enterFullscreenIcon.viewBox %>">
+                <title><%= t("controlBar.enterFullscreen") %></title>
+                <use xlink:href="#<%= enterFullscreenIcon.id %>" />
+            </svg>
+        </button>
+    </div>
+</div>

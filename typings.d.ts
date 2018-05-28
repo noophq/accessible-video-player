@@ -3,6 +3,11 @@ declare module "*.json" {
     export default value;
 }
 
+declare module "*.ejs" {
+    const value: any;
+    export default value;
+}
+
 declare module "*.css" {
     interface IClassNames {
         [className: string]: string

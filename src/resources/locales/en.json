@@ -1,1 +1,14 @@
-{}
+{
+    "settings": {
+        "header": "Settings"
+    },
+    "controlBar": {
+        "play": "Play",
+        "pause": "Pause",
+        "marker": "Add marker",
+        "volume": "Change volume",
+        "settings": "Settings",
+        "enterFullscreen": "Enter fullscreen",
+        "existFullscreen": "Exit fullscreen"
+    }
+}

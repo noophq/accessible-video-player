@@ -1,0 +1,73 @@
+.avp-control-bar {
+    background: #ee3333;
+    font-size: 2rem;
+    line-height: 1;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+
+    & svg {
+        height: 2rem;
+        fill: #fff;
+    }
+
+    & button {
+        border: none;
+        padding: 0;
+        background: transparent;
+        cursor: pointer;
+    }
+
+    & .avp-left {
+        display: flex;
+        align-content: flex-start;
+
+        & > * {
+            margin-right: 0.5rem;
+        }
+    }
+
+    & .avp-right {
+        display: flex;
+        align-content: flex-end;
+    }
+
+    & .avp-time {
+        display: inline-block;
+        padding: 0.5rem 0;
+        font-size: 1rem;
+        line-height: 1;
+
+        & span.avp-time-separator {
+            display: inline-block;
+            padding: 0 0.2rem;
+        }
+    }
+
+    & .avp-control-bar-volume-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    & .avp-control-bar-volume-panel {
+        position: absolute;
+        display: inline-block;
+        left: -1.5rem;
+        bottom: 2rem;
+        padding: 0.5rem;
+        height: 2rem;
+        overflow: hidden;
+        background: red;
+        border-radius: 0.5rem;
+        transform: translateY(-100%) rotate(270deg);
+
+        & .avp-ranges-slider {
+            width: 6rem;
+            height: 2rem;
+        }
+
+        & .avp-range-slider-total {
+            background: orange;
+        }
+    }
+}

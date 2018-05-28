@@ -1,6 +1,10 @@
 export interface Marker {
+    id: string;
     timecode: number;
-    image: string;
     title: string;
-    
+    description?: string;
+}
+
+export interface MarkerDictionary {
+    [index: string]: Marker;
 }

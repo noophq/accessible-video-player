@@ -2,17 +2,17 @@
 <html>
     <head>
       <meta charset="UTF-8" />
-      <title>Reader</title>
+      <title>Accessible Video Player</title>
       <link rel="stylesheet" type="text/css" href="/dist/vanilla.bundle.css">
     </head>
     <body>
-        <div id="app"></div>
+        <div id="player"></div>
+
+        <!-- Shaka Player compiled library: -->
+        <script src="/node_modules/shaka-player/dist/shaka-player.compiled.js"></script>
 
         <!-- Main -->
         <script src="/dist/vanilla.bundle.js"></script>
-        <script type="text/javascript">
-          app.init();
-          app.start();
-      </script>
+        <script src="./app.js"></script>
     </body>
 </html>

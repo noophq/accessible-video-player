@@ -1,0 +1,7 @@
+@import "./video.css";
+@import "./control-bar.css";
+@import "./range-slider.css";
+
+.avp-player {
+    width: 60%;
+}
