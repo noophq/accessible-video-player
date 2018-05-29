@@ -16,6 +16,19 @@ import "lib/assets/css/player.css";
 // Install polyfills
 installPolyfills();
 
+const popinCloseHandler = (event: any) => {
+    // Get all popins
+    const popinElements = document.getElementsByClassName("avp-popin") as any;
+    Array.prototype.forEach.call(popinElements, (element: any) => {
+        element.classList.remove("open");
+    });
+};
+
+window.addEventListener(
+    "click",
+    popinCloseHandler,
+);
+
 export async function init(
     containerElement: HTMLElement,
     data: PlayerData,

@@ -29,6 +29,7 @@ export class ControlBarComponent extends BaseComponent {
     private enterFullscreenButtonElement: HTMLButtonElement;
     private exitFullscreenButtonElement: HTMLButtonElement;
     private volumePanelElement: HTMLDivElement;
+    private stopPropagationHandler: any;
     private playingChangeHandler: any;
     private playHandler: any;
     private pauseHandler: any;
@@ -54,6 +55,8 @@ export class ControlBarComponent extends BaseComponent {
                 // Trap focus
                 trapFocus(this.volumePanelElement);
             }
+
+            event.stopPropagation();
         };
 
         this.volumePanelEscapeHandler = (event: any) => {
@@ -70,6 +73,10 @@ export class ControlBarComponent extends BaseComponent {
             } else {
                 this.controlBarElement.classList.add("playing");
             }
+        };
+
+        this.stopPropagationHandler = (event: any) => {
+            event.stopPropagation();
         };
     }
 
@@ -131,6 +138,11 @@ export class ControlBarComponent extends BaseComponent {
             this.volumePanelElement,
             "keydown",
             this.volumePanelEscapeHandler,
+        );
+        this.eventRegistry.register(
+            this.volumePanelElement,
+            "click",
+            this.stopPropagationHandler,
         );
         this.eventRegistry.register(
             videoElement,
