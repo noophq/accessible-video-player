@@ -5,8 +5,11 @@
     bottom: 3rem;
     border-radius: 0.5rem;
 
-    & span[role='header'] {
-        display: block;
+    & button {
+        height: auto;
+    }
+
+    & .avp-header {
         margin-bottom: 1rem;
     }
 

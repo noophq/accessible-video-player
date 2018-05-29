@@ -19,11 +19,11 @@
     },
     "displaySettings": {
         "header": "Display settings",
-        "languageLabel": "Languages",
-        "subtitleLabel": "Subtitles",
-        "subtitleDisplayLabel": "Subtitle display",
-        "playbackSpeedLabel": "Playback speed",
-        "playbackQuality": "Playback quality"
+        "languageSettingsLabel": "Languages",
+        "subtitleSettingsLabel": "Subtitles",
+        "subtitleDisplaySettingsLabel": "Subtitle display",
+        "playbackSpeedSettingsLabel": "Playback speed",
+        "playbackQualitySettingsLabel": "Playback quality"
     },
     "languageSettings": {
         "header": "Language settings"

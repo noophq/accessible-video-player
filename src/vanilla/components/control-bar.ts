@@ -13,6 +13,12 @@ import controlBarView from "ejs-loader!lib/vanilla/views/control-bar.ejs";
 
 import { BaseComponent } from "./base";
 import { GeneralSettingsComponent } from "./general-settings";
+import { DisplaySettingsComponent } from "./display-settings";
+import { LanguageSettingsComponent } from "./language-settings";
+import { SubtitleSettingsComponent } from "./subtitle-settings";
+import { SubtitleDisplaySettingsComponent } from "./subtitle-display-settings";
+import { PlaybackSpeedSettingsComponent } from "./playback-speed-settings";
+import { PlaybackQualitySettingsComponent } from "./playback-quality-settings";
 
 import { renderRangeSlider } from "lib/utils/range-slider";
 import { initPopin, togglePopin } from "lib/utils/popin";
@@ -29,7 +35,8 @@ export class ControlBarComponent extends BaseComponent {
     private enterFullscreenButtonElement: HTMLButtonElement;
     private exitFullscreenButtonElement: HTMLButtonElement;
     private volumePopinElement: HTMLDivElement;
-    private generalSettingsComponent: any;
+    private settingsComponents: any;
+
     private playingChangeHandler: any;
     private playHandler: any;
     private pauseHandler: any;
@@ -66,19 +73,38 @@ export class ControlBarComponent extends BaseComponent {
         };
 
         this.settingsButtonHandler = (event: any) => {
-            this.generalSettingsComponent.toggleDisplay(this.settingsButtonElement);
+            this.settingsComponents["generalSettings"].toggleDisplay(this.settingsButtonElement);
             event.stopPropagation();
         };
     }
 
     private initializeChildComponents() {
-        // Initialize settings renderers
-        this.generalSettingsComponent = new GeneralSettingsComponent(this.avp);
+        // Initialize and register settings components
+        this.settingsComponents = {
+            generalSettings: new GeneralSettingsComponent(this.avp),
+            displaySettings: new DisplaySettingsComponent(this.avp),
+            languageSettings: new LanguageSettingsComponent(this.avp),
+            subtitleSettings: new SubtitleSettingsComponent(this.avp),
+            subtitleDisplaySettings: new SubtitleDisplaySettingsComponent(this.avp),
+            playbackSpeedSettings: new PlaybackSpeedSettingsComponent(this.avp),
+            playbackQualitySettings: new PlaybackQualitySettingsComponent(this.avp)
+        }
+
+        // Attach components
+        Object.values(this.settingsComponents).forEach((component: any) => {
+            component.attachComponents(this.settingsComponents);
+        });
     }
 
     public async render(): Promise<any> {
-        // Settings
-        const generalSettings = await this.generalSettingsComponent.render();
+        // Render Settings
+        const generalSettings = await this.settingsComponents["generalSettings"].render();
+        const displaySettings = await this.settingsComponents["displaySettings"].render();
+        const languageSettings = await this.settingsComponents["languageSettings"].render();
+        const subtitleSettings = await this.settingsComponents["subtitleSettings"].render();
+        const subtitleDisplaySettings = await this.settingsComponents["subtitleDisplaySettings"].render();
+        const playbackSpeedSettings = await this.settingsComponents["playbackSpeedSettings"].render();
+        const playbackQualitySettings = await this.settingsComponents["playbackQualitySettings"].render();
 
         return controlBarView(this.prepareViewData({
             pauseIcon,
@@ -89,6 +115,12 @@ export class ControlBarComponent extends BaseComponent {
             settingsIcon,
             currentVolume: 50,
             generalSettings,
+            displaySettings,
+            languageSettings,
+            subtitleSettings,
+            subtitleDisplaySettings,
+            playbackSpeedSettings,
+            playbackQualitySettings
         }));
     }
 
@@ -113,8 +145,13 @@ export class ControlBarComponent extends BaseComponent {
         this.volumeInputElement = this.volumePopinElement.getElementsByTagName("input")[0];
         renderRangeSlider(rangeSliderElement);
 
-        // Post render child components
-        await this.generalSettingsComponent.postRender();
+        // Post render settings components and attach some elements
+        for (const component of Object.values(this.settingsComponents) as any[]) {
+            await component.postRender();
+            component.attachElements({
+                settingsButton: this.settingsButtonElement
+            });
+        }
     }
 
     public bindVideo(videoElement: HTMLVideoElement) {

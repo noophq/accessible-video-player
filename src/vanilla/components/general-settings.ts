@@ -1,35 +1,33 @@
 import generalSettingsView from "ejs-loader!lib/vanilla/views/general-settings.ejs";
 
-import { EventRegistry } from "lib/listeners/registry";
 import { AvpObject } from "lib/models/player";
 
-import { BaseComponent } from "./base";
+import { BaseSettingsComponent } from "./base-settings";
 
-import { toggleElementAttribute, trapFocus, undoTrapFocus } from "lib/utils/dom";
-import { initPopin, togglePopin } from "lib/utils/popin";
-
-export class GeneralSettingsComponent extends BaseComponent {
-    private eventRegistry: EventRegistry;
-    private generalSettingsPopinElement: HTMLDivElement;
+export class GeneralSettingsComponent extends BaseSettingsComponent {
+    private displaySettingsButtonElement: any;
+    private displaySettingsButtonHandler: any;
 
     constructor(avp: AvpObject) {
-        super(avp);
-        this.eventRegistry = new EventRegistry();
+        super(avp, generalSettingsView);
     }
 
-    public async render(): Promise<any> {
-        return generalSettingsView(this.prepareViewData({}));
+    protected initializeHandlers() {
+        super.initializeHandlers();
+        this.displaySettingsButtonHandler = (event: any) => {
+            this.attachedComponents["displaySettings"].toggleDisplay();
+            event.stopPropagation();
+        };
     }
 
     public async postRender(): Promise<any> {
-        this.generalSettingsPopinElement = document.getElementById(this.id) as HTMLDivElement;
-        initPopin(this.generalSettingsPopinElement);
-    }
-
-    /**
-     * Display or close display
-     */
-    public toggleDisplay(focusableElement: any) {
-        togglePopin(this.generalSettingsPopinElement, focusableElement);
+        await super.postRender();
+        this.displaySettingsButtonElement = this.rootElement
+            .getElementsByClassName("avp-display-settings-link")[0];
+        this.eventRegistry.register(
+            this.displaySettingsButtonElement,
+            "click",
+            this.displaySettingsButtonHandler,
+        )
     }
 }

@@ -1,21 +1,21 @@
-<div id="<%= id %>" class="avp-general-settings avp-settings avp-popin">
-    <span role="header"><%= t("generalSettings.header") %></span>
-
-    <div class="avp-row">
-        <label for="thumbnail-<%= id %>"><%= t("generalSettings.thumbnailLabel") %></label>
-        <div class="avp-switch">
-            <input type="checkbox" id="thumbnail-<%= id %>">
-            <span class="avp-slider"></span>
-        </div>
+<div id="<%= id %>" class="avp-display-settings avp-settings avp-popin">
+    <div class="avp-header">
+        <button class="avp-back-link">Back</button>
+        <span role="header"><%= t("displaySettings.header") %></span>
     </div>
     <div class="avp-row">
-        <label for="transcription-<%= id %>"><%= t("generalSettings.transcriptionLabel") %></label>
-        <div class="avp-switch">
-            <input type="checkbox" id="transcription-<%= id %>">
-            <span class="avp-slider"></span>
-        </div>
+        <button class="avp-language-settings-link"><%= t("displaySettings.languageSettingsLabel") %></button>
     </div>
     <div class="avp-row">
-        <button class="avp-settings-display"><%= t("generalSettings.displaySettingsLabel") %></button>
+        <button class="avp-subtitle-settings-link"><%= t("displaySettings.subtitleSettingsLabel") %></button>
+    </div>
+    <div class="avp-row">
+        <button class="avp-subtitle-display-settings-link"><%= t("displaySettings.subtitleDisplaySettingsLabel") %></button>
+    </div>
+    <div class="avp-row">
+        <button class="avp-playback-speed-settings-link"><%= t("displaySettings.playbackSpeedSettingsLabel") %></button>
+    </div>
+    <div class="avp-row">
+        <button class="avp-playback-quality-settings-link"><%= t("displaySettings.playbackQualitySettingsLabel") %></button>
     </div>
 </div>

@@ -25,7 +25,6 @@ export function trapFocus(element: Element) {
     const firstFocusableEl: any = focusableEls[0];
     const lastFocusableEl: any = focusableEls[focusableEls.length-1];
 
-    console.log(firstFocusableEl, lastFocusableEl);
     const trapFunc = (event: any) => {
         var isTabPressed = (event.key === 'Tab');
 
