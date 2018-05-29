@@ -1,7 +1,6 @@
 .avp-control-bar {
+    position: relative;
     background: #ee3333;
-    font-size: 2rem;
-    line-height: 1;
     color: #fff;
     display: flex;
     justify-content: space-between;
@@ -13,6 +12,7 @@
 
     & button {
         border: none;
+        height: 2rem;
         padding: 0;
         background: transparent;
         cursor: pointer;
@@ -43,6 +43,8 @@
     & .avp-time {
         display: inline-block;
         padding: 0.5rem 0;
+        height: 1rem;
+        overflow: hidden;
         font-size: 1rem;
         line-height: 1;
 
@@ -55,6 +57,7 @@
     & .avp-control-bar-volume-container {
         position: relative;
         display: inline-block;
+        height: 2rem;
     }
 
     & .avp-control-bar-volume-panel {
@@ -63,7 +66,7 @@
         opacity: 0;
         left: -20000rem;
         z-index: -1;
-        bottom: 2rem;
+        bottom: 1rem;
         padding: 0.5rem;
         height: 2rem;
         overflow: hidden;
