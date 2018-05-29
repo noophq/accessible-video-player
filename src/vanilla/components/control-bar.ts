@@ -1,3 +1,4 @@
+import { PlayerEventType } from "lib/models/event";
 import { EventRegistry } from "lib/listeners/registry";
 import { AvpObject } from "lib/models/player";
 
@@ -28,6 +29,7 @@ export class ControlBarComponent extends BaseComponent {
     private enterFullscreenButtonElement: HTMLButtonElement;
     private exitFullscreenButtonElement: HTMLButtonElement;
     private volumePanelElement: HTMLDivElement;
+    private playingChangeHandler: any;
     private playHandler: any;
     private pauseHandler: any;
     private volumeSetHandler: any;
@@ -40,7 +42,7 @@ export class ControlBarComponent extends BaseComponent {
         this.playHandler = this.avp.player.play.bind(this.avp.player);
         this.pauseHandler = this.avp.player.pause.bind(this.avp.player);
         this.volumeSetHandler = (event: any) => {
-            this.avp.player.setVolume(event.target.value);
+            this.avp.player.volume = event.target.value;
         };
         this.volumeClickHandler = (event: any) => {
             toggleElementAttribute(this.volumeInputElement, "tabindex", -1);
@@ -60,6 +62,13 @@ export class ControlBarComponent extends BaseComponent {
                 undoTrapFocus();
                 this.volumeButtonElement.click();
                 this.volumeButtonElement.focus();
+            }
+        };
+        this.playingChangeHandler = (event: any) => {
+            if (event.target.paused) {
+                this.controlBarElement.classList.remove("playing");
+            } else {
+                this.controlBarElement.classList.add("playing");
             }
         };
     }
@@ -122,6 +131,11 @@ export class ControlBarComponent extends BaseComponent {
             this.volumePanelElement,
             "keydown",
             this.volumePanelEscapeHandler,
+        );
+        this.eventRegistry.register(
+            videoElement,
+            PlayerEventType.PLAYING_CHANGE,
+            this.playingChangeHandler
         );
     }
 }
