@@ -12,13 +12,13 @@ import settingsIcon from "app/assets/icons/settings.svg";
 import controlBarView from "ejs-loader!lib/vanilla/views/control-bar.ejs";
 
 import { BaseComponent } from "./base";
+import { GeneralSettingsComponent } from "./general-settings";
 
 import { renderRangeSlider } from "lib/utils/range-slider";
-import { toggleElementAttribute, trapFocus, undoTrapFocus } from "lib/utils/dom";
+import { initPopin, togglePopin } from "lib/utils/popin";
 
 export class ControlBarComponent extends BaseComponent {
     private eventRegistry: EventRegistry;
-
     private controlBarElement: HTMLDivElement;
     private playButtonElement: HTMLButtonElement;
     private pauseButtonElement: HTMLButtonElement;
@@ -28,59 +28,58 @@ export class ControlBarComponent extends BaseComponent {
     private settingsButtonElement: HTMLButtonElement;
     private enterFullscreenButtonElement: HTMLButtonElement;
     private exitFullscreenButtonElement: HTMLButtonElement;
-    private volumePanelElement: HTMLDivElement;
-    private stopPropagationHandler: any;
+    private volumePopinElement: HTMLDivElement;
+    private generalSettingsComponent: any;
     private playingChangeHandler: any;
     private playHandler: any;
     private pauseHandler: any;
     private volumeSetHandler: any;
-    private volumeClickHandler: any;
-    private volumePanelEscapeHandler: any;
+    private volumeButtonHandler: any;
+    private settingsButtonHandler: any;
 
     constructor(avp: AvpObject) {
         super(avp);
+        this.initializeHandlers();
+        this.initializeChildComponents();
+    }
+
+    private initializeHandlers() {
         this.eventRegistry = new EventRegistry();
         this.playHandler = this.avp.player.play.bind(this.avp.player);
         this.pauseHandler = this.avp.player.pause.bind(this.avp.player);
+
         this.volumeSetHandler = (event: any) => {
             this.avp.player.volume = event.target.value;
         };
-        this.volumeClickHandler = (event: any) => {
-            toggleElementAttribute(this.volumeInputElement, "tabindex", -1);
-            this.volumePanelElement.classList.toggle("open");
 
-            if (this.volumeInputElement.hasAttribute("tabIndex")) {
-                undoTrapFocus();
-            } else  {
-                // Trap focus
-                trapFocus(this.volumePanelElement);
-            }
-
+        this.volumeButtonHandler = (event: any) => {
+            togglePopin(this.volumePopinElement);
             event.stopPropagation();
         };
 
-        this.volumePanelEscapeHandler = (event: any) => {
-            // Escape key closes the volume
-            if (event.key == "Escape") {
-                undoTrapFocus();
-                this.volumeButtonElement.click();
-                this.volumeButtonElement.focus();
-            }
-        };
         this.playingChangeHandler = (event: any) => {
             if (event.target.paused) {
-                this.controlBarElement.classList.remove("playing");
+                this.controlBarElement.classList.remove("avp-playing");
             } else {
-                this.controlBarElement.classList.add("playing");
+                this.controlBarElement.classList.add("avp-playing");
             }
         };
 
-        this.stopPropagationHandler = (event: any) => {
+        this.settingsButtonHandler = (event: any) => {
+            this.generalSettingsComponent.toggleDisplay();
             event.stopPropagation();
         };
     }
 
+    private initializeChildComponents() {
+        // Initialize settings renderers
+        this.generalSettingsComponent = new GeneralSettingsComponent(this.avp);
+    }
+
     public async render(): Promise<any> {
+        // Settings
+        const generalSettings = await this.generalSettingsComponent.render();
+
         return controlBarView(this.prepareViewData({
             pauseIcon,
             playIcon,
@@ -88,7 +87,8 @@ export class ControlBarComponent extends BaseComponent {
             volumeIcon: volumeOnIcon,
             enterFullscreenIcon: fullscreenOffIcon,
             settingsIcon,
-            currentVolume: 50
+            currentVolume: 50,
+            generalSettings,
         }));
     }
 
@@ -107,10 +107,14 @@ export class ControlBarComponent extends BaseComponent {
         this.enterFullscreenButtonElement = this.getControlBarElement("enter-fullscreen");
 
         // Volume panel
-        this.volumePanelElement = this.getControlBarElement("volume-panel");
-        const rangeSliderElement = this.volumePanelElement.getElementsByClassName("avp-range-slider")[0];
-        this.volumeInputElement = this.volumePanelElement.getElementsByTagName("input")[0];
+        this.volumePopinElement = this.getControlBarElement("volume-panel");
+        initPopin(this.volumePopinElement);
+        const rangeSliderElement = this.volumePopinElement.getElementsByClassName("avp-range-slider")[0];
+        this.volumeInputElement = this.volumePopinElement.getElementsByTagName("input")[0];
         renderRangeSlider(rangeSliderElement);
+
+        // Post render child components
+        await this.generalSettingsComponent.postRender();
     }
 
     public bindVideo(videoElement: HTMLVideoElement) {
@@ -132,17 +136,12 @@ export class ControlBarComponent extends BaseComponent {
         this.eventRegistry.register(
             this.volumeButtonElement,
             "click",
-            this.volumeClickHandler,
+            this.volumeButtonHandler,
         );
         this.eventRegistry.register(
-            this.volumePanelElement,
-            "keydown",
-            this.volumePanelEscapeHandler,
-        );
-        this.eventRegistry.register(
-            this.volumePanelElement,
+            this.settingsButtonElement,
             "click",
-            this.stopPropagationHandler,
+            this.settingsButtonHandler,
         );
         this.eventRegistry.register(
             videoElement,

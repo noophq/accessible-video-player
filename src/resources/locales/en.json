@@ -10,5 +10,11 @@
         "settings": "Settings",
         "enterFullscreen": "Enter fullscreen",
         "existFullscreen": "Exit fullscreen"
+    },
+    "generalSettings": {
+        "header": "Settings",
+        "thumbnailLabel": "Thumbnails",
+        "transcriptionLabel": "Transcription",
+        "displaySettingsLabel": "Display settings"
     }
 }

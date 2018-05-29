@@ -10,6 +10,7 @@ import { MarkerManager } from "lib/core/marker";
 import { PlayerComponent } from "./components/player";
 
 import { install as installPolyfills } from "lib/polyfill";
+import { closeAllPopins }  from "lib/utils/popin";
 
 import "lib/assets/css/player.css";
 
@@ -17,15 +18,19 @@ import "lib/assets/css/player.css";
 installPolyfills();
 
 const popinCloseHandler = (event: any) => {
-    // Get all popins
-    const popinElements = document.getElementsByClassName("avp-popin") as any;
-    Array.prototype.forEach.call(popinElements, (element: any) => {
-        element.classList.remove("open");
-    });
+    if (event.key && event.key != "Escape") {
+        return;
+    }
+
+    closeAllPopins();
 };
 
 window.addEventListener(
     "click",
+    popinCloseHandler,
+);
+window.addEventListener(
+    "keydown",
     popinCloseHandler,
 );
 

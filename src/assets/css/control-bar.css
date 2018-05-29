@@ -82,14 +82,14 @@
         }
     }
 
-    & .avp-control-bar-volume-panel.open {
+    & .avp-control-bar-volume-panel.avp-open {
         z-index: 10;
         opacity: 1;
         left: -1.5rem;
     }
 }
 
-.avp-control-bar.playing {
+.avp-control-bar.avp-playing {
     & .avp-control-bar-play {
         display: none;
     }

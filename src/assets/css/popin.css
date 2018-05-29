@@ -1,0 +1,8 @@
+.avp-popin {
+    position: absolute;
+    display: none;
+}
+
+.avp-popin.avp-open {
+    display: block;
+}
