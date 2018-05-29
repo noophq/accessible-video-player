@@ -1,0 +1,41 @@
+.avp-switch {
+    position: relative;
+    display: inline-block;
+    width: 2rem;
+    height: 1rem;
+
+    & input {
+        display: none;
+
+        &:checked + .avp-slider {
+            background-color: #2196F3;
+        }
+
+        &:checked + .avp-slider:before {
+            transform: translateX(1rem);
+        }
+    }
+
+    & .avp-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+
+        &:before {
+            position: absolute;
+            content: "";
+            height: 0.6rem;
+            width: 0.6rem;
+            left: 0.2rem;
+            bottom: 0.2rem;
+            background-color: white;
+            transition: .4s;
+        }
+    }
+}
+
