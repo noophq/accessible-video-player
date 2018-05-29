@@ -2,15 +2,17 @@
     <span role="header"><%= t("generalSettings.header") %></span>
 
     <div class="avp-row">
+        <label for="thumbnail-<%= id %>"><%= t("generalSettings.thumbnailLabel") %></label>
         <div class="avp-switch">
             <input type="checkbox" id="thumbnail-<%= id %>">
-            <label for="thumbnail-<%= id %>"><%= t("generalSettings.thumbnailLabel") %></label>
+            <span class="avp-slider"></span>
         </div>
     </div>
     <div class="avp-row">
+        <label for="transcription-<%= id %>"><%= t("generalSettings.transcriptionLabel") %></label>
         <div class="avp-switch">
             <input type="checkbox" id="transcription-<%= id %>">
-            <label for="transcription-<%= id %>"><%= t("generalSettings.transcriptionLabel") %></label>
+            <span class="avp-slider"></span>
         </div>
     </div>
     <div class="avp-row">

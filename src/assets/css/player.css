@@ -2,7 +2,10 @@
 @import "./popin.css";
 @import "./control-bar.css";
 @import "./range-slider.css";
+@import "./switch.css";
+@import "./settings.css";
 
 .avp-player {
     width: 60%;
+    font-size: 1rem;
 }

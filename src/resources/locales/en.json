@@ -16,5 +16,28 @@
         "thumbnailLabel": "Thumbnails",
         "transcriptionLabel": "Transcription",
         "displaySettingsLabel": "Display settings"
+    },
+    "displaySettings": {
+        "header": "Display settings",
+        "languageLabel": "Languages",
+        "subtitleLabel": "Subtitles",
+        "subtitleDisplayLabel": "Subtitle display",
+        "playbackSpeedLabel": "Playback speed",
+        "playbackQuality": "Playback quality"
+    },
+    "languageSettings": {
+        "header": "Language settings"
+    },
+    "subtitleSettings": {
+        "header": "Subtitle settings"
+    },
+    "subtitleDisplaySettings": {
+        "header": "Subtitle display settings"
+    },
+    "playbackSpeedSettings": {
+        "header": "Playback speed settings"
+    },
+    "playbackQualitySettings": {
+        "header": "Playback quality settings"
     }
 }

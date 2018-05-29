@@ -19,12 +19,12 @@ export function openPopin(popinElement: HTMLElement) {
 
     // Get all focusable elements
     const focusableEls = popinElement.querySelectorAll(
-        "a, object, input, iframe, [tabindex]"
+        "a, object, input, iframe, [tabindex], button"
     );
 
     // Make all input focusable
     Array.prototype.forEach.call(focusableEls, (element: any) => {
-        element.removeAttribute("tabindex");
+        element.setAttribute("tabindex", 0);
     });
 
     // Open and trap focus
@@ -42,7 +42,7 @@ export function closePopin(popinElement: HTMLElement) {
 
     // Get all focusable elements
     const focusableEls = popinElement.querySelectorAll(
-        "a, object, input, iframe, [tabindex]"
+        "a, object, input, iframe, [tabindex], button"
     );
 
     // Remove focus
@@ -80,7 +80,7 @@ export function initPopin(popinElement: HTMLElement) {
     // Popin is closed
     // Get all focusable elements
     const focusableEls = popinElement.querySelectorAll(
-        "a, object, input, iframe, [tabindex]"
+        "a, object, input, iframe, [tabindex], button"
     );
 
     // Remove focus
