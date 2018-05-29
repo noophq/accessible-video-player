@@ -53,7 +53,7 @@ export class ControlBarComponent extends BaseComponent {
         };
 
         this.volumeButtonHandler = (event: any) => {
-            togglePopin(this.volumePopinElement);
+            togglePopin(this.volumePopinElement, this.volumeButtonElement);
             event.stopPropagation();
         };
 
@@ -66,7 +66,7 @@ export class ControlBarComponent extends BaseComponent {
         };
 
         this.settingsButtonHandler = (event: any) => {
-            this.generalSettingsComponent.toggleDisplay();
+            this.generalSettingsComponent.toggleDisplay(this.settingsButtonElement);
             event.stopPropagation();
         };
     }

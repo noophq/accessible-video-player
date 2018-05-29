@@ -29,7 +29,7 @@ export class GeneralSettingsComponent extends BaseComponent {
     /**
      * Display or close display
      */
-    public toggleDisplay() {
-        togglePopin(this.generalSettingsPopinElement);
+    public toggleDisplay(focusableElement: any) {
+        togglePopin(this.generalSettingsPopinElement, focusableElement);
     }
 }

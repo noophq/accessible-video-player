@@ -4,6 +4,8 @@ const stopPropagationHandler = (event: any) => {
     event.stopPropagation();
 };
 
+var lastFocusableElement: any = null;
+
 export function openPopin(popinElement: HTMLElement) {
     const isOpen = popinElement.classList.contains("avp-open");
 
@@ -51,10 +53,16 @@ export function closePopin(popinElement: HTMLElement) {
     // Close
     popinElement.classList.remove("avp-open");
     undoTrapFocus();
+
+    // Focus new element
+    if (lastFocusableElement) {
+        lastFocusableElement.focus();
+    }
 }
 
-export function togglePopin(popinElement: HTMLElement) {
+export function togglePopin(popinElement: HTMLElement, focusableElement: any) {
     const isOpen = popinElement.classList.contains("avp-open");
+    lastFocusableElement = focusableElement;
 
     if (isOpen) {
         closePopin(popinElement);
@@ -85,6 +93,6 @@ export function closeAllPopins() {
     // Get all popins
     const popinElements = document.getElementsByClassName("avp-popin") as any;
     Array.prototype.forEach.call(popinElements, (element: any) => {
-        element.classList.remove("avp-open");
+        closePopin(element);
     });
 }
