@@ -13,6 +13,7 @@ import { install as installPolyfills } from "lib/polyfill";
 import { closeAllPopins }  from "lib/utils/popin";
 
 import "lib/assets/css/player.css";
+import { ComponentRenderer } from "app/vanilla/renderer";
 
 // Install polyfills
 installPolyfills();
@@ -60,11 +61,11 @@ export async function init(
     };
 
     // Initialize renderer
-    const playerRenderer = new PlayerComponent(
-        avp,
-        newData,
-        containerElement,
+    const renderer = new ComponentRenderer(
+        new PlayerComponent(avp, newData),
+        i18n
     );
-    await playerRenderer.render();
+    containerElement.innerHTML = renderer.render();
+    await renderer.update();
     return avp;
 }

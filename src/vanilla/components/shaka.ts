@@ -13,8 +13,6 @@ declare var shaka: any;
 export class ShakaVideoComponent extends BaseComponent {
     private videoUrl: string;
     private shakaPlayer: any;
-    private wrapperElement: HTMLElement;
-    public videoElement: HTMLVideoElement;
     private playerOptions: any;
     private videoType: VideoType;
 
@@ -24,28 +22,28 @@ export class ShakaVideoComponent extends BaseComponent {
         videoUrl: string,
         playerOptions?: any
     ) {
-        super(avp);
+        super(avp, videoView);
         this.videoType = videoType,
         this.videoUrl = videoUrl;
         this.playerOptions = playerOptions;
     }
 
-    public async render() {
-        return videoView(this.prepareViewData({
+    public registerViewData() {
+        return {
             "classname": "avp-" + this.videoType.toLowerCase() + "-video-container"
-        }));
+        };
     }
 
-    public async postRender(): Promise<any> {
+    public async registerDomElements(rootElement: HTMLElement): Promise<any> {
+        const videoElement = rootElement.getElementsByTagName("video")[0];
+
         // Install built-in polyfills to patch browser incompatibilities.
         shaka.polyfill.installAll();
-        this.wrapperElement = document.getElementById(this.id);
-        this.videoElement = this.wrapperElement.getElementsByTagName("video")[0];
 
          // Check to see if the browser supports the basic APIs Shaka needs.
         if (shaka.Player.isBrowserSupported()) {
             // Everything looks good!
-            this.shakaPlayer = new shaka.Player(this.videoElement);
+            this.shakaPlayer = new shaka.Player(videoElement);
             this.shakaPlayer.addEventListener("error", (event: any) => {
                 const error = event.detail;
                 console.error("video error", this.videoUrl, "error code", error.code, "object", error);
@@ -75,6 +73,10 @@ export class ShakaVideoComponent extends BaseComponent {
             // This browser does not have the minimum set of APIs we need.
             console.error("Browser not supported!");
         }
+
+        return {
+            video: videoElement
+        };
     }
 
     private widevineRequestFilter() {

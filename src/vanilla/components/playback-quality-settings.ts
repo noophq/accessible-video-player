@@ -5,7 +5,7 @@ import { AvpObject } from "lib/models/player";
 import { BaseSettingsComponent } from "./base-settings";
 
 export class PlaybackQualitySettingsComponent extends BaseSettingsComponent {
-        constructor(avp: AvpObject) {
-            super(avp, playbackQualitySettingsView, "displaySettings");
-        }
+    constructor(avp: AvpObject) {
+        super(avp, playbackQualitySettingsView, "displaySettings");
     }
+}

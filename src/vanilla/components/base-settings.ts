@@ -7,70 +7,56 @@ import { toggleElementAttribute, trapFocus, undoTrapFocus } from "lib/utils/dom"
 import { initPopin, togglePopin } from "lib/utils/popin";
 
 export abstract class BaseSettingsComponent extends BaseComponent {
-    protected componentView: any;
-    protected eventRegistry: EventRegistry;
-    protected rootElement: HTMLDivElement;
-    protected attachedComponents: any;
-    protected attachedElements: any;
-    protected backElement: any;
-    protected backHandler: any;
     protected backComponentName: any;
 
     constructor(
         avp: AvpObject,
-        componentView: any,
+        view: any,
         backComponentName? : string
     ) {
-        super(avp);
-        this.componentView = componentView;
+        super(avp, view);
         this.backComponentName = backComponentName;
-        this.initializeHandlers();
     }
 
-    protected initializeHandlers() {
-        this.eventRegistry = new EventRegistry();
-        this.backHandler = (event: any) => {
-            if (!this.backComponentName) {
-                return;
-            }
-            this.attachedComponents[this.backComponentName].toggleDisplay();
+    public async registerDomElements(rootElement: HTMLElement) {
+        initPopin(rootElement);
+        return {
+            root: rootElement
         };
     }
 
-    public async render(): Promise<any> {
-        return this.componentView(this.prepareViewData({}));
-    }
-
-    public async postRender(): Promise<any> {
-        this.rootElement = document.getElementById(this.id) as HTMLDivElement;
-        initPopin(this.rootElement);
-        const backElements = this.rootElement.getElementsByClassName("avp-back-link");
-
-        if (backElements.length > 0) {
-            this.backElement = backElements[0];
-            this.eventRegistry.register(
-                this.backElement,
-                "click",
-                this.backHandler
-            );
-        }
-    }
-
-    /**
-     * Display or close popin
-     */
-    public toggleDisplay() {
-        togglePopin(
-            this.rootElement,
-            this.attachedElements["settingsButton"],
+    public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
+        this.registerLinkEvent(
+            rootElement,
+            domElements,
+            "avp-back-link",
+            this.backComponentName
         );
     }
 
-    public attachComponents(components: any) {
-        this.attachedComponents = components;
-    }
+    protected registerLinkEvent(
+        rootElement: HTMLElement,
+        domElements: any,
+        triggerClassName: string,
+        popinName?: string
+    ) {
+        const triggerElement = rootElement.getElementsByClassName(triggerClassName)[0];
+        const settingsButtonElement = domElements["controlBar"]["settingsButton"];
 
-    public attachElements(elements: any) {
-        this.attachedElements = elements;
+        // Handlers
+        const linkHandler = (event: any) => {
+            const popinElement = domElements[popinName]["root"];
+            if (!popinName) {
+                return;
+            }
+            togglePopin(popinElement, settingsButtonElement);
+        }
+
+        // Listeners
+        this.eventRegistry.register(
+            triggerElement,
+            "click",
+            linkHandler
+        );
     }
 }

@@ -4,6 +4,7 @@
 @import "./range-slider.css";
 @import "./switch.css";
 @import "./settings.css";
+@import "./player-content.css";
 
 .avp-player {
     width: 60%;

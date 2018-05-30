@@ -53,6 +53,7 @@ avp
         .then((avpInstance) => {
             avpInstance.markerManager.removeMarker("marker-2");
             avpInstance.settings.player.transcription.enabled = true;
+            avpInstance.player.volume = 1;
         })
         .catch((err) => {;
             console.log(err);

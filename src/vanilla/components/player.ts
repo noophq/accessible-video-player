@@ -10,49 +10,31 @@ import { BaseComponent } from "./base";
 
 export class PlayerComponent extends BaseComponent {
     private playerData: PlayerData;
-    private rootElement: HTMLElement;
-    private controlBarComponent: ControlBarComponent;
-    private mainVideoComponent: ShakaVideoComponent;
 
     constructor(
         avp: AvpObject,
-        playerData: PlayerData,
-        rootElement: HTMLElement,
+        playerData: PlayerData
     ) {
-        super(avp);
-        this.rootElement = rootElement;
+        super(avp, playerView);
         this.playerData = playerData;
-
-        // Initialize child renderers
-        this.controlBarComponent = new ControlBarComponent(this.avp);
-        this.mainVideoComponent = new ShakaVideoComponent(
-            this.avp,
-            VideoType.Main,
-            playerData.mainVideo.url,
-            playerData.mainVideo.playerOptions
-        );
     }
 
-    public async render(): Promise<any> {
-        // Control bar
-        const controlBar = await this.controlBarComponent.render();
+    public registerChilds() {
+        return {
+            controlBar: new ControlBarComponent(this.avp),
+            mainVideo: new ShakaVideoComponent(
+                this.avp,
+                VideoType.Main,
+                this.playerData.mainVideo.url,
+                this.playerData.mainVideo.playerOptions
+            )
+        }
+    }
 
-        // Main video
-        const mainVideo = await this.mainVideoComponent.render();
+    public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
+        const mainVideoElement =  domElements["mainVideo"]["video"];
 
-        // Render player
-        this.rootElement.innerHTML = playerView(
-            this.prepareViewData({
-                id: this.id,
-                controlBar,
-                mainVideo
-            })
-        );
-
-        // Notify child renderers that rendering has been done
-        await this.mainVideoComponent.postRender();
-        await this.controlBarComponent.postRender();
-        this.controlBarComponent.bindVideo(this.mainVideoComponent.videoElement);
-        this.avp.player.attach(this.mainVideoComponent.videoElement);
+        // Notify player
+        this.avp.player.attach(mainVideoElement);
     }
 }

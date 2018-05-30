@@ -24,63 +24,12 @@ import { renderRangeSlider } from "lib/utils/range-slider";
 import { initPopin, togglePopin } from "lib/utils/popin";
 
 export class ControlBarComponent extends BaseComponent {
-    private eventRegistry: EventRegistry;
-    private controlBarElement: HTMLDivElement;
-    private playButtonElement: HTMLButtonElement;
-    private pauseButtonElement: HTMLButtonElement;
-    private markerButtonElement: HTMLButtonElement;
-    private volumeButtonElement: HTMLButtonElement;
-    private volumeInputElement: HTMLInputElement;
-    private settingsButtonElement: HTMLButtonElement;
-    private enterFullscreenButtonElement: HTMLButtonElement;
-    private exitFullscreenButtonElement: HTMLButtonElement;
-    private volumePopinElement: HTMLDivElement;
-    private settingsComponents: any;
-
-    private playingChangeHandler: any;
-    private playHandler: any;
-    private pauseHandler: any;
-    private volumeSetHandler: any;
-    private volumeButtonHandler: any;
-    private settingsButtonHandler: any;
-
     constructor(avp: AvpObject) {
-        super(avp);
-        this.initializeHandlers();
-        this.initializeChildComponents();
+        super(avp, controlBarView);
     }
 
-    private initializeHandlers() {
-        this.eventRegistry = new EventRegistry();
-        this.playHandler = this.avp.player.play.bind(this.avp.player);
-        this.pauseHandler = this.avp.player.pause.bind(this.avp.player);
-
-        this.volumeSetHandler = (event: any) => {
-            this.avp.player.volume = event.target.value;
-        };
-
-        this.volumeButtonHandler = (event: any) => {
-            togglePopin(this.volumePopinElement, this.volumeButtonElement);
-            event.stopPropagation();
-        };
-
-        this.playingChangeHandler = (event: any) => {
-            if (event.target.paused) {
-                this.controlBarElement.classList.remove("avp-playing");
-            } else {
-                this.controlBarElement.classList.add("avp-playing");
-            }
-        };
-
-        this.settingsButtonHandler = (event: any) => {
-            this.settingsComponents["generalSettings"].toggleDisplay(this.settingsButtonElement);
-            event.stopPropagation();
-        };
-    }
-
-    private initializeChildComponents() {
-        // Initialize and register settings components
-        this.settingsComponents = {
+    public registerChilds() {
+        return {
             generalSettings: new GeneralSettingsComponent(this.avp),
             displaySettings: new DisplaySettingsComponent(this.avp),
             languageSettings: new LanguageSettingsComponent(this.avp),
@@ -88,102 +37,122 @@ export class ControlBarComponent extends BaseComponent {
             subtitleDisplaySettings: new SubtitleDisplaySettingsComponent(this.avp),
             playbackSpeedSettings: new PlaybackSpeedSettingsComponent(this.avp),
             playbackQualitySettings: new PlaybackQualitySettingsComponent(this.avp)
-        }
-
-        // Attach components
-        Object.values(this.settingsComponents).forEach((component: any) => {
-            component.attachComponents(this.settingsComponents);
-        });
+        };
     }
 
-    public async render(): Promise<any> {
-        // Render Settings
-        const generalSettings = await this.settingsComponents["generalSettings"].render();
-        const displaySettings = await this.settingsComponents["displaySettings"].render();
-        const languageSettings = await this.settingsComponents["languageSettings"].render();
-        const subtitleSettings = await this.settingsComponents["subtitleSettings"].render();
-        const subtitleDisplaySettings = await this.settingsComponents["subtitleDisplaySettings"].render();
-        const playbackSpeedSettings = await this.settingsComponents["playbackSpeedSettings"].render();
-        const playbackQualitySettings = await this.settingsComponents["playbackQualitySettings"].render();
-
-        return controlBarView(this.prepareViewData({
+    public registerViewData() {
+        return {
             pauseIcon,
             playIcon,
             markerIcon,
             volumeIcon: volumeOnIcon,
             enterFullscreenIcon: fullscreenOffIcon,
             settingsIcon,
-            currentVolume: 50,
-            generalSettings,
-            displaySettings,
-            languageSettings,
-            subtitleSettings,
-            subtitleDisplaySettings,
-            playbackSpeedSettings,
-            playbackQualitySettings
-        }));
+            currentVolume: 50
+        };
     }
 
-    private getControlBarElement(name: string): any {
-        const className = "avp-control-bar-" + name;
-        return this.controlBarElement.getElementsByClassName(className)[0] as any;
-    }
+    public async registerDomElements(rootElement: HTMLElement) {
+        const getElement = (className: string): HTMLElement => {
+            const finalClassName = "avp-control-bar-" + className;
+            return rootElement
+                .getElementsByClassName(finalClassName)[0] as HTMLElement;
+        };
 
-    public async postRender(): Promise<any> {
-        this.controlBarElement = document.getElementById(this.id) as HTMLDivElement;
-        this.playButtonElement = this.getControlBarElement("play");
-        this.pauseButtonElement = this.getControlBarElement("pause");
-        this.markerButtonElement = this.getControlBarElement("marker");
-        this.volumeButtonElement = this.getControlBarElement("volume");
-        this.settingsButtonElement = this.getControlBarElement("settings");
-        this.enterFullscreenButtonElement = this.getControlBarElement("enter-fullscreen");
+        // Buttons
+        const playButtonElement = getElement("play");
+        const pauseButtonElement = getElement("pause");
+        const markerButtonElement = getElement("marker");
+        const volumeButtonElement = getElement("volume");
+        const settingsButtonElement = getElement("settings");
+        const enterFullscreenButtonElement = getElement("enter-fullscreen");
 
         // Volume panel
-        this.volumePopinElement = this.getControlBarElement("volume-panel");
-        initPopin(this.volumePopinElement);
-        const rangeSliderElement = this.volumePopinElement.getElementsByClassName("avp-range-slider")[0];
-        this.volumeInputElement = this.volumePopinElement.getElementsByTagName("input")[0];
+        const volumePanelElement = getElement("volume-panel");
+        const volumeInputElement = volumePanelElement.getElementsByTagName("input")[0];
+        const rangeSliderElement = volumePanelElement.getElementsByClassName("avp-range-slider")[0];
+        initPopin(volumePanelElement);
         renderRangeSlider(rangeSliderElement);
 
-        // Post render settings components and attach some elements
-        for (const component of Object.values(this.settingsComponents) as any[]) {
-            await component.postRender();
-            component.attachElements({
-                settingsButton: this.settingsButtonElement
-            });
-        }
+        // Handlers
+        const playHandler = this.avp.player.play.bind(this.avp.player);
+        const pauseHandler = this.avp.player.pause.bind(this.avp.player);
+        const volumeSetHandler = (event: any) => {
+            this.avp.player.volume = event.target.value;
+        };
+        const volumeButtonHandler = (event: any) => {
+            togglePopin(volumePanelElement, volumeButtonElement);
+            event.stopPropagation();
+        };
+
+        // Listeners
+        this.eventRegistry.register(
+            playButtonElement,
+            "click",
+            playHandler
+        );
+        this.eventRegistry.register(
+            pauseButtonElement,
+            "click",
+            pauseHandler
+        );
+        this.eventRegistry.register(
+            volumeInputElement,
+            "input",
+            volumeSetHandler
+        );
+        this.eventRegistry.register(
+            volumeButtonElement,
+            "click",
+            volumeButtonHandler,
+        );
+
+        return {
+            volumeInput: volumeInputElement,
+            settingsButton: settingsButtonElement
+        };
     }
 
-    public bindVideo(videoElement: HTMLVideoElement) {
+    public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
+        const mainVideoElement =  domElements["mainVideo"]["video"];
+        const volumeInputElement = domElements["controlBar"]["volumeInput"];
+        const settingsButtonElement = domElements["controlBar"]["settingsButton"];
+        const generalSettingsElement = domElements["generalSettings"]["root"];
+
+        // Handlers
+        const volumeChangeHandler = (event: any) => {
+            volumeInputElement.value = (event.target.volume * 100) as any;
+        };
+        const playingChangeHandler = (event: any) => {
+            if (event.target.paused) {
+                rootElement.classList.remove("avp-playing");
+            } else {
+                rootElement.classList.add("avp-playing");
+            }
+        };
+        const settingsButtonHandler = (event: any) => {
+            togglePopin(generalSettingsElement, settingsButtonElement);
+            event.stopPropagation();
+        }
+
+        // Listeners
         this.eventRegistry.register(
-            this.playButtonElement,
-            "click",
-            this.playHandler
-        );
-        this.eventRegistry.register(
-            this.pauseButtonElement,
-            "click",
-            this.pauseHandler
-        );
-        this.eventRegistry.register(
-            this.volumeInputElement,
-            "input",
-            this.volumeSetHandler
-        );
-        this.eventRegistry.register(
-            this.volumeButtonElement,
-            "click",
-            this.volumeButtonHandler,
-        );
-        this.eventRegistry.register(
-            this.settingsButtonElement,
-            "click",
-            this.settingsButtonHandler,
-        );
-        this.eventRegistry.register(
-            videoElement,
+            mainVideoElement,
             PlayerEventType.PLAYING_CHANGE,
-            this.playingChangeHandler
+            playingChangeHandler
         );
+        this.eventRegistry.register(
+            mainVideoElement,
+            "volumechange",
+            volumeChangeHandler
+        );
+        this.eventRegistry.register(
+            settingsButtonElement,
+            "click",
+            settingsButtonHandler,
+        );
+
+        // Set volume input to the current video volume
+        volumeInputElement.value = (mainVideoElement.volume * 100) as any;
     }
 }

@@ -60,6 +60,6 @@ export class Player {
     }
 
     public get volume(): number {
-        return this.mainVideoElement.volume;
+        return this.mainVideoElement.volume*100;
     }
 }
