@@ -2,6 +2,8 @@ import { AvpObject, PlayerData } from "lib/models/player";
 
 import playerView from "ejs-loader!lib/vanilla/views/player.ejs";
 
+import { VideoType } from "lib/models/video";
+
 import { ControlBarComponent } from "./control-bar";
 import { ShakaVideoComponent } from "./shaka";
 import { BaseComponent } from "./base";
@@ -25,7 +27,9 @@ export class PlayerComponent extends BaseComponent {
         this.controlBarComponent = new ControlBarComponent(this.avp);
         this.mainVideoComponent = new ShakaVideoComponent(
             this.avp,
+            VideoType.Main,
             playerData.mainVideo.url,
+            playerData.mainVideo.playerOptions
         );
     }
 

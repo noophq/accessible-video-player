@@ -1,3 +1,9 @@
+export enum VideoType {
+    Main = "MAIN",
+    CuedSpeech = "CUED_SPEECH",
+    SignedLanguage = "SIGNED_LANGUAGE"
+}
+
 export enum QualityType {
     Auto = "AUTO",
     Q240P = "240P",
@@ -29,4 +35,5 @@ export interface VideoSource {
     url: string,
     quality: QualityType | string,
     player: PlayerType,
+    playerOptions?: any,
 }

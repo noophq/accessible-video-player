@@ -5,8 +5,24 @@ var transcriptionUrl = "https://vodstorage.arte.tv/movies/VTT/182427/HLS_182427_
 
 var playerData = {
     mainVideo: {
-        url: cuedSpeechManifestUrl,
+        url: mainManifestUrl,
         player: "SHAKA",
+        playerOptions: {
+            shakaConfig: {
+                drm: {
+                    servers: {
+                        "com.widevine.alpha": "http://widevine-dash.ezdrm.com/proxy?pX=BA5EDC",
+                        "com.microsoft.playready": "http://playready.ezdrm.com/cency/preauth.aspx?pX=ED14D7"
+                    }
+                }
+            },
+            drmConfig: {
+                additionalParams: {
+                    contentId: "182427_0-VF",
+                    username: "educarte_UaSYh1C0zi265k0wFaCDgw_14",
+                }
+            }
+        }
     },
     cuedSpeechVideo: {
         url: cuedSpeechManifestUrl,
