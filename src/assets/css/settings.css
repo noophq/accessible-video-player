@@ -27,6 +27,7 @@
     }
 }
 
+.avp-subtitle-settings,
 .avp-language-settings,
 .avp-general-settings {
     & .avp-radio label,

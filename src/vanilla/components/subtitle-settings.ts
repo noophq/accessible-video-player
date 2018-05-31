@@ -12,4 +12,21 @@ export class SubtitleSettingsComponent extends BaseSettingsComponent {
     constructor(avp: AvpObject) {
         super(avp, subtitleSettingsView, "displaySettings");
     }
+
+    public registerViewData() {
+        return {
+            subtitleRadioItems: [
+                {
+                    id: "subtitle-none",
+                    label: "None",
+                    value: "subtitle",
+                },
+                {
+                    id: "subtitle-closed-caption",
+                    label: "Closed caption",
+                    value: "closed_caption",
+                }
+            ],
+        };
+    }
 }
