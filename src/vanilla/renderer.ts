@@ -28,26 +28,6 @@ export interface RadioItem {
     value: string;
 }
 
-function renderRadioGroup(formId: any, inputName: any, radioItems: any) {
-    return radioGroupView({formId, inputName, radioItems});
-}
-
-function renderIcon(iconId: any, label: any) {
-    if (SVG_ICONS.hasOwnProperty(iconId)) {
-        return svgView({
-            icon: SVG_ICONS[iconId],
-            label
-        });
-    } else if (iconId == "next") {
-        return '<span "avp-icon avp-icon-next">&gt;</span>';
-    } else if (iconId == "previous" || iconId == "back") {
-        return '<span "avp-icon avp-icon-previous">&lt;</span>';
-    }
-
-    return label;
-}
-
-
 export class ComponentRenderer {
     private translator: Translator;
     private component: BaseComponent;
@@ -64,6 +44,33 @@ export class ComponentRenderer {
         this.id = uuid.v4();
     }
 
+    public renderRadioGroup(formId: any, inputName: any, radioItems: any) {
+        const t = this.translator.translate.bind(this.translator);
+        return radioGroupView(
+            {
+                t,
+                formId,
+                inputName,
+                radioItems
+            }
+        );
+    }
+
+    public renderIcon(iconId: any, label: any) {
+        if (SVG_ICONS.hasOwnProperty(iconId)) {
+            return svgView({
+                icon: SVG_ICONS[iconId],
+                label
+            });
+        } else if (iconId == "next") {
+            return '<span "avp-icon avp-icon-next">&gt;</span>';
+        } else if (iconId == "previous" || iconId == "back") {
+            return '<span "avp-icon avp-icon-previous">&lt;</span>';
+        }
+
+        return label;
+    }
+
     public render() {
         // Lifecycle:
         // - call component::registerChilds()
@@ -74,7 +81,12 @@ export class ComponentRenderer {
         const childs: any = this.component.registerChilds();
         const viewData: any = Object.assign(
             {},
-            { id: this.id, t, renderRadioGroup, renderIcon },
+            {
+                id: this.id,
+                t,
+                renderRadioGroup: this.renderRadioGroup.bind(this),
+                renderIcon : this.renderIcon.bind(this)
+            },
             this.component.registerViewData()
         );
 

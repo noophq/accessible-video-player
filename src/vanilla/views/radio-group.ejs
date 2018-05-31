@@ -2,7 +2,7 @@
     <% radioItems.forEach((radioItem) => { %>
         <div class="avp-radio">
             <input type="radio" value="<%= radioItem.value %>" name="<%= inputName %>[<%= formId %>]" id="<%= radioItem.id %>-<%= formId %>">
-            <label for="<%= radioItem.id %>-<%= formId %>"><%= radioItem.label %></label>
+            <label for="<%= radioItem.id %>-<%= formId %>"><%= t(radioItem.label) %></label>
         </div>
     <% }) %>
 
