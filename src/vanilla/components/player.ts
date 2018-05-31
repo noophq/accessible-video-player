@@ -42,8 +42,10 @@ export class PlayerComponent extends BaseComponent {
 
     public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
         // Handlers
+        const mainVideoElement = domElements["mainVideo"]["video"];
+
         const playingChangeHandler = (event: any) => {
-            if (event.target.paused) {
+            if (mainVideoElement.paused) {
                 rootElement.classList.remove("avp-playing");
             } else {
                 rootElement.classList.add("avp-playing");
