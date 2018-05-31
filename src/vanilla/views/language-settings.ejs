@@ -4,4 +4,23 @@
         <span role="header"><%= t("languageSettings.header") %></span>
     </div>
 
+    <div class="avp-radio">
+        <input type="radio" value="default" name="language[<%= id %>]" id="language-default-<%= id %>">
+        <label for="language-default-<%= id %>"><%= t("languageSettings.defaultLanguageLabel") %></label>
+    </div>
+
+    <div class="avp-radio">
+        <input type="radio" value="audio_description" name="language[<%= id %>]" id="language-audio-description-<%= id %>">
+        <label for="language-audio-description-<%= id %>"><%= t("languageSettings.audioDescriptionLanguageLabel") %></label>
+    </div>
+
+    <div class="avp-radio">
+        <input type="radio" value="cued_speech" name="language[<%= id %>]" id="language-cued-speech-<%= id %>">
+        <label for="language-cued-speech-<%= id %>"><%= t("languageSettings.cuedSpeechLanguageLabel") %></label>
+    </div>
+
+    <div class="avp-radio">
+        <input type="radio" value="signed_language" name="language[<%= id %>]" id="language-signed-language-<%= id %>">
+        <label for="language-signed-language-<%= id %>"><%= t("languageSettings.signedLanguageLabel") %></label>
+    </div>
 </div>

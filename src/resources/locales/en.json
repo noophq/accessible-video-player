@@ -26,7 +26,11 @@
         "playbackQualitySettingsLabel": "Playback quality"
     },
     "languageSettings": {
-        "header": "Language settings"
+        "header": "Language settings",
+        "defaultLanguageLabel": "Default",
+        "audioDescriptionLanguageLabel": "Audio description",
+        "cuedSpeechLanguageLabel": "Cued speech",
+        "signedLanguageLabel": "Signed language"
     },
     "subtitleSettings": {
         "header": "Subtitle settings"
