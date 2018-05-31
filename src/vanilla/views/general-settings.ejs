@@ -12,6 +12,9 @@
         <label for="transcription-<%= id %>"><%= t("generalSettings.transcriptionLabel") %></label>
     </div>
     <div class="avp-row">
-        <button class="avp-display-settings-link"><%= t("generalSettings.displaySettingsLabel") %></button>
+        <button class="avp-display-settings-link">
+            <%= t("generalSettings.displaySettingsLabel") %>
+            <%= renderIcon("next", "") %>
+        </button>
     </div>
 </div>

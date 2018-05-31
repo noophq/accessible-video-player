@@ -7,6 +7,13 @@
 
     & button {
         height: auto;
+        font-size: 1rem;
+        color: #fff;
+    }
+
+    & .avp-back-link {
+        height: 1.3     rem;
+        font-weight: bold;
     }
 
     & .avp-header {

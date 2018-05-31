@@ -2,13 +2,6 @@ import { PlayerEventType } from "lib/models/event";
 import { EventRegistry } from "lib/listeners/registry";
 import { AvpObject } from "lib/models/player";
 
-import pauseIcon from "app/assets/icons/pause.svg";
-import playIcon from "app/assets/icons/play.svg";
-import markerIcon from "app/assets/icons/marker.svg";
-import volumeOnIcon from "app/assets/icons/volume-on.svg";
-import fullscreenOffIcon from "app/assets/icons/fullscreen-off.svg";
-import settingsIcon from "app/assets/icons/settings.svg";
-
 import controlBarView from "ejs-loader!lib/vanilla/views/control-bar.ejs";
 
 import { BaseComponent } from "./base";
@@ -42,12 +35,6 @@ export class ControlBarComponent extends BaseComponent {
 
     public registerViewData() {
         return {
-            pauseIcon,
-            playIcon,
-            markerIcon,
-            volumeIcon: volumeOnIcon,
-            enterFullscreenIcon: fullscreenOffIcon,
-            settingsIcon,
             currentVolume: 50
         };
     }

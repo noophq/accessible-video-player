@@ -2,6 +2,7 @@ var mainManifestUrl = "https://dpk3dq0d69joz.cloudfront.net/origin/HLS_182427_0-
 var cuedSpeechManifestUrl = "https://s3-eu-west-1.amazonaws.com/vodstorage.arte.tv/fovea/182427/HLS_182427_0-LPC-16_9.mpd";
 var signedLanguageManifestUrl = null;
 var transcriptionUrl = "https://vodstorage.arte.tv/movies/VTT/182427/HLS_182427_0-VF-RETR.sjson";
+var subtitleUrl = "https://s3-eu-west-1.amazonaws.com/vodstorage.arte.tv/movies/VTT/182427/HLS_182427_0-VF-STSM.xml";
 
 function buildUrlWithQueryParams(url, params) {
     // Add additionalParams
@@ -109,6 +110,8 @@ avp
         .then((avpInstance) => {
             avpInstance.markerManager.removeMarker("marker-2");
             avpInstance.settingsManager.settings.player.transcription.enabled = true;
+            avpInstance.settingsManager.settings.language.type = "CUED_SPEECH";
+            avpInstance.settingsManager.settings.video.playbackSpeed = 1.5;
             avpInstance.player.refreshUi();
         })
         .catch((err) => {;

@@ -10,9 +10,16 @@
 .avp-player {
     width: 60%;
     font-size: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+
+    & button {
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: normal;
+    }
 
     & label {
         line-height: 1;
+        font-family: Arial, Helvetica, sans-serif;
     }
 
     & .avp-control-bar-play {

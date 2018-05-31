@@ -1,16 +1,10 @@
 <div id="<%= id %>" class="avp-control-bar">
     <div class="avp-left">
         <button class="avp-control-bar-play">
-            <svg viewBox="<%= playIcon.viewBox %>">
-                <title><%= t("controlBar.play") %></title>
-                <use xlink:href="#<%= playIcon.id %>" />
-            </svg>
+            <%= renderIcon("play", t("controlBar.playLabel")) %>
         </button>
         <button class="avp-control-bar-pause">
-            <svg viewBox="<%= pauseIcon.viewBox %>">
-                <title><%= t("controlBar.pause") %></title>
-                <use xlink:href="#<%= pauseIcon.id %>" />
-            </svg>
+            <%= renderIcon("pause", t("controlBar.pauseLabel")) %>
         </button>
         <div class="avp-time">
             <span>00:03</span>
@@ -20,17 +14,11 @@
     </div>
     <div class="avp-right">
         <button class="avp-control-bar-marker">
-            <svg viewBox="<%= markerIcon.viewBox %>">
-                <title><%= t("controlBar.marker") %></title>
-                <use xlink:href="#<%= markerIcon.id %>" />
-            </svg>
+            <%= renderIcon("marker", t("controlBar.markerLabel")) %>
         </button>
         <div class="avp-control-bar-volume-container">
             <button class="avp-control-bar-volume">
-                <svg viewBox="<%= volumeIcon.viewBox %>">
-                    <title><%= t("controlBar.volume") %></title>
-                    <use xlink:href="#<%= volumeIcon.id %>" />
-                </svg>
+                <%= renderIcon("volume", t("controlBar.volumeLabel")) %>
             </button>
             <div class="avp-control-bar-volume-panel avp-popin">
                 <div class="avp-range-slider">
@@ -42,16 +30,11 @@
             </div>
         </div>
         <button class="avp-control-bar-settings">
-            <svg viewBox="<%= settingsIcon.viewBox %>">
-                <title><%= t("controlBar.marker") %></title>
-                <use xlink:href="#<%= settingsIcon.id %>" />
-            </svg>
+            <%= renderIcon("settings", t("controlBar.settingsLabel")) %>
+
         </button>
         <button class="avp-control-bar-enter-fullscreen">
-            <svg viewBox="<%= enterFullscreenIcon.viewBox %>">
-                <title><%= t("controlBar.enterFullscreen") %></title>
-                <use xlink:href="#<%= enterFullscreenIcon.id %>" />
-            </svg>
+            <%= renderIcon("fullscreen-off", t("controlBar.enterFullscreenLabel")) %>
         </button>
     </div>
     <%= generalSettings %>

@@ -2,7 +2,51 @@ import * as uuid from "uuid";
 
 import { Translator } from "lib/core/translator";
 import { BaseComponent } from "lib/vanilla/components/base";
-import { renderRadioGroup } from "./radio-renderer";
+
+import radioGroupView from "ejs-loader!lib/vanilla/views/radio-group.ejs";
+import svgView from "ejs-loader!lib/vanilla/views/svg.ejs";
+
+import pauseIcon from "app/assets/icons/pause.svg";
+import playIcon from "app/assets/icons/play.svg";
+import markerIcon from "app/assets/icons/marker.svg";
+import volumeOnIcon from "app/assets/icons/volume-on.svg";
+import fullscreenOffIcon from "app/assets/icons/fullscreen-off.svg";
+import settingsIcon from "app/assets/icons/settings.svg";
+
+const SVG_ICONS: any = {
+    "pause": pauseIcon,
+    "play": playIcon,
+    "marker": markerIcon,
+    "volume": volumeOnIcon,
+    "settings": settingsIcon,
+    "fullscreen-off": fullscreenOffIcon,
+}
+
+export interface RadioItem {
+    label: string;
+    id: string;
+    value: string;
+}
+
+function renderRadioGroup(formId: any, inputName: any, radioItems: any) {
+    return radioGroupView({formId, inputName, radioItems});
+}
+
+function renderIcon(iconId: any, label: any) {
+    if (SVG_ICONS.hasOwnProperty(iconId)) {
+        return svgView({
+            icon: SVG_ICONS[iconId],
+            label
+        });
+    } else if (iconId == "next") {
+        return '<span "avp-icon avp-icon-next">&gt;</span>';
+    } else if (iconId == "previous" || iconId == "back") {
+        return '<span "avp-icon avp-icon-previous">&lt;</span>';
+    }
+
+    return label;
+}
+
 
 export class ComponentRenderer {
     private translator: Translator;
@@ -30,7 +74,7 @@ export class ComponentRenderer {
         const childs: any = this.component.registerChilds();
         const viewData: any = Object.assign(
             {},
-            { id: this.id, t, renderRadioGroup },
+            { id: this.id, t, renderRadioGroup, renderIcon },
             this.component.registerViewData()
         );
 

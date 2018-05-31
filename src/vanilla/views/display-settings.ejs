@@ -1,21 +1,38 @@
 <div id="<%= id %>" class="avp-display-settings avp-settings avp-popin">
     <div class="avp-header">
-        <button class="avp-back-link">Back</button>
+        <button class="avp-back-link">
+            <%= renderIcon("back", t("settings.back")) %>
+        </button>
         <span role="header"><%= t("displaySettings.header") %></span>
     </div>
     <div class="avp-row">
-        <button class="avp-language-settings-link"><%= t("displaySettings.languageSettingsLabel") %></button>
+        <button class="avp-language-settings-link">
+            <%= t("displaySettings.languageSettingsLabel") %>&nbsp;
+            <%= renderIcon("next", "") %>
+        </button>
     </div>
     <div class="avp-row">
-        <button class="avp-subtitle-settings-link"><%= t("displaySettings.subtitleSettingsLabel") %></button>
+        <button class="avp-subtitle-settings-link">
+            <%= t("displaySettings.subtitleSettingsLabel") %>&nbsp;
+            <%= renderIcon("next", "") %>
+        </button>
     </div>
     <div class="avp-row">
-        <button class="avp-subtitle-display-settings-link"><%= t("displaySettings.subtitleDisplaySettingsLabel") %></button>
+        <button class="avp-subtitle-display-settings-link">
+            <%= t("displaySettings.subtitleDisplaySettingsLabel") %>&nbsp;
+            <%= renderIcon("next", "") %>
+        </button>
     </div>
     <div class="avp-row">
-        <button class="avp-playback-speed-settings-link"><%= t("displaySettings.playbackSpeedSettingsLabel") %></button>
+        <button class="avp-playback-speed-settings-link">
+            <%= t("displaySettings.playbackSpeedSettingsLabel") %>
+            <%= renderIcon("next", "") %>
+        </button>
     </div>
     <div class="avp-row">
-        <button class="avp-playback-quality-settings-link"><%= t("displaySettings.playbackQualitySettingsLabel") %></button>
+        <button class="avp-playback-quality-settings-link">
+            <%= t("displaySettings.playbackQualitySettingsLabel") %>
+            <%= renderIcon("next", "") %>
+        </button>
     </div>
 </div>

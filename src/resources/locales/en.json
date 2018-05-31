@@ -1,15 +1,16 @@
 {
     "settings": {
-        "header": "Settings"
+        "header": "Settings",
+        "backLabel": "Back"
     },
     "controlBar": {
-        "play": "Play",
-        "pause": "Pause",
-        "marker": "Add marker",
-        "volume": "Change volume",
-        "settings": "Settings",
-        "enterFullscreen": "Enter fullscreen",
-        "existFullscreen": "Exit fullscreen"
+        "playLabel": "Play",
+        "pauseLabel": "Pause",
+        "markerLabel": "Add marker",
+        "volumeLabel": "Change volume",
+        "settingsLabel": "Settings",
+        "enterFullscreenLabel": "Enter fullscreen",
+        "existFullscreenLabel": "Exit fullscreen"
     },
     "generalSettings": {
         "header": "Settings",
