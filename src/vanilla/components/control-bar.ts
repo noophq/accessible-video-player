@@ -118,7 +118,7 @@ export class ControlBarComponent extends BaseComponent {
             mainVideoElement.pause();
         };
         const volumeSetHandler = (event: any) => {
-            mainVideoElement.volume = event.target.value;
+            mainVideoElement.volume = event.target.value / 100;
         };
 
         // Listeners
