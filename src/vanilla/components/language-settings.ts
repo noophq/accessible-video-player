@@ -12,6 +12,33 @@ export class LanguageSettingsComponent extends BaseSettingsComponent {
         super(avp, languageSettingsView, "displaySettings");
     }
 
+    public registerViewData() {
+        return {
+            languageRadioItems: [
+                {
+                    id: "Language-default",
+                    label: "languageSettings.defaultLanguageLabel",
+                    value: "default",
+                },
+                {
+                    id: "language-audio-description",
+                    label: "languageSettings.audioDescriptionLanguageLabel",
+                    value: "audio_description",
+                },
+                {
+                    id: "language-cued-speech",
+                    label: "languageSettings.cuedSpeechLanguageLabel",
+                    value: "cued_speech",
+                },
+                {
+                    id: "language-signed-language",
+                    label: "languageSettings.signedLanguageLabel",
+                    value: "signed_language",
+                }
+            ],
+        };
+    }
+
     public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
         await super.postDomUpdate(rootElement, domElements);
         const playerElement = domElements["origin"]["root"];
