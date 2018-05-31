@@ -1,3 +1,5 @@
 export enum PlayerEventType {
-    PLAYING_CHANGE = "playing_change",
+    PlayingChange = "playing_change",
+    UiRefreshRequest = "ui.refresh.request",
+    UiRefreshSuccess = "ui.refresh.success"
 }

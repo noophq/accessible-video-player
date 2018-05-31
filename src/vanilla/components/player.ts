@@ -33,6 +33,7 @@ export class PlayerComponent extends BaseComponent {
 
     public async registerDomElements(rootElement: HTMLElement): Promise<any> {
         this.avp.player.attachPlayer(rootElement);
+        this.avp.settingsManager.attachPlayer(rootElement);
 
         return {
             root: rootElement,
@@ -52,7 +53,7 @@ export class PlayerComponent extends BaseComponent {
         // Listeners
         this.eventRegistry.register(
             rootElement,
-            PlayerEventType.PLAYING_CHANGE,
+            PlayerEventType.PlayingChange,
             playingChangeHandler
         );
     }

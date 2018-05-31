@@ -27,7 +27,6 @@ var widevineRequestFilter = function(shakaPlayer, videoSource) {
         }
 
         const drmServerUrl = videoSource.playerOptions.config.drm.servers["com.widevine.alpha"];
-        console.log("Hello", drmServerUrl);
 
         if (!request.uris || request.uris[0] !== drmServerUrl) {
             return
@@ -109,8 +108,8 @@ avp
     .init(document.getElementById("player"), playerData, playerSettings)
         .then((avpInstance) => {
             avpInstance.markerManager.removeMarker("marker-2");
-            avpInstance.settings.player.transcription.enabled = true;
-            avpInstance.player.volume = 1;
+            avpInstance.settingsManager.settings.player.transcription.enabled = true;
+            avpInstance.player.refreshUi();
         })
         .catch((err) => {;
             console.log(err);

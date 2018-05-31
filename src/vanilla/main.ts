@@ -6,6 +6,7 @@ import { DEFAULT_DATA, DEFAULT_SETTINGS } from "lib/core/constants";
 import { Player } from "lib/core/player";
 import { Translator } from "lib/core/translator";
 import { MarkerManager } from "lib/core/marker";
+import { SettingsManager } from "lib/core/settings";
 
 import { PlayerComponent } from "./components/player";
 
@@ -47,7 +48,7 @@ export async function init(
         settings,
     );
 
-    // Initialize player, marker manager, transaltor ant he others
+    // Initialize player, marker manager, translator ant he others
     const player = new Player();
     const markerManager = new MarkerManager();
     markerManager.markers = newData.markers;
@@ -57,7 +58,7 @@ export async function init(
         i18n,
         markerManager,
         player,
-        settings: newSettings,
+        settingsManager: new SettingsManager(newSettings),
     };
 
     // Initialize renderer

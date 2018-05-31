@@ -40,7 +40,7 @@ export class Player {
             const playingChangeHandler = (event: any) => {
                 dispatchEvent(
                     this.playerElement,
-                    PlayerEventType.PLAYING_CHANGE
+                    PlayerEventType.PlayingChange
                 );
                 console.log("playing change");
             };
@@ -61,6 +61,17 @@ export class Player {
                 playingChangeHandler,
             );
         }
+    }
+
+    public refreshUi() {
+        if (!this.playerElement) {
+            return;
+        }
+
+        dispatchEvent(
+            this.playerElement,
+            PlayerEventType.UiRefreshRequest
+        );
     }
 
     public destroy() {

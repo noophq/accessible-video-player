@@ -1,5 +1,6 @@
 import generalSettingsView from "ejs-loader!lib/vanilla/views/general-settings.ejs";
 
+import { PlayerEventType } from "lib/models/event";
 import { AvpObject } from "lib/models/player";
 
 import { BaseSettingsComponent } from "./base-settings";
