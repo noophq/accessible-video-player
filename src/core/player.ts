@@ -2,64 +2,69 @@ import { PlayerEventType } from "lib/models/event";
 import { EventRegistry } from "lib/listeners/registry";
 import { dispatchEvent } from "lib/utils/event";
 
+import { VideoSource, VideoType, PlayerType } from "lib/models/video";
+import { ShakaVideoWrapper } from "lib/player-type/shaka";
+import { DefaultVideoWrapper } from "lib/player-type/default";
+
+const VIDEO_WRAPPERS: any = {};
+VIDEO_WRAPPERS[PlayerType.Default] = new DefaultVideoWrapper();
+VIDEO_WRAPPERS[PlayerType.Shaka] = new ShakaVideoWrapper();
+
 export class Player {
-    private mainVideoElement: HTMLVideoElement;
+    private wrappedVideos: any;
     private eventRegistry: EventRegistry;
+    private playerElement: HTMLElement;
 
     constructor() {
-        this.mainVideoElement = null;
+        this.wrappedVideos = {};
         this.eventRegistry = new EventRegistry();
+        this.playerElement = null;
     }
 
-    public attach(mainVideoElement: HTMLVideoElement) {
-        this.mainVideoElement = mainVideoElement;
-        const playingChangeHandler = (event: any) => {
-            dispatchEvent(
-                this.mainVideoElement,
-                PlayerEventType.PLAYING_CHANGE
-            );
-        };
+    public async attachPlayer(playerElement: HTMLElement) {
+        this.playerElement = playerElement;
+    }
 
-        this.eventRegistry.register(
-            mainVideoElement,
-            "playing",
-            playingChangeHandler,
+    public async attachVideo(
+        videoType: VideoType,
+        videoSource: VideoSource,
+        videoElement: HTMLVideoElement,
+    ) {
+        const videoWrapper = VIDEO_WRAPPERS[videoSource.player];
+        this.wrappedVideos[videoType] = await videoWrapper.wrap(
+            videoElement,
+            videoSource
         );
-        this.eventRegistry.register(
-            mainVideoElement,
-            "pause",
-            playingChangeHandler,
-        );
-        this.eventRegistry.register(
-            mainVideoElement,
-            "ended",
-            playingChangeHandler,
-        );
+
+        if (videoType === VideoType.Main) {
+            const playingChangeHandler = (event: any) => {
+                dispatchEvent(
+                    this.playerElement,
+                    PlayerEventType.PLAYING_CHANGE
+                );
+                console.log("playing change");
+            };
+
+            this.eventRegistry.register(
+                videoElement,
+                "playing",
+                playingChangeHandler,
+            );
+            this.eventRegistry.register(
+                videoElement,
+                "pause",
+                playingChangeHandler,
+            );
+            this.eventRegistry.register(
+                videoElement,
+                "ended",
+                playingChangeHandler,
+            );
+        }
     }
 
     public destroy() {
         this.eventRegistry.unregisterAll();
-        this.mainVideoElement = null;
-    }
-
-    public play() {
-        this.mainVideoElement.play();
-    }
-
-    public pause() {
-        this.mainVideoElement.pause();
-    }
-
-    /**
-     * Set player volume
-     *
-     * @param value volume value between 0 and 100
-     */
-    public set volume(value: number) {
-        this.mainVideoElement.volume = value/100;
-    }
-
-    public get volume(): number {
-        return this.mainVideoElement.volume*100;
+        this.wrappedVideos = null;
     }
 }

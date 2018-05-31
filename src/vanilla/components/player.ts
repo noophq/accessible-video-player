@@ -2,10 +2,11 @@ import { AvpObject, PlayerData } from "lib/models/player";
 
 import playerView from "ejs-loader!lib/vanilla/views/player.ejs";
 
+import { PlayerEventType } from "lib/models/event";
 import { VideoType } from "lib/models/video";
 
 import { ControlBarComponent } from "./control-bar";
-import { ShakaVideoComponent } from "./shaka";
+import { VideoComponent } from "./video";
 import { BaseComponent } from "./base";
 
 export class PlayerComponent extends BaseComponent {
@@ -22,19 +23,37 @@ export class PlayerComponent extends BaseComponent {
     public registerChilds() {
         return {
             controlBar: new ControlBarComponent(this.avp),
-            mainVideo: new ShakaVideoComponent(
+            mainVideo: new VideoComponent(
                 this.avp,
                 VideoType.Main,
-                this.playerData.mainVideo.url,
-                this.playerData.mainVideo.playerOptions
+                this.playerData.mainVideo
             )
         }
     }
 
-    public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
-        const mainVideoElement =  domElements["mainVideo"]["video"];
+    public async registerDomElements(rootElement: HTMLElement): Promise<any> {
+        this.avp.player.attachPlayer(rootElement);
 
-        // Notify player
-        this.avp.player.attach(mainVideoElement);
+        return {
+            root: rootElement,
+        }
+    }
+
+    public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
+        // Handlers
+        const playingChangeHandler = (event: any) => {
+            if (event.target.paused) {
+                rootElement.classList.remove("avp-playing");
+            } else {
+                rootElement.classList.add("avp-playing");
+            }
+        };
+
+        // Listeners
+        this.eventRegistry.register(
+            rootElement,
+            PlayerEventType.PLAYING_CHANGE,
+            playingChangeHandler
+        );
     }
 }

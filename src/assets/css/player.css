@@ -9,4 +9,22 @@
 .avp-player {
     width: 60%;
     font-size: 1rem;
+
+    & .avp-control-bar-play {
+        display: inline-block;
+    }
+
+    & .avp-control-bar-pause {
+        display: none;
+    }
+}
+
+.avp-player.avp-playing {
+    & .avp-control-bar-play {
+        display: none;
+    }
+
+    & .avp-control-bar-pause {
+        display: inline-block;
+    }
 }

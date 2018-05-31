@@ -27,13 +27,14 @@ export enum PlayerType {
 }
 
 export interface VideoSettings {
-    quality: QualityType | string,
-    playbackSpeed: PlaybackSpeedType | number,
+    quality: QualityType | string;
+    playbackSpeed: PlaybackSpeedType | number;
 }
 
 export interface VideoSource {
-    url: string,
-    quality: QualityType | string,
-    player: PlayerType,
-    playerOptions?: any,
+    url: string;
+    quality: QualityType | string;
+    player: PlayerType;
+    playerOptions?: any;
+    additionalMetadata?: any;
 }

@@ -32,14 +32,6 @@
         align-content: flex-end;
     }
 
-    & .avp-control-bar-play {
-        display: inline-block;
-    }
-
-    & .avp-control-bar-pause {
-        display: none;
-    }
-
     & .avp-time {
         display: inline-block;
         padding: 0.5rem 0;
@@ -89,15 +81,5 @@
         z-index: 10;
         opacity: 1;
         left: -1.5rem;
-    }
-}
-
-.avp-control-bar.avp-playing {
-    & .avp-control-bar-play {
-        display: none;
-    }
-
-    & .avp-control-bar-pause {
-        display: inline-block;
     }
 }
