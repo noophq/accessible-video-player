@@ -8,11 +8,11 @@
         }
 
         &:checked + label:before {
-            background-color: #2196f3;
+            background-color: #666;
         }
 
         &:focus + label:before {
-            outline: 1px dotted black;
+            outline: 1pt dotted white;
         }
     }
 

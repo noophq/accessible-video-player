@@ -1,5 +1,5 @@
 .avp-settings.avp-popin {
-    background: red;
+    background: #ee3333;
     padding: 1rem;
     right: 1rem;
     bottom: 3rem;
@@ -11,12 +11,17 @@
 
     & .avp-header {
         margin-bottom: 1rem;
+        font-size: 1.3rem;
+        font-weight: bold;
     }
 
     & .avp-row {
         margin-bottom: 1rem;
     }
+}
 
+.avp-language-settings,
+.avp-general-settings {
     & .avp-radio label,
     & .avp-switch label {
         display: block;
@@ -30,8 +35,18 @@
     & .avp-range-slider {
         width: 100%;
     }
+}
 
-    & .avp-range-slider-total {
-        background: orange;
+.avp-subtitle-display-settings {
+    & .avp-radio-group {
+        display: inline-block;
+    }
+
+    & .avp-radio {
+        display: inline-block;
+
+        & label {
+           margin-left: 2rem;
+        }
     }
 }

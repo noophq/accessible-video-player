@@ -3,4 +3,19 @@
         <button class="avp-back-link">Back</button>
         <span role="header"><%= t("subtitleDisplaySettings.header") %></span>
     </div>
+
+    <div class="avp-row">
+        <label><%= t("subtitleDisplaySettings.fontLabel") %></label>
+        <%= renderRadioGroup(id, "font", fontRadioItems) %>
+    </div>
+
+    <div class="avp-row">
+        <label><%= t("subtitleDisplaySettings.fontColorLabel") %></label>
+        <%= renderRadioGroup(id, "font_color", fontColorRadioItems) %>
+    </div>
+
+    <div class="avp-row">
+        <label><%= t("subtitleDisplaySettings.fontBackgroundColorLabel") %></label>
+        <%= renderRadioGroup(id, "font_bg_color", fontBgColorRadioItems) %>
+    </div>
 </div>

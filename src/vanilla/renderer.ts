@@ -2,6 +2,7 @@ import * as uuid from "uuid";
 
 import { Translator } from "lib/core/translator";
 import { BaseComponent } from "lib/vanilla/components/base";
+import { renderRadioGroup } from "./radio-renderer";
 
 export class ComponentRenderer {
     private translator: Translator;
@@ -29,7 +30,7 @@ export class ComponentRenderer {
         const childs: any = this.component.registerChilds();
         const viewData: any = Object.assign(
             {},
-            { id: this.id, t },
+            { id: this.id, t, renderRadioGroup },
             this.component.registerViewData()
         );
 

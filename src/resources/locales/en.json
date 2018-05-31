@@ -36,7 +36,11 @@
         "header": "Subtitle settings"
     },
     "subtitleDisplaySettings": {
-        "header": "Subtitle display settings"
+        "header": "Subtitle display settings",
+        "fontLabel": "Font",
+        "fontColorLabel": "Font color",
+        "fontBackgroundColorLabel": "Font background color",
+        "fontSizeLabel": "Font size"
     },
     "playbackSpeedSettings": {
         "header": "Playback speed settings"

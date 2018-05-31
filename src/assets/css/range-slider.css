@@ -26,7 +26,7 @@
             height: 1.5rem;
             border: none;
             border-radius: 50%;
-            background: #4CAF50; /* Green background */
+            background: #fff; /* Green background */
             cursor: pointer; /* Cursor on hover */
             transition: height 0.2s width 0.2s;
         }
@@ -44,7 +44,7 @@
         left: 0;
         width: 100%;
         border-radius: 0.5rem;
-        background: red;
+        background: #fff;
     }
 
     & .avp-range-slider-lower {
@@ -52,7 +52,7 @@
         left: 0;
         width: 50%;
         height: 0.5rem;
-        background: blue;
+        background: #fff;
         border-radius: 0.5rem;
     }
 }
