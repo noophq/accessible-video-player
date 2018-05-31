@@ -3,12 +3,17 @@
 @import "./control-bar.css";
 @import "./range-slider.css";
 @import "./switch.css";
+@import "./radio.css";
 @import "./settings.css";
 @import "./player-content.css";
 
 .avp-player {
     width: 60%;
     font-size: 1rem;
+
+    & label {
+        line-height: 1;
+    }
 
     & .avp-control-bar-play {
         display: inline-block;
