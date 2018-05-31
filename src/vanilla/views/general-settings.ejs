@@ -1,17 +1,15 @@
 <div id="<%= id %>" class="avp-general-settings avp-settings avp-popin">
-    <span role="header"><%= t("generalSettings.header") %></span>
-
-    <div class="avp-row">
-        <div class="avp-switch">
-            <input type="checkbox" id="thumbnail-<%= id %>">
-            <label for="thumbnail-<%= id %>"><%= t("generalSettings.thumbnailLabel") %></label>
-        </div>
+    <div class="avp-header">
+        <span role="header"><%= t("generalSettings.header") %></span>
     </div>
-    <div class="avp-row">
-        <div class="avp-switch">
-            <input type="checkbox" id="transcription-<%= id %>">
-            <label for="transcription-<%= id %>"><%= t("generalSettings.transcriptionLabel") %></label>
-        </div>
+
+    <div class="avp-switch">
+        <input type="checkbox" id="thumbnail-<%= id %>">
+        <label for="thumbnail-<%= id %>"><%= t("generalSettings.thumbnailLabel") %></label>
+    </div>
+    <div class="avp-switch">
+        <input type="checkbox" id="transcription-<%= id %>">
+        <label for="transcription-<%= id %>"><%= t("generalSettings.transcriptionLabel") %></label>
     </div>
     <div class="avp-row">
         <button class="avp-display-settings-link"><%= t("generalSettings.displaySettingsLabel") %></button>
