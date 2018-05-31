@@ -25,3 +25,13 @@
         margin-bottom: 1rem;
     }
 }
+
+.avp-playback-speed-settings {
+    & .avp-range-slider {
+        width: 100%;
+    }
+
+    & .avp-range-slider-total {
+        background: orange;
+    }
+}

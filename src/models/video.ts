@@ -14,11 +14,11 @@ export enum QualityType {
 }
 
 export enum PlaybackSpeedType {
-    S50 = 50,
-    S75 = 75,
-    Default = 100,
-    S125 = 125,
-    S150 = 150,
+    S50 = 0.5,
+    S75 = 0.75,
+    Default = 1,
+    S125 = 1.25,
+    S150 = 1.5,
 }
 
 export enum PlayerType {
