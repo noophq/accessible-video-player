@@ -1,7 +1,6 @@
 import { GlobalSettings } from "lib/models/settings";
-import { PlayerData } from "lib/models/player";
 
-import { DEFAULT_DATA, DEFAULT_SETTINGS } from "lib/core/constants";
+import { DEFAULT_SETTINGS } from "lib/core/constants";
 
 import { Player } from "lib/core/player";
 import { Translator } from "lib/core/translator";
@@ -38,10 +37,8 @@ window.addEventListener(
 
 export async function init(
     containerElement: HTMLElement,
-    data: PlayerData,
     settings = {}
 ): Promise<any> {
-    const newData = Object.assign({}, DEFAULT_DATA, data);
     const newSettings: GlobalSettings = Object.assign(
         {},
         DEFAULT_SETTINGS,
@@ -49,24 +46,45 @@ export async function init(
     );
 
     // Initialize player, marker manager, translator ant he others
-    const player = new Player();
     const markerManager = new MarkerManager();
-    markerManager.markers = newData.markers;
     const i18n = new Translator(newSettings.locale);
     await i18n.initialize();
+    const settingsManager = new SettingsManager(newSettings);
+    const player = new Player(settingsManager);
     const avp = {
         i18n,
         markerManager,
         player,
-        settingsManager: new SettingsManager(newSettings),
+        settingsManager,
     };
 
-    // Initialize renderer
+    // Render player
     const renderer = new ComponentRenderer(
-        new PlayerComponent(avp, newData),
+        new PlayerComponent({ settings: newSettings }),
         i18n
     );
-    containerElement.innerHTML = renderer.render();
+    containerElement.innerHTML = await renderer.render();
     await renderer.update();
+
+    // Attach rendered HTML player to core player
+    const playerElement = containerElement
+        .getElementsByClassName("avp-player")[0] as HTMLElement;
+    player.attachPlayer(playerElement);
+
+    // Attach content
+    const mainVideoContainerElement = containerElement
+        .getElementsByClassName("avp-main-video-container")[0];
+    const secondaryVideoContainerElement = containerElement
+        .getElementsByClassName("avp-secondary-video-container")[0];
+    const thumbnailContainerElement = containerElement
+        .getElementsByClassName("avp-thumbnail-container")[0];
+    const transcriptionContainerElement = containerElement
+        .getElementsByClassName("avp-transcription-container")[0];
+    player.attachContent(
+        mainVideoContainerElement as HTMLElement,
+        secondaryVideoContainerElement as HTMLElement,
+        thumbnailContainerElement as HTMLElement,
+        transcriptionContainerElement as HTMLElement
+    );
     return avp;
 }

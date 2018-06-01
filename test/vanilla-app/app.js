@@ -1,8 +1,9 @@
 var mainManifestUrl = "https://dpk3dq0d69joz.cloudfront.net/origin/HLS_182427_0-VF-cenc.ism/stream.mpd";
+var mainAudioDescriptionManifestUrl = "https://dpk3dq0d69joz.cloudfront.net/origin/HLS_182427_0-VFAUD-cenc.ism/stream.mpd";
 var cuedSpeechManifestUrl = "https://s3-eu-west-1.amazonaws.com/vodstorage.arte.tv/fovea/182427/HLS_182427_0-LPC-16_9.mpd";
 var signedLanguageManifestUrl = null;
 var transcriptionUrl = "https://vodstorage.arte.tv/movies/VTT/182427/HLS_182427_0-VF-RETR.sjson";
-var subtitleUrl = "https://s3-eu-west-1.amazonaws.com/vodstorage.arte.tv/movies/VTT/182427/HLS_182427_0-VF-STSM.xml";
+var closedCaptionUrl = "https://s3-eu-west-1.amazonaws.com/vodstorage.arte.tv/movies/VTT/182427/HLS_182427_0-VF-STSM.xml";
 
 function buildUrlWithQueryParams(url, params) {
     // Add additionalParams
@@ -58,32 +59,61 @@ var playreadyRequestFilter = function(shakaPlayer, videoSource) {
     }
  }
 
+var shakaPlayerOptions = {
+    requestFilters: [
+        widevineRequestFilter,
+        playreadyRequestFilter
+    ],
+    config: {
+        drm: {
+            servers: {
+                "com.widevine.alpha": "http://widevine-dash.ezdrm.com/proxy?pX=BA5EDC",
+                "com.microsoft.playready": "http://playready.ezdrm.com/cency/preauth.aspx?pX=ED14D7"
+            }
+        },
+        streaming: {
+            bufferingGoal: 60
+        }
+    }
+};
+
 var playerData = {
     mainVideo: {
         url: mainManifestUrl,
         player: "SHAKA",
-        playerOptions: {
-            requestFilters: [
-                widevineRequestFilter,
-                playreadyRequestFilter
-            ],
-            config: {
-                drm: {
-                    servers: {
-                        "com.widevine.alpha": "http://widevine-dash.ezdrm.com/proxy?pX=BA5EDC",
-                        "com.microsoft.playready": "http://playready.ezdrm.com/cency/preauth.aspx?pX=ED14D7"
-                    }
-                }
-            }
-        },
+        playerOptions: shakaPlayerOptions,
         additionalMetadata: {
             contentId: "182427_0-VF",
+            username: "educarte_UaSYh1C0zi265k0wFaCDgw_14",
+        }
+    },
+    mainAudioDescriptionVideo: {
+        url: mainAudioDescriptionManifestUrl,
+        player: "SHAKA",
+        playerOptions: shakaPlayerOptions,
+        additionalMetadata: {
+            contentId: "182427_0-VFAUD",
             username: "educarte_UaSYh1C0zi265k0wFaCDgw_14",
         }
     },
     cuedSpeechVideo: {
         url: cuedSpeechManifestUrl,
         player: "SHAKA",
+        playerOptions: {
+            config: {
+                abr: {
+                    restrictions: {
+                        maxHeight: 240
+                    }
+                },
+                streaming: {
+                    bufferingGoal: 60
+                }
+            }
+        }
+    },
+    closedCaption: {
+        url: closedCaptionUrl,
     },
     transcription: {
         url: transcriptionUrl,
@@ -103,16 +133,33 @@ var playerData = {
 };
 var playerSettings = {
     locale: "fr",
+    player: {
+        transcription: {
+            enabled: false
+        },
+        thumbnail: {
+            enabled: true,
+        }
+    },
+    language: {
+        type: "CUED_SPEECH"
+    },
+    subtitle: {
+        type: "CLOSED_CAPTION"
+    }
 };
 
 avp
-    .init(document.getElementById("player"), playerData, playerSettings)
+    .init(document.getElementById("player"), playerSettings)
         .then((avpInstance) => {
             avpInstance.markerManager.removeMarker("marker-2");
             avpInstance.settingsManager.settings.player.transcription.enabled = true;
             avpInstance.settingsManager.settings.language.type = "CUED_SPEECH";
             avpInstance.settingsManager.settings.video.playbackSpeed = 1.5;
             avpInstance.player.refreshUi();
+            avpInstance.player.load(
+                playerData
+            );
         })
         .catch((err) => {;
             console.log(err);

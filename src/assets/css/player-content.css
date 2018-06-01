@@ -1,9 +1,4 @@
 .avp-player-content {
     background: #000;
-}
-
-.avp-player-content.avp-transcription-enabled {
-    & .avp-main-video-container {
-        width: 50%;
-    }
+    position: relative;
 }

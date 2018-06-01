@@ -1,23 +1,15 @@
-import { EventRegistry } from "lib/listeners/registry";
 import { AvpObject } from "lib/models/player";
 
-import { BaseComponent } from "./base";
+import { BaseComponent, ComponentProperties } from "./base";
 
 import { toggleElementAttribute, trapFocus, undoTrapFocus } from "lib/utils/dom";
 import { initPopin, togglePopin } from "lib/utils/popin";
 
-export abstract class BaseSettingsComponent extends BaseComponent {
-    protected backComponentName: any;
+export interface SettingsComponentProperties extends ComponentProperties {
+    backComponentName?: string;
+}
 
-    constructor(
-        avp: AvpObject,
-        view: any,
-        backComponentName? : string
-    ) {
-        super(avp, view);
-        this.backComponentName = backComponentName;
-    }
-
+export abstract class BaseSettingsComponent extends BaseComponent<SettingsComponentProperties> {
     public async registerDomElements(rootElement: HTMLElement) {
         initPopin(rootElement);
         return {
@@ -30,7 +22,7 @@ export abstract class BaseSettingsComponent extends BaseComponent {
             rootElement,
             domElements,
             "avp-back-link",
-            this.backComponentName
+            this.props.backComponentName
         );
     }
 

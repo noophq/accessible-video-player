@@ -1,15 +1,17 @@
+import { EventRegistry } from "lib/event/registry";
+import { GlobalSettings } from "lib/models/settings";
 
-import { EventRegistry } from "lib/listeners/registry";
-import { AvpObject, PlayerData } from "lib/models/player";
+export interface ComponentProperties {
+    settings: GlobalSettings;
+}
 
-export abstract class BaseComponent {
-    public view: any;
-    protected avp: AvpObject;
+export abstract class BaseComponent<T extends ComponentProperties> {
+    protected props: T;
     protected eventRegistry: EventRegistry;
+    public view: any;
 
-    constructor(avp: AvpObject, view: any) {
-        this.avp = avp;
-        this.view = view;
+    constructor(props: T) {
+        this.props = props;
         this.eventRegistry = new EventRegistry();
     }
 

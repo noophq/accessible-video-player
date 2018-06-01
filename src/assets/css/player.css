@@ -5,6 +5,8 @@
 @import "./switch.css";
 @import "./radio.css";
 @import "./settings.css";
+@import "./transcription.css";
+@import "./thumbnail.css";
 @import "./player-content.css";
 
 .avp-player {
@@ -22,21 +24,62 @@
         font-family: Arial, Helvetica, sans-serif;
     }
 
-    & .avp-control-bar-play {
-        display: inline-block;
-    }
+    & .avp-control-bar-play-pause {
+        & .avp-play {
+            display: inline-block;
+        }
 
-    & .avp-control-bar-pause {
-        display: none;
+        & .avp-pause {
+            display: none;
+        }
     }
 }
 
 .avp-player.avp-playing {
-    & .avp-control-bar-play {
-        display: none;
+    & .avp-control-bar-play-pause {
+        & .avp-play {
+            display: none;
+        }
+
+        & .avp-pause {
+            display: inline-block;
+        }
+    }
+}
+
+/**
+ * Content is loading and is still not available
+ */
+.avp-player.avp-content-loading {
+    opacity: 0.5;
+}
+
+.avp-player.avp-transcription-enabled {
+    & .avp-video-group {
+        width: 50%;
     }
 
-    & .avp-control-bar-pause {
-        display: inline-block;
+    & .avp-transcription-container {
+        display: block;
+    }
+}
+
+.avp-player.avp-transcription-enabled.avp-secondary-video-enabled {
+
+}
+
+.avp-player.avp-transcription-disabled.avp-secondary-video-enabled {
+    & .avp-secondary-video-container {
+        position: absolute;
+        width: 33%;
+        top: 1rem;
+        right: 1rem;
+        padding-bottom: 19%;
+    }
+}
+
+.avp-player.avp-thumbnail-enabled {
+    & .avp-thumbnail-container {
+        display: block;
     }
 }

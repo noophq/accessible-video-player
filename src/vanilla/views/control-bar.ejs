@@ -1,10 +1,12 @@
 <div id="<%= id %>" class="avp-control-bar">
     <div class="avp-left">
-        <button class="avp-control-bar-play">
-            <%= renderIcon("play", t("controlBar.playLabel")) %>
-        </button>
-        <button class="avp-control-bar-pause">
-            <%= renderIcon("pause", t("controlBar.pauseLabel")) %>
+        <button class="avp-control-bar-play-pause">
+            <div class="avp-play">
+                <%= renderIcon("play", t("controlBar.playLabel")) %>
+            </div>
+            <div class="avp-pause">
+                <%= renderIcon("pause", t("controlBar.pauseLabel")) %>
+            </div>
         </button>
         <div class="avp-time">
             <span>00:03</span>

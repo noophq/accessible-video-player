@@ -5,7 +5,7 @@ import { Player } from "lib/core/player";
 
 import { Marker, MarkerDictionary } from "./marker";
 import { GlobalSettings } from "./settings";
-import { VideoSource } from "./video";
+import { VideoResource } from "./video";
 
 export interface TranscriptionSettings {
     enabled: boolean,
@@ -20,7 +20,7 @@ export interface PlayerSettings {
     thumbnail: ThumbnailSettings,
 }
 
-export interface Source {
+export interface Resource {
     url: string,
 }
 
@@ -33,13 +33,14 @@ export interface Thumbnail {
 }
 
 export interface PlayerData {
-    mainVideo: VideoSource,
-    cuedSpeechVideo?: VideoSource,
-    signedLanguageVideo?: VideoSource,
-    closeCaption?: Source,
-    transcription?: Source,
+    mainVideo: VideoResource,
+    mainAudioDescriptionVideo?: VideoResource,
+    cuedSpeechVideo?: VideoResource,
+    signedLanguageVideo?: VideoResource,
+    closedCaption?: Resource,
+    transcription?: Resource,
+    thumbnail?: Resource
     markers: Marker[],
-    thumbnails: Thumbnail[],
 }
 
 export interface AvpObject {

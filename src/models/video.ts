@@ -31,7 +31,7 @@ export interface VideoSettings {
     playbackSpeed: PlaybackSpeedType | number;
 }
 
-export interface VideoSource {
+export interface VideoResource {
     url: string;
     quality: QualityType | string;
     player: PlayerType;

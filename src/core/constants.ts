@@ -33,8 +33,3 @@ export const DEFAULT_SETTINGS: GlobalSettings = {
         },
     },
 }
-
-export const DEFAULT_DATA: any = {
-    markers: [],
-    thumbnails: [],
-}

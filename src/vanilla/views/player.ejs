@@ -1,6 +1,11 @@
-<div id="<%= id %>" class="avp-player">
+<div id="<%= id %>" class="avp-player <%= classnames %>">
     <div class="avp-player-content">
-        <%= mainVideo %>
+        <div class="avp-video-group">
+            <%= mainVideo %>
+            <%= secondaryVideo %>
+        </div>
+        <%= transcriptionPanel %>
     </div>
     <%= controlBar %>
+    <%= thumbnailPanel %>
 </div>

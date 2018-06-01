@@ -1,4 +1,8 @@
-export function dispatchEvent(element: HTMLElement, eventType: string) {
+export function dispatchEvent(
+    element: HTMLElement,
+    eventType: string,
+    additionalData: any = {}
+) {
     let newEvent;
 
     // IE 11 does not have an Event constructor
@@ -9,5 +13,6 @@ export function dispatchEvent(element: HTMLElement, eventType: string) {
         newEvent.initEvent(eventType, false, true);
     }
 
+    Object.assign(newEvent, additionalData);
     element.dispatchEvent(newEvent);
 }

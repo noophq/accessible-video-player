@@ -1,16 +1,12 @@
 import languageSettingsView from "ejs-loader!lib/vanilla/views/language-settings.ejs";
 
 import { PlayerEventType } from "lib/models/event";
-import { EventRegistry } from "lib/listeners/registry";
-import { AvpObject } from "lib/models/player";
 import { LanguageType } from "lib/models/language";
 
 import { BaseSettingsComponent } from "./base-settings";
 
 export class LanguageSettingsComponent extends BaseSettingsComponent {
-    constructor(avp: AvpObject) {
-        super(avp, languageSettingsView, "displaySettings");
-    }
+    public view = languageSettingsView;
 
     public registerViewData() {
         return {
@@ -46,7 +42,7 @@ export class LanguageSettingsComponent extends BaseSettingsComponent {
             .getElementsByName("language[" + rootElement.id + "]");
 
         const applySettings = () => {
-            const selectedLanguage = this.avp.settingsManager.settings.language.type.toLocaleLowerCase();
+            const selectedLanguage = this.props.settings.language.type.toLocaleLowerCase();
 
             Array.prototype.forEach.call(languageInputElements, (element: any) => {
                 element.checked = (element.value === selectedLanguage);
@@ -68,7 +64,7 @@ export class LanguageSettingsComponent extends BaseSettingsComponent {
         Array.prototype.forEach.call(languageInputElements, (element: any) => {
             const languageChangeHandler = (event: any) => {
                 const newLanguage = event.target.value as string;
-                (this.avp.settingsManager.settings.language as any).type = newLanguage.toUpperCase();
+                (this.props.settings.language as any).type = newLanguage.toUpperCase();
             };
             this.eventRegistry.register(
                 element,

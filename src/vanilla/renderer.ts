@@ -1,7 +1,7 @@
 import * as uuid from "uuid";
 
 import { Translator } from "lib/core/translator";
-import { BaseComponent } from "lib/vanilla/components/base";
+import { BaseComponent, ComponentProperties } from "lib/vanilla/components/base";
 
 import radioGroupView from "ejs-loader!lib/vanilla/views/radio-group.ejs";
 import svgView from "ejs-loader!lib/vanilla/views/svg.ejs";
@@ -30,12 +30,12 @@ export interface RadioItem {
 
 export class ComponentRenderer {
     private translator: Translator;
-    private component: BaseComponent;
+    private component: BaseComponent<ComponentProperties>;
     private childRenderers: any;
     private id: string;
 
     constructor(
-        component: BaseComponent,
+        component: BaseComponent<ComponentProperties>,
         translator: Translator
     ) {
         this.component = component;

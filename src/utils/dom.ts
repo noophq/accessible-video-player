@@ -1,4 +1,4 @@
-import { EventRegistry } from "lib/listeners/registry";
+import { EventRegistry } from "lib/event/registry";
 
 export function toggleElementAttribute(element: Element, attr: string, value: any) {
     if (element.hasAttribute(attr)) {
