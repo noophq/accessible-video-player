@@ -15,6 +15,7 @@ import { PlaybackQualitySettingsComponent } from "./playback-quality-settings";
 
 import { renderRangeSlider } from "lib/utils/range-slider";
 import { initPopin, togglePopin } from "lib/utils/popin";
+import { toPlayerTime } from "lib/utils/time";
 
 export class ControlBarComponent extends BaseComponent<ComponentProperties> {
     public view = controlBarView;
@@ -109,6 +110,8 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
         const playPauseButtonElement = domElements["controlBar"]["playPauseButton"];
         const volumePanelElement = domElements["controlBar"]["volumePanel"];
         const volumeButtonElement = domElements["controlBar"]["volumeButton"];
+        const totalTimeElement = rootElement.getElementsByClassName("avp-total-time")[0];
+        const currentTimeElement = rootElement.getElementsByClassName("avp-current-time")[0];
 
         // Handlers
         // Set volume input to the current video volume
@@ -137,6 +140,11 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
             event.stopPropagation();
         };
 
+        const updateTimeHandler = () => {
+            currentTimeElement.innerHTML = toPlayerTime(mainVideoElement.currentTime*1000);
+            totalTimeElement.innerHTML = toPlayerTime(mainVideoElement.duration*1000);
+        };
+
         // Listeners
         this.eventRegistry.register(
             settingsButtonElement,
@@ -154,14 +162,24 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
             volumeSetHandler
         );
         this.eventRegistry.register(
+            volumeButtonElement,
+            "click",
+            volumeButtonHandler,
+        );
+        this.eventRegistry.register(
             mainVideoElement,
             "volumechange",
             volumeChangeHandler
         );
         this.eventRegistry.register(
-            volumeButtonElement,
-            "click",
-            volumeButtonHandler,
+            mainVideoElement,
+            "timeupdate",
+            updateTimeHandler
+        );
+        this.eventRegistry.register(
+            mainVideoElement,
+            "loadedmetadata",
+            updateTimeHandler
         );
     }
 }
