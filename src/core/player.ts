@@ -160,9 +160,28 @@ export class Player extends EventProvider {
         );
 
         this.initMainVideoListeners();
+        this.disableVideoContextMenus();
 
         // Save loaded data
         this.loadedData = data;
+    }
+
+    private disableVideoContextMenus() {
+        const noneHandler = (event: any) => {
+            event.preventDefault();
+        };
+
+        [this.mainVideoContent, this.secondaryVideoContent].forEach((content) => {
+            if (!content) {
+                return;
+            }
+
+            this.eventRegistry.register(
+                content.videoElement,
+                "contextmenu",
+                noneHandler
+            );
+        });
     }
 
     private initMainVideoListeners() {
