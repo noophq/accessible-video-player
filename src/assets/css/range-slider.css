@@ -22,8 +22,8 @@
 
         &::range-thumb {
             -webkit-appearance: none;
-            width: 1.5rem;
-            height: 1.5rem;
+            width: 1rem;
+            height: 1rem;
             border: none;
             border-radius: 50%;
             background: #fff; /* Green background */
@@ -44,7 +44,7 @@
         left: 0;
         width: 100%;
         border-radius: 0.5rem;
-        background: #fff;
+        background: #ff6666;
     }
 
     & .avp-range-slider-lower {
