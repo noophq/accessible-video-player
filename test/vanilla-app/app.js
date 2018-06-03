@@ -152,11 +152,11 @@ var playerSettings = {
 avp
     .init(document.getElementById("player"), playerSettings)
         .then((avpInstance) => {
-            avpInstance.markerManager.removeMarker("marker-2");
-            avpInstance.settingsManager.settings.player.transcription.enabled = true;
-            avpInstance.settingsManager.settings.language.type = "CUED_SPEECH";
-            avpInstance.settingsManager.settings.video.playbackSpeed = 1.5;
-            avpInstance.player.refreshUi();
+            // avpInstance.markerManager.removeMarker("marker-2");
+            // avpInstance.settingsManager.settings.player.transcription.enabled = true;
+            // avpInstance.settingsManager.settings.language.type = "CUED_SPEECH";
+            // avpInstance.settingsManager.settings.video.playbackSpeed = 1.5;
+            // avpInstance.player.refreshUi();
             avpInstance.player.load(
                 playerData
             );

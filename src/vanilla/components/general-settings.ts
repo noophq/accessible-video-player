@@ -29,34 +29,22 @@ export class GeneralSettingsComponent extends BaseSettingsComponent {
         const refreshSettingsHandler = (event: any) => {
             applySettings();
         };
+
         const transcriptionChangeHandler = (event: any) => {
             playerSettings.transcription.enabled = event.target.checked;
-            console.log("hellot");
 
-            // Send event on root player with SettingsEventType update
-            dispatchEvent(
-                playerElement,
-                SettingsEventType.UpdateRequest,
-                {
-                    updatedSettings: [
-                        ["settings.player.transcription.enabled", true]
-                    ]
-                }
-            );
+            // Alert player about a settings change
+            this.updateSettings(domElements, [
+                ["player.transcription.enabled", true]
+            ]);
         }
         const thumbnailChangeHandler = (event: any) => {
             playerSettings.thumbnail.enabled = event.target.checked;
 
-            // Send event on root player with SettingsEventType update
-            dispatchEvent(
-                playerElement,
-                SettingsEventType.UpdateRequest,
-                {
-                    updatedSettings: [
-                        ["settings.player.thumbnail.enabled", true]
-                    ]
-                }
-            );
+            // Alert player about a settings change
+            this.updateSettings(domElements, [
+                ["player.thumbnail.enabled", true]
+            ]);
         }
 
         // Listeners

@@ -1,3 +1,4 @@
+import { dispatchEvent } from "lib/utils/event";
 import { EventRegistry } from "lib/event/registry";
 import { SettingsEventType } from "lib/models/event";
 import { GlobalSettings } from "lib/models/settings";
@@ -57,5 +58,24 @@ export abstract class BaseComponent<T extends ComponentProperties> {
 
     public async updateView(rootElement: HTMLElement, domElements: any) {
         // Update view
+    }
+
+    /**
+     * Update player settings
+     * @param domElements All registered dom elements
+     * @param updatedSettings List of settings to update
+     *      [["l0.attr2", "test"], ["l1", false]]
+     */
+    protected updateSettings(domElements: any, updatedSettings: any) {
+        const playerElement = domElements["origin"]["root"];
+
+        // Alert player about a settings change
+        dispatchEvent(
+            playerElement,
+            SettingsEventType.UpdateRequest,
+            {
+                updatedSettings
+            }
+        );
     }
 }

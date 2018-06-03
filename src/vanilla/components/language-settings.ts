@@ -41,30 +41,14 @@ export class LanguageSettingsComponent extends BaseSettingsComponent {
         const languageInputElements = document
             .getElementsByName("language[" + rootElement.id + "]");
 
-        const applySettings = () => {
-            const selectedLanguage = this.props.settings.language.type.toLocaleLowerCase();
-
-            Array.prototype.forEach.call(languageInputElements, (element: any) => {
-                element.checked = (element.value === selectedLanguage);
-            });
-        };
-
-        // Handlers
-        const refreshSettingsHandler = (event: any) => {
-            applySettings();
-        };
-
         // Listeners
-        this.eventRegistry.register(
-            playerElement,
-            PlayerEventType.UiRefreshRequest,
-            refreshSettingsHandler
-        );
-
         Array.prototype.forEach.call(languageInputElements, (element: any) => {
             const languageChangeHandler = (event: any) => {
                 const newLanguage = event.target.value as string;
-                (this.props.settings.language as any).type = newLanguage.toUpperCase();
+                // Alert player about a settings change
+                this.updateSettings(domElements, [
+                    ["language.type", newLanguage.toUpperCase()]
+                ]);
             };
             this.eventRegistry.register(
                 element,
@@ -74,6 +58,17 @@ export class LanguageSettingsComponent extends BaseSettingsComponent {
         });
 
         // Update UI
-        applySettings();
+        this.updateView(rootElement, domElements);
+    }
+
+    public async updateView(rootElement: HTMLElement, domElements: any) {
+        // Update view
+       const selectedLanguage = this.props.settings.language.type.toLocaleLowerCase();
+       const languageInputElements = document
+            .getElementsByName("language[" + rootElement.id + "]");
+
+        Array.prototype.forEach.call(languageInputElements, (element: any) => {
+            element.checked = (element.value === selectedLanguage);
+        });
     }
 }
