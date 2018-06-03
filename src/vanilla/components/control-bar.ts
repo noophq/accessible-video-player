@@ -1,3 +1,4 @@
+import { dispatchEvent } from "lib/utils/event";
 import { PlayerEventType } from "lib/models/event";
 import { EventRegistry } from "lib/event/registry";
 import { AvpObject } from "lib/models/player";
@@ -115,11 +116,11 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
 
         // Handlers
         // Set volume input to the current video volume
-        volumeInputElement.value = (mainVideoElement.volume * 100) as any;
-
         const volumeChangeHandler = (event: any) => {
-            volumeInputElement.value = (event.target.volume * 100) as any;
+            volumeInputElement.value = (mainVideoElement.volume * 100) as any;
+            dispatchEvent(volumeInputElement, "input");
         };
+        volumeChangeHandler(null);
 
         const settingsButtonHandler = (event: any) => {
             togglePopin(generalSettingsElement, settingsButtonElement);

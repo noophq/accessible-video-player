@@ -2,6 +2,8 @@ import playbackSpeedSettingsView from "ejs-loader!lib/vanilla/views/playback-spe
 
 import { PlayerEventType } from "lib/models/event";
 
+import { renderRangeSlider } from "lib/utils/range-slider";
+
 import { BaseSettingsComponent } from "./base-settings";
 
 const SPEED_SLIDER_VALUES = [0.5, 0.75, 1, 1.25, 1.5];
@@ -14,6 +16,8 @@ export class PlaybackSpeedSettingsComponent extends BaseSettingsComponent {
         const playerElement = domElements["origin"]["root"];
         //const mainVideoElement = domElements["mainVideo"]["video"];
         const speedInputElement = rootElement.getElementsByTagName("input")[0];
+        const rangeSliderElement = rootElement.getElementsByClassName("avp-range-slider")[0];
+        renderRangeSlider(rangeSliderElement);
 
         const applySettings = () => {
             const speedValue = this.props.settings.video.playbackSpeed;

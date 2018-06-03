@@ -3,7 +3,10 @@ export function renderRangeSlider(rangeSliderElement: any) {
     const lowerElement = rangeSliderElement
         .getElementsByClassName("avp-range-slider-lower")[0] as HTMLDivElement;
     const updateProgressBar = () => {
-        const percent = parseInt(inputElement.value)/(parseInt(inputElement.max)-parseInt(inputElement.min)+1)*100;
+        // range value = max - min
+        const rangeValue = parseInt(inputElement.max)-parseInt(inputElement.min);
+        const currentValue = parseInt(inputElement.value)-parseInt(inputElement.min);
+        const percent = currentValue/rangeValue*100;
         lowerElement.style.width = percent + "%";
     };
 
