@@ -1,13 +1,15 @@
 import playerView from "ejs-loader!lib/vanilla/views/player.ejs";
 
-import { PlayerEventType } from "lib/models/event";
+import { PlayerEventType, SettingsEventType } from "lib/models/event";
 
 import { ControlBarComponent } from "./control-bar";
 import { VideoComponent } from "./video";
 import { TranscriptionPanelComponent } from "./transcription-panel";
 import { ThumbnailPanelComponent } from "./thumbnail-panel";
 import { BaseComponent, ComponentProperties } from "./base";
+import { TimeBarComponent } from "./time-bar";
 import { LanguageType } from "lib/models/language";
+import { Player } from "lib/core/player";
 
 export class PlayerComponent extends BaseComponent<ComponentProperties> {
     public view = playerView;
@@ -27,6 +29,7 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
             )),
             transcriptionPanel: new TranscriptionPanelComponent(this.props),
             thumbnailPanel: new ThumbnailPanelComponent(this.props),
+            timeBar: new TimeBarComponent(this.props),
         }
     }
 
@@ -34,7 +37,7 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
      * Returns a list of additional class names
      */
     private buildClassNames(): string[] {
-        const classNames = [];
+        const classNames = ["avp-player"];
 
         if (this.props.settings.player.transcription.enabled) {
             classNames.push("avp-transcription-enabled");
@@ -44,6 +47,8 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
 
         if (this.props.settings.player.thumbnail.enabled) {
             classNames.push("avp-thumbnail-enabled");
+        } else {
+            classNames.push("avp-thumbnail-disabled");
         }
 
         const languageType = this.props.settings.language.type;
@@ -53,6 +58,8 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
             languageType === LanguageType.SignedLanguage
         ) {
             classNames.push("avp-secondary-video-enabled");
+        } else {
+            classNames.push("avp-secondary-video-disabled");
         }
 
         return classNames;
@@ -71,12 +78,15 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
     }
 
     public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
+        super.postDomUpdate(rootElement, domElements);
+
         // Handlers
         const contentLoadedHandler = (event: any) => {
             const mainVideoElement = event.player.mainVideoContent.videoElement;
             this.registerMainVideoElement(rootElement, domElements, mainVideoElement);
         }
 
+        // Listeners
         this.eventRegistry.register(
             rootElement,
             PlayerEventType.ContentLoaded,
@@ -89,9 +99,6 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
         domElements: any,
         mainVideoElement: HTMLVideoElement
     ) {
-        // Clean all events
-        this.eventRegistry.unregisterAll();
-
         // Register new events
         const playingChangeHandler = (event: any) => {
             if (mainVideoElement.paused) {
@@ -107,5 +114,10 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
             PlayerEventType.PlayingChange,
             playingChangeHandler
         );
+    }
+
+    public async updateView(rootElement: HTMLElement, domElements: any) {
+        // Update view
+        rootElement.className = this.buildClassNames().join(" ");
     }
 }

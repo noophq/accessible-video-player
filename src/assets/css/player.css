@@ -7,6 +7,7 @@
 @import "./settings.css";
 @import "./transcription.css";
 @import "./thumbnail.css";
+@import "./time-bar.css";
 @import "./player-content.css";
 
 .avp-player {
@@ -60,12 +61,18 @@
     }
 
     & .avp-transcription-container {
-        display: block;
+        position: absolute;
+        left: 50%;
+        top: 0;
+        width: 50%;
+        height: 100%;
     }
 }
 
-.avp-player.avp-transcription-enabled.avp-secondary-video-enabled {
-
+.avp-player.avp-transcription-disabled {
+    & .avp-transcription-container {
+        display: none;
+    }
 }
 
 .avp-player.avp-transcription-disabled.avp-secondary-video-enabled {
@@ -78,8 +85,8 @@
     }
 }
 
-.avp-player.avp-thumbnail-enabled {
+.avp-player.avp-thumbnail-disabled {
     & .avp-thumbnail-container {
-        display: block;
+        display: none;
     }
 }

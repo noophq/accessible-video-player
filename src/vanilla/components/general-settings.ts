@@ -1,6 +1,8 @@
 import generalSettingsView from "ejs-loader!lib/vanilla/views/general-settings.ejs";
 
-import { PlayerEventType } from "lib/models/event";
+import { PlayerEventType, SettingsEventType } from "lib/models/event";
+
+import { dispatchEvent } from "lib/utils/event";
 
 import { BaseSettingsComponent } from "./base-settings";
 
@@ -8,6 +10,7 @@ export class GeneralSettingsComponent extends BaseSettingsComponent {
     public view = generalSettingsView;
 
     public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
+        super.postDomUpdate(rootElement, domElements);
         const playerElement = domElements["origin"]["root"];
         const transcriptionInputElement = document.getElementById(
             "transcription-" + rootElement.id
@@ -28,9 +31,32 @@ export class GeneralSettingsComponent extends BaseSettingsComponent {
         };
         const transcriptionChangeHandler = (event: any) => {
             playerSettings.transcription.enabled = event.target.checked;
+            console.log("hellot");
+
+            // Send event on root player with SettingsEventType update
+            dispatchEvent(
+                playerElement,
+                SettingsEventType.UpdateRequest,
+                {
+                    updatedSettings: [
+                        ["settings.player.transcription.enabled", true]
+                    ]
+                }
+            );
         }
         const thumbnailChangeHandler = (event: any) => {
             playerSettings.thumbnail.enabled = event.target.checked;
+
+            // Send event on root player with SettingsEventType update
+            dispatchEvent(
+                playerElement,
+                SettingsEventType.UpdateRequest,
+                {
+                    updatedSettings: [
+                        ["settings.player.thumbnail.enabled", true]
+                    ]
+                }
+            );
         }
 
         // Listeners

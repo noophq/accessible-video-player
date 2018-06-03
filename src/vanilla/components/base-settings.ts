@@ -18,6 +18,7 @@ export abstract class BaseSettingsComponent extends BaseComponent<SettingsCompon
     }
 
     public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
+        super.postDomUpdate(rootElement, domElements);
         this.registerLinkEvent(
             rootElement,
             domElements,
@@ -33,6 +34,11 @@ export abstract class BaseSettingsComponent extends BaseComponent<SettingsCompon
         popinName?: string
     ) {
         const triggerElement = rootElement.getElementsByClassName(triggerClassName)[0];
+
+        if (!triggerElement) {
+            return;
+        }
+
         const settingsButtonElement = domElements["controlBar"]["settingsButton"];
 
         // Handlers

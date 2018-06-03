@@ -1,4 +1,4 @@
-import { PlayerEventType } from "lib/models/event";
+import { PlayerEventType, SettingsEventType } from "lib/models/event";
 import { EventRegistry } from "lib/event/registry";
 import { EventProvider } from "lib/event/provider";
 import { dispatchEvent } from "lib/utils/event";
@@ -9,8 +9,10 @@ import { ShakaVideoManager } from "lib/player-content/shaka";
 import { DefaultVideoManager, VideoContent } from "lib/player-content/video";
 
 import { SettingsManager } from "./settings";
-import { LanguageType } from "app/models/language";
-import { SubtitleType } from "app/models/subtitle";
+import { LanguageType } from "lib/models/language";
+import { SubtitleType } from "lib/models/subtitle";
+
+import { updateObjectAttribute } from "lib/utils/object";
 
 const VIDEO_CONTENT_MANAGERS: any = {};
 VIDEO_CONTENT_MANAGERS[PlayerType.Default] = new DefaultVideoManager();
@@ -26,7 +28,7 @@ export class Player extends EventProvider {
     private loadedData: PlayerData;
     private wrappedVideos: any;
     private eventRegistry: EventRegistry;
-    private settingsManager: SettingsManager;
+    public settingsManager: SettingsManager;
     public playerElement: HTMLElement;
     public mainVideoContainerElement: HTMLElement;
     public secondaryVideoContainerElement: HTMLElement;
@@ -47,12 +49,39 @@ export class Player extends EventProvider {
 
     public attachPlayer(playerElement: HTMLElement) {
         this.playerElement = playerElement;
+
         dispatchEvent(
             this.playerElement,
             PlayerEventType.PlayerAttached,
             {
                 player: this
             }
+        );
+
+        // Listen to settings update submitted by player dom element
+        const updateSettingsHandler = (event: any) => {
+            const updatedSettings = event.updatedSettings;
+
+            for (const settingUpdate of updatedSettings) {
+                updateObjectAttribute(
+                    this.settingsManager.settings,
+                    settingUpdate[0],
+                    settingUpdate[1],
+                );
+            }
+
+            dispatchEvent(
+                this.playerElement,
+                SettingsEventType.UpdateSuccess,
+                {
+                    player: this
+                }
+            );
+        };
+        this.eventRegistry.register(
+            this.playerElement,
+            SettingsEventType.UpdateRequest,
+            updateSettingsHandler
         );
     }
 
