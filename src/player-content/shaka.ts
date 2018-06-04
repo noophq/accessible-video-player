@@ -14,7 +14,7 @@ export interface ShakaVideoContent extends VideoContent {
 
 export class ShakaVideoManager {
     public async create(
-        containerElement: HTMLVideoElement,
+        containerElement: HTMLElement,
         videoResource: VideoResource
     ): Promise<ShakaVideoContent> {
         // Create videoElement

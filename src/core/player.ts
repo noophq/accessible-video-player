@@ -7,6 +7,7 @@ import { VideoResource, VideoType, PlayerType } from "lib/models/video";
 import { PlayerData, Resource } from "lib/models/player";
 import { ShakaVideoManager } from "lib/player-content/shaka";
 import { DefaultVideoManager, VideoContent } from "lib/player-content/video";
+import { TranscriptionManager, TranscriptionContent } from "lib/player-content/transcription";
 
 import { SettingsManager } from "./settings";
 import { LanguageType } from "lib/models/language";
@@ -14,9 +15,10 @@ import { SubtitleType } from "lib/models/subtitle";
 
 import { updateObjectAttribute } from "lib/utils/object";
 
-const VIDEO_CONTENT_MANAGERS: any = {};
-VIDEO_CONTENT_MANAGERS[PlayerType.Default] = new DefaultVideoManager();
-VIDEO_CONTENT_MANAGERS[PlayerType.Shaka] = new ShakaVideoManager();
+const videoContentManagers: any = {};
+videoContentManagers[PlayerType.Default] = new DefaultVideoManager();
+videoContentManagers[PlayerType.Shaka] = new ShakaVideoManager();
+const transcriptionManager = new TranscriptionManager();
 
 // Library used to synchronize 2 videos
 declare var videoSynchronizer: any;
@@ -142,7 +144,8 @@ export class Player extends EventProvider {
         // Transcription
         let transcriptionContent = null;
 
-        if (settings.player.transcription.enabled) {
+        if (data.transcription) {
+            // Load transcription even if container is hidden
             transcriptionContent = await this.loadTranscription(
                 this.transcriptionContainerElement,
                 data.transcription
@@ -154,7 +157,8 @@ export class Player extends EventProvider {
         // Thumbnail
         let thumbnailContent = null;
 
-        if (settings.player.thumbnail.enabled) {
+        if (data.thumbnail) {
+            // Load thumbnails event if container is hidden
             thumbnailContent = await this.loadThumbnail(
                 this.thumbnailContainerElement,
                 data.thumbnail
@@ -245,7 +249,7 @@ export class Player extends EventProvider {
         containerElement: HTMLElement,
         videoResource: VideoResource
     ): Promise<VideoContent> {
-        const contentManager = VIDEO_CONTENT_MANAGERS[videoResource.player];
+        const contentManager = videoContentManagers[videoResource.player];
         return await contentManager.create(
             containerElement,
             videoResource
@@ -254,9 +258,12 @@ export class Player extends EventProvider {
 
     private async loadTranscription(
         containerElement: HTMLElement,
-        resource: Resource
+        transcriptionResource: Resource
     ) {
-
+        return await transcriptionManager.create(
+            containerElement,
+            transcriptionResource
+        );
     }
 
     private async loadThumbnail(

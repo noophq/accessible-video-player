@@ -135,10 +135,10 @@ var playerSettings = {
     locale: "fr",
     player: {
         transcription: {
-            enabled: false
+            enabled: true
         },
         thumbnail: {
-            enabled: true,
+            enabled: false
         }
     },
     language: {

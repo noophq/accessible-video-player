@@ -83,8 +83,8 @@ export async function init(
     player.attachContent(
         mainVideoContainerElement as HTMLElement,
         secondaryVideoContainerElement as HTMLElement,
-        thumbnailContainerElement as HTMLElement,
-        transcriptionContainerElement as HTMLElement
+        transcriptionContainerElement as HTMLElement,
+        thumbnailContainerElement as HTMLElement
     );
     return avp;
 }
