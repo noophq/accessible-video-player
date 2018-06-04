@@ -38,7 +38,7 @@ export class Player extends EventProvider {
     public thumbnailContainerElement: HTMLElement;
     public mainVideoContent: VideoContent;
     public secondaryVideoContent: VideoContent;
-    public transcriptionContent: any;
+    public transcriptionContent: TranscriptionContent;
     public thumbnailContent: any;
 
     constructor(settingsManager: SettingsManager) {
@@ -242,6 +242,15 @@ export class Player extends EventProvider {
             "ended",
             playingChangeHandler,
         );
+
+        if (this.transcriptionContent) {
+            // Highlight words
+            this.eventRegistry.register(
+                this.mainVideoContent.videoElement,
+                "timeupdate",
+                this.transcriptionContent.wordHighlighterHandler
+            );
+        }
     }
 
 
