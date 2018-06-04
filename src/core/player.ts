@@ -108,13 +108,13 @@ export class Player extends EventProvider {
             // Display audio description video as main video
             mainVideoContent = await this.loadVideo(
                 this.mainVideoContainerElement,
-                data.mainVideo
+                data.mainAudioDescriptionVideo
             );
         } else {
             // Display main video
             mainVideoContent = await this.loadVideo(
                 this.mainVideoContainerElement,
-                data.mainAudioDescriptionVideo
+                data.mainVideo
             );
         }
 
