@@ -33,12 +33,34 @@ export function trapFocus(element: Element) {
         }
 
         if (event.shiftKey ) /* shift + tab */ {
-            if (document.activeElement === firstFocusableEl) {
+            let isFirstFocused = (document.activeElement === firstFocusableEl);
+
+            if (firstFocusableEl.getAttribute("type") === "radio" &&
+                document.activeElement.getAttribute("type") === "radio" &&
+                firstFocusableEl.getAttribute("name") === document.activeElement.getAttribute("name")
+            ) {
+                // First is focused if element is in the same radio group
+                // that the firstFocusableElement
+                isFirstFocused = true;
+            }
+
+            if (isFirstFocused) {
                 lastFocusableEl.focus();
                 event.preventDefault();
             }
         } else /* tab */ {
-            if (document.activeElement === lastFocusableEl) {
+            let isLastFocused = (document.activeElement === lastFocusableEl);
+
+            if (lastFocusableEl.getAttribute("type") === "radio" &&
+                document.activeElement.getAttribute("type") === "radio" &&
+                lastFocusableEl.getAttribute("name") === document.activeElement.getAttribute("name")
+            ) {
+                // Last is focused if element is in the same radio group
+                // that the lastFocusableElement
+                isLastFocused = true;
+            }
+
+            if (isLastFocused) {
                 firstFocusableEl.focus();
                 event.preventDefault();
             }
