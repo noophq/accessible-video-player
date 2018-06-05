@@ -13,8 +13,8 @@
     "build:react": "cross-env NODE_ENV=production webpack --config webpack.config.react.js",
     "start": "http-server .",
     "start:dev": "npm run start:dev:vanilla",
-    "start:dev:vanilla": "webpack-dev-server --config webpack.config.vanilla.js --host 0.0.0.0",
-    "start:dev:react": "webpack-dev-server --config webpack.config.react.js --host 0.0.0.0"
+    "start:dev:vanilla": "webpack-dev-server --config webpack.config.vanilla.js",
+    "start:dev:react": "webpack-dev-server --config webpack.config.react.js"
   },
   "repository": {
     "type": "git",
