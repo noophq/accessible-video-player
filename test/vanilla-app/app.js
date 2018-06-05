@@ -135,14 +135,14 @@ var playerSettings = {
     locale: "fr",
     player: {
         transcription: {
-            enabled: true
+            enabled: false
         },
         thumbnail: {
             enabled: false
         }
     },
     language: {
-        type: "CUED_SPEECH"
+        type: "DEFAULT"
     },
     subtitle: {
         type: "CLOSED_CAPTION"

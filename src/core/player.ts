@@ -70,8 +70,6 @@ export class Player extends EventProvider {
         const updateSettingsHandler = (event: any) => {
             const updatedSettings = event.updatedSettings;
 
-            console.log("hello", updatedSettings);
-
             for (const settingUpdate of updatedSettings) {
                 updateObjectAttribute(
                     this.settingsManager.settings,

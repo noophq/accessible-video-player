@@ -133,7 +133,13 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
             totalTimeElement.innerHTML = toPlayerTime(mainVideoElement.duration*1000);
         };
         const fullscreenButtonHandler = () => {
-            playerElement.requestFullscreen()
+            if (document.fullscreenEnabled &&
+                document.fullscreenElement === playerElement
+            ) {
+                document.exitFullscreen();
+            } else {
+                playerElement.requestFullscreen();
+            }
         }
 
         // Listeners

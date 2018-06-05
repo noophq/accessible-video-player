@@ -11,6 +11,7 @@ import playIcon from "app/assets/icons/play.svg";
 import markerIcon from "app/assets/icons/marker.svg";
 import volumeOnIcon from "app/assets/icons/volume-on.svg";
 import fullscreenOffIcon from "app/assets/icons/fullscreen-off.svg";
+import fullscreenOnIcon from "app/assets/icons/fullscreen-on.svg";
 import settingsIcon from "app/assets/icons/settings.svg";
 
 const SVG_ICONS: any = {
@@ -20,6 +21,7 @@ const SVG_ICONS: any = {
     "volume": volumeOnIcon,
     "settings": settingsIcon,
     "fullscreen-off": fullscreenOffIcon,
+    "fullscreen-on": fullscreenOnIcon,
 }
 
 export interface RadioItem {

@@ -36,9 +36,15 @@
 
         </button>
         <button class="avp-control-bar-fullscreen">
-            <%= renderIcon("fullscreen-off", t("controlBar.enterFullscreenLabel")) %>
+            <div class="avp-fullscreen-off">
+                <%= renderIcon("fullscreen-off", t("controlBar.enterFullscreenLabel")) %>
+            </div>
+            <div class="avp-fullscreen-on">
+                <%= renderIcon("fullscreen-on", t("controlBar.exitFullscreenLabel")) %>
+            </div>
         </button>
     </div>
+    <%= markerForm %>
     <%= generalSettings %>
     <%= displaySettings %>
     <%= languageSettings %>
