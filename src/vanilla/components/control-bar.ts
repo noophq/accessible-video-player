@@ -17,6 +17,7 @@ import { PlaybackQualitySettingsComponent } from "./playback-quality-settings";
 import { renderRangeSlider } from "lib/utils/range-slider";
 import { initPopin, togglePopin } from "lib/utils/popin";
 import { toPlayerTime } from "lib/utils/time";
+import { supportsGoWithoutReloadUsingHash } from "history/DOMUtils";
 
 export class ControlBarComponent extends BaseComponent<ComponentProperties> {
     public view = controlBarView;
@@ -61,7 +62,7 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
         const markerButtonElement = getElement("marker");
         const volumeButtonElement = getElement("volume");
         const settingsButtonElement = getElement("settings");
-        const enterFullscreenButtonElement = getElement("enter-fullscreen");
+        const fullscreenButtonElement = getElement("fullscreen");
 
         // Volume panel
         const volumePanelElement = getElement("volume-panel");
@@ -75,42 +76,29 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
             volumePanel: volumePanelElement,
             playPauseButton: playPauseButtonElement,
             volumeInput: volumeInputElement,
-            settingsButton: settingsButtonElement
+            settingsButton: settingsButtonElement,
+            fullscreenButton: fullscreenButtonElement
         };
     }
 
-    public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
-        const playerElement = domElements["origin"]["root"];
-
-        // Handlers
-        const contentLoadedHandler = (event: any) => {
-            const mainVideoElement = event.player.mainVideoContent.videoElement;
-            this.registerMainVideoElement(rootElement, domElements, mainVideoElement);
-        }
-
-        // Listeners
-        this.eventRegistry.register(
-            playerElement,
-            PlayerEventType.ContentLoaded,
-            contentLoadedHandler
-        );
-    }
-
-    private registerMainVideoElement(
+    public async updateView(
         rootElement: HTMLElement,
         domElements: any,
-        mainVideoElement: HTMLVideoElement
+        player: any
     ) {
         // Clean all events
         this.eventRegistry.unregisterAll();
 
-        // Register new events
+        // Retrieve dom elements
+        const mainVideoElement = player.mainVideoContent.videoElement;
+        const playerElement = domElements["origin"]["root"];
         const generalSettingsElement = domElements["generalSettings"]["root"];
         const volumeInputElement = domElements["controlBar"]["volumeInput"];
         const settingsButtonElement = domElements["controlBar"]["settingsButton"];
         const playPauseButtonElement = domElements["controlBar"]["playPauseButton"];
         const volumePanelElement = domElements["controlBar"]["volumePanel"];
         const volumeButtonElement = domElements["controlBar"]["volumeButton"];
+        const fullscreenButtonElement = domElements["controlBar"]["fullscreenButton"];
         const totalTimeElement = rootElement.getElementsByClassName("avp-total-time")[0];
         const currentTimeElement = rootElement.getElementsByClassName("avp-current-time")[0];
 
@@ -140,11 +128,13 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
             togglePopin(volumePanelElement, volumeButtonElement);
             event.stopPropagation();
         };
-
         const updateTimeHandler = () => {
             currentTimeElement.innerHTML = toPlayerTime(mainVideoElement.currentTime*1000);
             totalTimeElement.innerHTML = toPlayerTime(mainVideoElement.duration*1000);
         };
+        const fullscreenButtonHandler = () => {
+            playerElement.requestFullscreen()
+        }
 
         // Listeners
         this.eventRegistry.register(
@@ -168,6 +158,11 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
             volumeButtonHandler,
         );
         this.eventRegistry.register(
+            fullscreenButtonElement,
+            "click",
+            fullscreenButtonHandler,
+        );
+        this.eventRegistry.register(
             mainVideoElement,
             "volumechange",
             volumeChangeHandler
@@ -182,5 +177,6 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
             "loadedmetadata",
             updateTimeHandler
         );
+        updateTimeHandler();
     }
 }

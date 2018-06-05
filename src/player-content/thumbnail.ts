@@ -23,4 +23,11 @@ export class ThumbnailManager {
             thumbnailResource
         };
     }
+
+    public async remove(
+        containerElement: HTMLElement,
+        ThumbnailContent: ThumbnailContent
+    ): Promise<void> {
+        containerElement.innerHTML = "";
+    }
 }

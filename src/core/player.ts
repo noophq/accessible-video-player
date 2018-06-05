@@ -8,6 +8,7 @@ import { PlayerData, Resource } from "lib/models/player";
 import { ShakaVideoManager } from "lib/player-content/shaka";
 import { DefaultVideoManager, VideoContent } from "lib/player-content/video";
 import { TranscriptionManager, TranscriptionContent } from "lib/player-content/transcription";
+import { ThumbnailManager, ThumbnailContent } from "lib/player-content/thumbnail";
 
 import { SettingsManager } from "./settings";
 import { LanguageType } from "lib/models/language";
@@ -19,6 +20,7 @@ const videoContentManagers: any = {};
 videoContentManagers[PlayerType.Default] = new DefaultVideoManager();
 videoContentManagers[PlayerType.Shaka] = new ShakaVideoManager();
 const transcriptionManager = new TranscriptionManager();
+const thumbnailManager = new ThumbnailManager();
 
 // Library used to synchronize 2 videos
 declare var videoSynchronizer: any;
@@ -30,6 +32,9 @@ export class Player extends EventProvider {
     private loadedData: PlayerData;
     private wrappedVideos: any;
     private eventRegistry: EventRegistry;
+    private contentEventRegistry: EventRegistry;
+    private videoSynchronizerInstance: any;
+    private subtitlePlayerInstance: any;
     public settingsManager: SettingsManager;
     public playerElement: HTMLElement;
     public mainVideoContainerElement: HTMLElement;
@@ -45,6 +50,7 @@ export class Player extends EventProvider {
         super();
         this.wrappedVideos = {};
         this.eventRegistry = new EventRegistry();
+        this.contentEventRegistry = new EventRegistry();
         this.playerElement = null;
         this.settingsManager = settingsManager;
     }
@@ -64,6 +70,8 @@ export class Player extends EventProvider {
         const updateSettingsHandler = (event: any) => {
             const updatedSettings = event.updatedSettings;
 
+            console.log("hello", updatedSettings);
+
             for (const settingUpdate of updatedSettings) {
                 updateObjectAttribute(
                     this.settingsManager.settings,
@@ -72,6 +80,7 @@ export class Player extends EventProvider {
                 );
             }
 
+            // Fire success event on player dom node
             dispatchEvent(
                 this.playerElement,
                 SettingsEventType.UpdateSuccess,
@@ -79,7 +88,11 @@ export class Player extends EventProvider {
                     player: this
                 }
             );
+
+            // Reload content
+            this.reload();
         };
+
         this.eventRegistry.register(
             this.playerElement,
             SettingsEventType.UpdateRequest,
@@ -99,77 +112,50 @@ export class Player extends EventProvider {
         this.thumbnailContainerElement = thumbnailContainerElement;
     }
 
+    /**
+     * Reload content for the given settings defined in settings manager
+     */
+    public async reload() {
+        // Reload data
+        this.load(this.loadedData);
+    }
+
     public async load(data: PlayerData) {
-        const settings = this.settingsManager.settings;
-        const languageType = this.settingsManager.settings.language.type;
+        // Save loaded data
+        this.loadedData = data;
+
+        // Unregister events
+        this.contentEventRegistry.unregisterAll();
+
+        // Store current time
+        let currentTime = (this.mainVideoContent) ?
+            this.mainVideoContent.videoElement.currentTime : 0;
+
+        // Remove sync
+        if (this.videoSynchronizerInstance) {
+            this.videoSynchronizerInstance.destroy();
+        }
+
+        // Remove subtitle player
+        if (this.subtitlePlayerInstance) {
+            this.subtitlePlayerInstance.destroy();
+        }
 
         // Main video
-        let mainVideoContent = null;
-
-        if (languageType === LanguageType.AudioDescription) {
-            // Display audio description video as main video
-            mainVideoContent = await this.loadVideo(
-                this.mainVideoContainerElement,
-                data.mainAudioDescriptionVideo
-            );
-        } else {
-            // Display main video
-            mainVideoContent = await this.loadVideo(
-                this.mainVideoContainerElement,
-                data.mainVideo
-            );
-        }
-
-        this.mainVideoContent = mainVideoContent;
+        await this.loadMainVideo();
 
         // Secondary video
-        let secondaryVideoContent = null;
-
-        if (languageType === LanguageType.CuedSpeech) {
-            // Synchronized cued speech video
-            secondaryVideoContent = await this.loadVideo(
-                this.secondaryVideoContainerElement,
-                data.cuedSpeechVideo
-            );
-        } else if (languageType === LanguageType.SignedLanguage) {
-            // Synchronized signed language video
-            secondaryVideoContent = await this.loadVideo(
-                this.secondaryVideoContainerElement,
-                data.signedLanguageVideo
-            );
-        }
-
-        this.secondaryVideoContent = secondaryVideoContent;
+        await this.loadSecondaryVideo();
 
         // Transcription
-        let transcriptionContent = null;
-
-        if (data.transcription) {
-            // Load transcription even if container is hidden
-            transcriptionContent = await this.loadTranscription(
-                this.transcriptionContainerElement,
-                data.transcription
-            );
-        }
-
-        this.transcriptionContent = transcriptionContent;
+        await this.loadTranscription();
 
         // Thumbnail
-        let thumbnailContent = null;
-
-        if (data.thumbnail) {
-            // Load thumbnails event if container is hidden
-            thumbnailContent = await this.loadThumbnail(
-                this.thumbnailContainerElement,
-                data.thumbnail
-            );
-        }
-
-        this.thumbnailContent = this.thumbnailContent;
+        await this.loadThumbnail();
 
         // Synchronize videos ?
         if (this.secondaryVideoContent) {
-            videoSynchronizer.sync(
+            this.videoSynchronizerInstance = videoSynchronizer.sync(
                 this.mainVideoContent.videoElement,
                 [this.secondaryVideoContent.videoElement]
             );
@@ -177,12 +163,15 @@ export class Player extends EventProvider {
 
         // Closed captions
         if (
-            settings.subtitle.type === SubtitleType.ClosedCaption &&
+            this.settingsManager.settings.subtitle.type === SubtitleType.ClosedCaption &&
             data.closedCaption
         ) {
             // Display closed captions
-            const sPlayer = subtitlePlayer.wrap(mainVideoContent.videoElement);
-            sPlayer.displayTextTrack(data.closedCaption.url);
+            this.subtitlePlayerInstance = subtitlePlayer.wrap(
+                this.mainVideoContent.videoElement
+            );
+            await this.subtitlePlayerInstance.addCueTrack("default", data.closedCaption.url);
+            this.subtitlePlayerInstance.displayCueTrack("default");
         }
 
         // Content is loaded
@@ -192,11 +181,9 @@ export class Player extends EventProvider {
             { player: this }
         );
 
+        this.mainVideoContent.videoElement.currentTime = currentTime;
         this.initMainVideoListeners();
         this.disableVideoContextMenus();
-
-        // Save loaded data
-        this.loadedData = data;
     }
 
     private disableVideoContextMenus() {
@@ -209,7 +196,7 @@ export class Player extends EventProvider {
                 return;
             }
 
-            this.eventRegistry.register(
+            this.contentEventRegistry.register(
                 content.videoElement,
                 "contextmenu",
                 noneHandler
@@ -227,25 +214,27 @@ export class Player extends EventProvider {
             );
         };
 
-        this.eventRegistry.register(
+        this.contentEventRegistry.register(
             this.mainVideoContent.videoElement,
             "playing",
             playingChangeHandler,
         );
-        this.eventRegistry.register(
+        this.contentEventRegistry.register(
             this.mainVideoContent.videoElement,
             "pause",
             playingChangeHandler,
         );
-        this.eventRegistry.register(
+        this.contentEventRegistry.register(
             this.mainVideoContent.videoElement,
             "ended",
             playingChangeHandler,
         );
 
-        if (this.transcriptionContent) {
+        if (this.transcriptionContent &&
+            this.settingsManager.settings.player.transcription.enabled
+        ) {
             // Highlight words
-            this.eventRegistry.register(
+            this.contentEventRegistry.register(
                 this.mainVideoContent.videoElement,
                 "timeupdate",
                 this.transcriptionContent.wordHighlighterHandler
@@ -253,6 +242,84 @@ export class Player extends EventProvider {
         }
     }
 
+    /**
+     * Load main video
+     */
+    private async loadMainVideo() {
+        const languageType = this.settingsManager.settings.language.type;
+        let videoResource = null;
+
+        if (languageType === LanguageType.AudioDescription) {
+            // Display audio description video as main video
+            videoResource = this.loadedData.mainAudioDescriptionVideo;
+        } else {
+            // Display main video
+            videoResource = this.loadedData.mainVideo;
+        }
+
+        if (this.mainVideoContent &&
+            videoResource &&
+            this.mainVideoContent.videoResource.url === videoResource.url) {
+            // This is the same content do not reload
+            return;
+        } else {
+            if (this.mainVideoContent) {
+                // Remove old main video content
+                await this.removeVideo(
+                    this.mainVideoContainerElement,
+                    this.mainVideoContent
+                );
+                this.mainVideoContent = null;
+            }
+        }
+
+        this.mainVideoContent = await this.loadVideo(
+            this.mainVideoContainerElement,
+            videoResource
+        );
+    }
+
+    /**
+     * Load secondary video
+     */
+    private async loadSecondaryVideo() {
+        const languageType = this.settingsManager.settings.language.type;
+        let videoResource = null;
+
+        if (languageType === LanguageType.CuedSpeech) {
+            // Synchronized cued speech video
+            videoResource = this.loadedData.cuedSpeechVideo
+
+        } else if (languageType === LanguageType.SignedLanguage) {
+            // Synchronized signed language video
+            videoResource = this.loadedData.signedLanguageVideo;
+        }
+
+        if (this.secondaryVideoContent &&
+            videoResource &&
+            this.secondaryVideoContent.videoResource.url === videoResource.url) {
+            // This is the same content do not reload
+            return;
+        }
+
+        if (!videoResource) {
+            if (this.secondaryVideoContent) {
+                // Remove old secondary video content
+                await this.removeVideo(
+                    this.secondaryVideoContainerElement,
+                    this.secondaryVideoContent
+                );
+                this.secondaryVideoContent = null;
+            }
+
+            return;
+        }
+
+        this.secondaryVideoContent = await this.loadVideo(
+            this.secondaryVideoContainerElement,
+            videoResource
+        );
+    }
 
     private async loadVideo(
         containerElement: HTMLElement,
@@ -265,21 +332,54 @@ export class Player extends EventProvider {
         );
     }
 
-    private async loadTranscription(
+    private async removeVideo(
         containerElement: HTMLElement,
-        transcriptionResource: Resource
-    ) {
-        return await transcriptionManager.create(
+        videoContent: VideoContent
+    ): Promise<void> {
+        const contentManager = videoContentManagers[videoContent.videoResource.player];
+        await contentManager.remove(
             containerElement,
-            transcriptionResource
+            videoContent
         );
     }
 
-    private async loadThumbnail(
-        containerElement: HTMLElement,
-        resource: Resource
-    ) {
+    private async loadTranscription() {
+        if (this.transcriptionContent &&
+            this.loadedData.transcription &&
+            this.transcriptionContent.transcriptionResource.url === this.loadedData.transcription.url) {
+            // This is the same content do not reload
+            return;
+        }
 
+        if (!this.loadedData.transcription) {
+            if (this.transcriptionContent) {
+                // Remove old transcription content
+                await transcriptionManager.remove(
+                    this.transcriptionContainerElement,
+                    this.transcriptionContent
+                );
+                this.transcriptionContent = null;
+            }
+
+            return;
+        }
+
+        // Load new transcription content
+        this.transcriptionContent = await transcriptionManager.create(
+            this.transcriptionContainerElement,
+            this.loadedData.transcription
+        );
+    }
+
+    private async loadThumbnail() {
+        if (!this.loadedData.thumbnail) {
+            return;
+        }
+
+        this.thumbnailContent = await thumbnailManager.create(
+            this.thumbnailContainerElement,
+            this.loadedData.thumbnail
+        );
     }
 
     public refreshUi() {
@@ -295,6 +395,7 @@ export class Player extends EventProvider {
 
     public destroy() {
         this.eventRegistry.unregisterAll();
+        this.contentEventRegistry.unregisterAll();
         this.wrappedVideos = null;
     }
 }

@@ -1,7 +1,7 @@
 import { VideoResource } from "lib/models/video";
 
 export interface VideoContent {
-    videoElement: HTMLElement;
+    videoElement: HTMLVideoElement;
     videoResource: VideoResource
 }
 
@@ -18,5 +18,12 @@ export class DefaultVideoManager {
             videoElement,
             videoResource
         };
+    }
+
+    public async remove(
+        containerElement: HTMLElement,
+        videoContent: VideoContent
+    ): Promise<void> {
+        containerElement.innerHTML = "";
     }
 }

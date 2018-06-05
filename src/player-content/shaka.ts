@@ -68,4 +68,12 @@ export class ShakaVideoManager {
             shakaPlayer,
         };
     }
+
+    public async remove(
+        containerElement: HTMLElement,
+        videoContent: ShakaVideoContent
+    ): Promise<void> {
+        await videoContent.shakaPlayer.destroy();
+        containerElement.innerHTML = "";
+    }
 }

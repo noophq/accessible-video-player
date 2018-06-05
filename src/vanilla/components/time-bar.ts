@@ -19,32 +19,16 @@ export class TimeBarComponent extends  BaseComponent<ComponentProperties> {
         };
     }
 
-    public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
-        super.postDomUpdate(rootElement, domElements);
-        const playerElement = domElements["origin"]["root"];
-
-        // Handlers
-        const contentLoadedHandler = (event: any) => {
-            const mainVideoElement = event.player.mainVideoContent.videoElement;
-            this.registerMainVideoElement(rootElement, domElements, mainVideoElement);
-        }
-
-        this.eventRegistry.register(
-            playerElement,
-            PlayerEventType.ContentLoaded,
-            contentLoadedHandler
-        );
-    }
-
-    private registerMainVideoElement(
+    public async updateView(
         rootElement: HTMLElement,
         domElements: any,
-        mainVideoElement: HTMLVideoElement
+        player: any
     ) {
         // Clean all events
         this.eventRegistry.unregisterAll();
 
-        // Register new events
+        // Retrieve dom elements
+        const mainVideoElement = player.mainVideoContent.videoElement;
         const timeBarInputElement = domElements["timeBar"]["input"];
         const timeUpdateHandler = (event: any) => {
             const progress = Math.round((mainVideoElement.currentTime/mainVideoElement.duration)*1000);

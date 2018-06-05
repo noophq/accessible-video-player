@@ -13,8 +13,7 @@ export class TranscriptionManager {
     ): Promise<TranscriptionContent> {
         // Download transcription
         const response = await fetch(transcriptionResource.url);
-        const jsonResult = await response.json()
-        console.log("transcription", jsonResult);
+        const jsonResult = await response.json();
 
         // Create transcription element
         const transcriptionElement = document.createElement("div");
@@ -97,5 +96,12 @@ export class TranscriptionManager {
             transcriptionResource,
             wordHighlighterHandler
         };
+    }
+
+    public async remove(
+        containerElement: HTMLElement,
+        transcriptionContent: TranscriptionContent
+    ): Promise<void> {
+        containerElement.innerHTML = "";
     }
 }

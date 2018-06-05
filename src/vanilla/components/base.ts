@@ -1,6 +1,6 @@
 import { dispatchEvent } from "lib/utils/event";
 import { EventRegistry } from "lib/event/registry";
-import { SettingsEventType } from "lib/models/event";
+import { PlayerEventType, SettingsEventType } from "lib/models/event";
 import { GlobalSettings } from "lib/models/settings";
 import { Player } from "lib/core/player";
 
@@ -11,11 +11,13 @@ export interface ComponentProperties {
 export abstract class BaseComponent<T extends ComponentProperties> {
     protected props: T;
     protected eventRegistry: EventRegistry;
+    private baseEventRegistry: EventRegistry;
     public view: any;
 
     constructor(props: T) {
         this.props = props;
         this.eventRegistry = new EventRegistry();
+        this.baseEventRegistry = new EventRegistry();
     }
 
     public registerChilds() {
@@ -45,18 +47,31 @@ export abstract class BaseComponent<T extends ComponentProperties> {
                     settings: player.settingsManager.settings
                 }
             );
-            this.updateView(rootElement, domElements);
+            this.updateView(rootElement, domElements, player);
+        };
+        const contentLoadedHandler = (event: any) => {
+            const player: Player = event.player;
+            this.updateView(rootElement, domElements, player);
         };
 
         // Listeners
-        this.eventRegistry.register(
+        this.baseEventRegistry.register(
             playerElement,
             SettingsEventType.UpdateSuccess,
             settingsUpdateHandler
         );
+        this.baseEventRegistry.register(
+            playerElement,
+            PlayerEventType.ContentLoaded,
+            contentLoadedHandler
+        );
     }
 
-    public async updateView(rootElement: HTMLElement, domElements: any) {
+    public async updateView(
+        rootElement: HTMLElement,
+        domElements: any,
+        player: any
+    ) {
         // Update view
     }
 
@@ -77,5 +92,10 @@ export abstract class BaseComponent<T extends ComponentProperties> {
                 updatedSettings
             }
         );
+    }
+
+    public async destroy() {
+        this.baseEventRegistry.unregisterAll();
+        this.eventRegistry.unregisterAll();
     }
 }

@@ -31,19 +31,15 @@ export class GeneralSettingsComponent extends BaseSettingsComponent {
         };
 
         const transcriptionChangeHandler = (event: any) => {
-            playerSettings.transcription.enabled = event.target.checked;
-
             // Alert player about a settings change
             this.updateSettings(domElements, [
-                ["player.transcription.enabled", true]
+                ["player.transcription.enabled", event.target.checked]
             ]);
         }
         const thumbnailChangeHandler = (event: any) => {
-            playerSettings.thumbnail.enabled = event.target.checked;
-
             // Alert player about a settings change
             this.updateSettings(domElements, [
-                ["player.thumbnail.enabled", true]
+                ["player.thumbnail.enabled", event.target.checked]
             ]);
         }
 

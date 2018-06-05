@@ -1,5 +1,5 @@
 export interface EventListener {
-    target: Element;
+    target: any;
     eventType: string;
     listener: any;
 }
@@ -11,7 +11,7 @@ export class EventRegistry {
         this.eventListeners = [];
     }
 
-    public register(target: Element, eventType: string, listener: any) {
+    public register(target: any, eventType: string, listener: any) {
         this.eventListeners.push({
             target,
             eventType,
