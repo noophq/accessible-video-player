@@ -18,11 +18,10 @@ function recursiveUpdateObjectAttribute(obj: any, chainedAttrs: string[], value:
         obj[attr] = {};
     }
 
-
     if (chainedAttrs.length === 0) {
         // No more attribute, apply value
         obj[attr] = value;
     } else {
-        recursiveUpdateObjectAttribute(obj, chainedAttrs, value);
+        recursiveUpdateObjectAttribute(obj[attr], chainedAttrs, value);
     }
 }
