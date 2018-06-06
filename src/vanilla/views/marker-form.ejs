@@ -1,0 +1,20 @@
+<div id="<%= id %>" class="avp-marker-form avp-popin">
+    <div class="avp-header">
+        <span class="avp-mode-1" role="header"><%= t("markerForm.addHeader") %></span>
+        <span class="avp-mode-2" role="header"><%= t("markerForm.editHeader") %></span>
+    </div>
+    <div class="avp-row">
+        <label for="<%= id %>-title"><%= t("markerForm.titleLabel") %></label>
+        <input id="<%= id %>-title" type="text" />
+    </div>
+    <div class="avp-row">
+        <button class="avp-submit-button">
+            <span class="avp-mode-1">
+                <%= renderIcon("add", t("markerForm.addLabel")) %>
+            </span>
+            <span class="avp-mode-2">
+                <%= renderIcon("edit", t("markerForm.editLabel")) %>
+            </span>
+        </button>
+    </div>
+</div>

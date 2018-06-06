@@ -48,5 +48,12 @@
     },
     "playbackQualitySettings": {
         "header": "Playback quality settings"
+    },
+    "markerForm": {
+        "addHeader": "Add marker",
+        "editHeader": "Edit marker",
+        "addLabel": "Add",
+        "editLabel": "Update",
+        "titleLabel": "Title"
     }
 }

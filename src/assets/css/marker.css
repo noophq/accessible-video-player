@@ -1,0 +1,44 @@
+.avp-marker-form {
+    background: #ee3333;
+    padding: 1rem;
+    right: 1rem;
+    bottom: 5rem;
+    border-radius: 0.5rem;
+
+    & .avp-header {
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+        font-weight: bold;
+    }
+
+    & .avp-row {
+        margin-bottom: 1rem;
+    }
+
+    & button {
+        background: #ff6666;
+        border-radius: 0.2rem;
+        padding: 0.5rem;
+        color: #fff;
+    }
+}
+
+.avp-marker-form.avp-add-form {
+    & .avp-mode-1 {
+        display: inline-block;
+    }
+
+    & .avp-mode-2 {
+        display: none;
+    }
+}
+
+.avp-marker-form.avp-edit-form {
+    & .avp-mode-1 {
+        display: none;
+    }
+
+    & .avp-mode-2 {
+        display: inline-block;
+    }
+}

@@ -16,6 +16,8 @@ export enum SettingsEventType {
 }
 
 export enum MarkerEventType {
+    AddFormDisplay ="marker.form.add.display",
+    EditFormDisplay ="marker.form.edit.display",
     AddRequest = "marker.add.request",
     AddSuccess = "marker.add.success",
     AddFailed = "marker.add.failed",

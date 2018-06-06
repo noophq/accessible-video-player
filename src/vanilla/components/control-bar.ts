@@ -1,5 +1,5 @@
 import { dispatchEvent } from "lib/utils/event";
-import { PlayerEventType } from "lib/models/event";
+import { PlayerEventType, MarkerEventType } from "lib/models/event";
 import { EventRegistry } from "lib/event/registry";
 import { AvpObject } from "lib/models/player";
 
@@ -13,6 +13,7 @@ import { SubtitleSettingsComponent } from "./subtitle-settings";
 import { SubtitleDisplaySettingsComponent } from "./subtitle-display-settings";
 import { PlaybackSpeedSettingsComponent } from "./playback-speed-settings";
 import { PlaybackQualitySettingsComponent } from "./playback-quality-settings";
+import { MarkerFormComponent } from "./marker-form";
 
 import { renderRangeSlider } from "lib/utils/range-slider";
 import { initPopin, togglePopin } from "lib/utils/popin";
@@ -40,7 +41,8 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
             subtitleSettings: new SubtitleSettingsComponent(backToDisplaySettingsProps),
             subtitleDisplaySettings: new SubtitleDisplaySettingsComponent(backToDisplaySettingsProps),
             playbackSpeedSettings: new PlaybackSpeedSettingsComponent(backToDisplaySettingsProps),
-            playbackQualitySettings: new PlaybackQualitySettingsComponent(backToDisplaySettingsProps)
+            playbackQualitySettings: new PlaybackQualitySettingsComponent(backToDisplaySettingsProps),
+            markerForm: new MarkerFormComponent(this.props)
         };
     }
 
@@ -77,7 +79,8 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
             playPauseButton: playPauseButtonElement,
             volumeInput: volumeInputElement,
             settingsButton: settingsButtonElement,
-            fullscreenButton: fullscreenButtonElement
+            fullscreenButton: fullscreenButtonElement,
+            markerButton: markerButtonElement,
         };
     }
 
@@ -98,6 +101,7 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
         const playPauseButtonElement = domElements["controlBar"]["playPauseButton"];
         const volumePanelElement = domElements["controlBar"]["volumePanel"];
         const volumeButtonElement = domElements["controlBar"]["volumeButton"];
+        const markerButtonElement = domElements["controlBar"]["markerButton"];
         const fullscreenButtonElement = domElements["controlBar"]["fullscreenButton"];
         const totalTimeElement = rootElement.getElementsByClassName("avp-total-time")[0];
         const currentTimeElement = rootElement.getElementsByClassName("avp-current-time")[0];
@@ -141,6 +145,13 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
                 playerElement.requestFullscreen();
             }
         }
+        const markerButtonHandler = (event: any) => {
+            dispatchEvent(
+                playerElement,
+                MarkerEventType.AddFormDisplay
+            )
+            event.stopPropagation();
+        }
 
         // Listeners
         this.eventRegistry.register(
@@ -162,6 +173,11 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
             volumeButtonElement,
             "click",
             volumeButtonHandler,
+        );
+        this.eventRegistry.register(
+            markerButtonElement,
+            "click",
+            markerButtonHandler,
         );
         this.eventRegistry.register(
             fullscreenButtonElement,
