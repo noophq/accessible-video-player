@@ -16,8 +16,9 @@ export function trapFocus(element: Element) {
     trapFocusEventRegistry.unregisterAll();
 
     const focusableEls = element.querySelectorAll(
-        "a, object, input, iframe, [tabindex], button"
+        'a, object, input:not([type="hidden"]), button'
     );
+
     if (focusableEls.length == 0) {
         return;
     }
