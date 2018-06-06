@@ -204,7 +204,6 @@ export class Player extends EventProvider {
 
     private initMainVideoListeners() {
         const playingChangeHandler = (event: any) => {
-            console.log("Playing change", this.playerElement);
             dispatchEvent(
                 this.playerElement,
                 PlayerEventType.PlayingChange,

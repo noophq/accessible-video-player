@@ -36,7 +36,7 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
     /**
      * Returns a list of additional class names
      */
-    private buildClassNames(rootElement?: HTMLElement): string[] {
+    private buildClassNames(rootElement?: HTMLElement, player?: any): string[] {
         const classNames = ["avp-player"];
 
         if (this.props.settings.player.transcription.enabled) {
@@ -52,7 +52,7 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
         }
 
         const languageType = this.props.settings.language.type;
-        console.log("player", languageType);
+
         if (
             languageType === LanguageType.CuedSpeech ||
             languageType === LanguageType.SignedLanguage
@@ -65,6 +65,14 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
         if (rootElement) {
             if (document.fullscreenEnabled && document.fullscreenElement === rootElement) {
                 classNames.push("avp-fullscreen-enabled");
+            }
+        }
+
+        if (player && player.mainVideoContent) {
+            const mainVideoElement = player.mainVideoContent.videoElement;
+
+            if (!mainVideoElement.paused) {
+                classNames.push("avp-playing");
             }
         }
 
@@ -83,22 +91,11 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
         }
     }
 
-    public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
-        super.postDomUpdate(rootElement, domElements);
-
-
-    }
-
-    private registerMainVideoElement(
-        rootElement: HTMLElement,
-        domElements: any,
-        mainVideoElement: HTMLVideoElement
-    ) {
-
-    }
-
-    private updateRootClassname(rootElement: HTMLElement) {
-        rootElement.className = this.buildClassNames(rootElement).join(" ");
+    private updateRootClassname(rootElement: HTMLElement, player?: any) {
+        rootElement.className = this.buildClassNames(
+            rootElement,
+            player,
+        ).join(" ");
     }
 
     public async updateView(
@@ -113,18 +110,8 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
         this.updateRootClassname(rootElement);
 
         // Handlers
-        const mainVideoElement = player.mainVideoContent.videoElement;
-
-        const handleDocumentFullscreen = (event: any) => {
-            this.updateRootClassname(rootElement);
-        };
-
         const playingChangeHandler = (event: any) => {
-            if (mainVideoElement.paused) {
-                rootElement.classList.remove("avp-playing");
-            } else {
-                rootElement.classList.add("avp-playing");
-            }
+            this.updateRootClassname(rootElement, player);
         };
 
         // Listeners
@@ -136,7 +123,7 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
         this.eventRegistry.register(
             document,
             "fullscreenchange",
-            handleDocumentFullscreen
+            playingChangeHandler
         );
     }
 }
