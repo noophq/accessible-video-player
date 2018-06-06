@@ -86,8 +86,11 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
     }
 
     public async registerDomElements(rootElement: HTMLElement): Promise<any> {
+        const mainVideoContainerElement = rootElement.getElementsByClassName("avp-main-video-container")[0];
+
         return {
-            root: rootElement
+            root: rootElement,
+            mainVideoContainer: mainVideoContainerElement,
         }
     }
 

@@ -34,6 +34,11 @@ export abstract class BaseComponent<T extends ComponentProperties> {
         return {};
     }
 
+    protected getMainVideoElement(domElements: any) {
+        const mainVideoContainerElement = domElements["origin"]["mainVideoContainer"];
+        return mainVideoContainerElement.getElementsByTagName("video")[0];
+    }
+
     public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
         const playerElement = domElements["origin"]["root"];
 

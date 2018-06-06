@@ -50,7 +50,10 @@ export async function init(
     const i18n = new Translator(newSettings.locale);
     await i18n.initialize();
     const settingsManager = new SettingsManager(newSettings);
-    const player = new Player(settingsManager);
+    const player = new Player(
+        settingsManager,
+        markerManager,
+    );
     const avp = {
         i18n,
         markerManager,

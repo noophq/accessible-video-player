@@ -21,6 +21,11 @@
         padding: 0.5rem;
         color: #fff;
     }
+
+    & input[type="text"] {
+        height: 1.3rem;
+        border: 1pt solid #ff6666;
+    }
 }
 
 .avp-marker-form.avp-add-form {

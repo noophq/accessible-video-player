@@ -1,4 +1,4 @@
-import { PlayerEventType, SettingsEventType } from "lib/models/event";
+import { MarkerEventType, PlayerEventType, SettingsEventType } from "lib/models/event";
 import { EventRegistry } from "lib/event/registry";
 import { EventProvider } from "lib/event/provider";
 import { dispatchEvent } from "lib/utils/event";
@@ -10,11 +10,13 @@ import { DefaultVideoManager, VideoContent } from "lib/player-content/video";
 import { TranscriptionManager, TranscriptionContent } from "lib/player-content/transcription";
 import { ThumbnailManager, ThumbnailContent } from "lib/player-content/thumbnail";
 
-import { SettingsManager } from "./settings";
 import { LanguageType } from "lib/models/language";
 import { SubtitleType } from "lib/models/subtitle";
 
 import { updateObjectAttribute } from "lib/utils/object";
+
+import { SettingsManager } from "./settings";
+import { MarkerManager } from "./marker";
 
 const videoContentManagers: any = {};
 videoContentManagers[PlayerType.Default] = new DefaultVideoManager();
@@ -36,6 +38,7 @@ export class Player extends EventProvider {
     private videoSynchronizerInstance: any;
     private subtitlePlayerInstance: any;
     public settingsManager: SettingsManager;
+    public markerManager: MarkerManager;
     public playerElement: HTMLElement;
     public mainVideoContainerElement: HTMLElement;
     public secondaryVideoContainerElement: HTMLElement;
@@ -46,13 +49,17 @@ export class Player extends EventProvider {
     public transcriptionContent: TranscriptionContent;
     public thumbnailContent: any;
 
-    constructor(settingsManager: SettingsManager) {
+    constructor(
+        settingsManager: SettingsManager,
+        markerManager: MarkerManager,
+    ) {
         super();
         this.wrappedVideos = {};
         this.eventRegistry = new EventRegistry();
         this.contentEventRegistry = new EventRegistry();
         this.playerElement = null;
         this.settingsManager = settingsManager;
+        this.markerManager = markerManager;
     }
 
     public attachPlayer(playerElement: HTMLElement) {
@@ -91,10 +98,36 @@ export class Player extends EventProvider {
             this.reload();
         };
 
+        const addUpdateMarkerHandler = (event: any) => {
+            const marker = event.marker;
+            const successEventType = (!marker.id) ?
+                MarkerEventType.AddSuccess :
+                MarkerEventType.UpdateSuccess;
+            this.markerManager.addMarker(marker);
+            dispatchEvent(
+                this.playerElement,
+                successEventType,
+                {
+                    player: this
+                }
+            );
+
+        };
+
         this.eventRegistry.register(
             this.playerElement,
             SettingsEventType.UpdateRequest,
             updateSettingsHandler
+        );
+        this.eventRegistry.register(
+            this.playerElement,
+            MarkerEventType.AddRequest,
+            addUpdateMarkerHandler
+        );
+        this.eventRegistry.register(
+            this.playerElement,
+            MarkerEventType.AddRequest,
+            addUpdateMarkerHandler
         );
     }
 

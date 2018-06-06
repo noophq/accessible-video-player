@@ -3,9 +3,12 @@
         <span class="avp-mode-1" role="header"><%= t("markerForm.addHeader") %></span>
         <span class="avp-mode-2" role="header"><%= t("markerForm.editHeader") %></span>
     </div>
+    <form>
     <div class="avp-row">
+        <input name="id" type="hidden" />
+        <input name="timecode" type="hidden" />
         <label for="<%= id %>-title"><%= t("markerForm.titleLabel") %></label>
-        <input id="<%= id %>-title" type="text" />
+        <input name="title" id="<%= id %>-title" type="text" />
     </div>
     <div class="avp-row">
         <button class="avp-submit-button">
@@ -17,4 +20,5 @@
             </span>
         </button>
     </div>
+    </form>
 </div>
