@@ -1,7 +1,7 @@
 var mainManifestUrl = "https://dpk3dq0d69joz.cloudfront.net/origin/HLS_182427_0-VF-cenc.ism/stream.mpd";
 var mainAudioDescriptionManifestUrl = "https://dpk3dq0d69joz.cloudfront.net/origin/HLS_182427_0-VFAUD-cenc.ism/stream.mpd";
 var cuedSpeechManifestUrl = "https://s3-eu-west-1.amazonaws.com/vodstorage.arte.tv/fovea/182427/HLS_182427_0-LPC-16_9.mpd";
-var signedLanguageManifestUrl = null;
+var signedLanguageManifestUrl = "https://vodstorage.arte.tv/fovea/182427/HLS_182427_0-LPC-16_9_240p_dash.mpd";
 var transcriptionUrl = "https://vodstorage.arte.tv/movies/VTT/182427/HLS_182427_0-VF-RETR.sjson";
 var closedCaptionUrl = "https://s3-eu-west-1.amazonaws.com/vodstorage.arte.tv/movies/VTT/182427/HLS_182427_0-VF-STSM.xml";
 
@@ -98,6 +98,22 @@ var playerData = {
     },
     cuedSpeechVideo: {
         url: cuedSpeechManifestUrl,
+        player: "SHAKA",
+        playerOptions: {
+            config: {
+                abr: {
+                    restrictions: {
+                        maxHeight: 240
+                    }
+                },
+                streaming: {
+                    bufferingGoal: 60
+                }
+            }
+        }
+    },
+    signedLanguageVideo: {
+        url: signedLanguageManifestUrl,
         player: "SHAKA",
         playerOptions: {
             config: {
