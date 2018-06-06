@@ -112,11 +112,21 @@
     }
 }
 
+/**
+ * Fullscreen
+ */
+
 .avp-player.avp-fullscreen-enabled {
     position: relative;
     width: 100vw;
     height: 100vh;
     background: #000;
+
+    & .avp-player-content {
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+    }
 
     & .avp-control-bar-fullscreen {
         & .avp-fullscreen-on {
@@ -128,9 +138,10 @@
         }
     }
 
-    & .avp-video-container {
-        width: 50vw;
-        padding-bottom: 50vh;
+    & .avp-main-video-container {
+        width: 100vw;
+        padding-bottom: 0;
+        height: 100vh;
     }
 
     & .avp-player-control-group {
@@ -147,24 +158,15 @@
     }
 }
 
-.avp-player.avp-secondary-video-enabled.avp-transcription-enabled.avp-fullscreen-enabled {
+.avp-player.avp-fullscreen-enabled.avp-transcription-enabled {
     & .avp-video-container {
         width: 50vw;
-        padding-bottom: 50vh;
-    }
-
-    & .avp-main-video-container {
-        width: 50vw;
-        padding-bottom: 50vh;
+        height: 50vh;
+        padding-bottom:0;
     }
 }
 
 .avp-player.avp-transcription-disabled.avp-fullscreen-enabled {
-    & .avp-main-video-container video {
-        width: 100vw;
-        height: 100vh;
-    }
-
     & .avp-secondary-video-container {
         top: 2vh;
         right: 2vh;

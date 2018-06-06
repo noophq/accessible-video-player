@@ -5,4 +5,5 @@
 
 .avp-popin.avp-open {
     display: block;
+    z-index: 70000;
 }

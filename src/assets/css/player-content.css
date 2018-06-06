@@ -1,4 +1,7 @@
 .avp-player-content {
     background: #000;
     position: relative;
+    height: 0;
+    width: 100%;
+    padding-bottom: 57%;
 }
