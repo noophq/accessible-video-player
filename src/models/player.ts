@@ -39,8 +39,7 @@ export interface PlayerData {
     signedLanguageVideo?: VideoResource,
     closedCaption?: Resource,
     transcription?: Resource,
-    thumbnail?: Resource
-    markers: Marker[],
+    thumbnailCollection?: Resource
 }
 
 export interface AvpObject {

@@ -1,32 +1,41 @@
 import { Resource } from "lib/models/player";
 
-export interface ThumbnailContent {
-    thumbnailElement: HTMLElement;
-    thumbnailResource: Resource
+export interface ThumbnailCollectionContent {
+    thumbnailCollectionElement: HTMLElement;
+    thumbnailCollectionResource: Resource
 }
 
 export class ThumbnailManager {
     public async create(
         containerElement: HTMLElement,
-        thumbnailResource: Resource
-    ): Promise<ThumbnailContent> {
+        thumbnailCollectionResource: Resource
+    ): Promise<ThumbnailCollectionContent> {
         // Download thumbnail collection
-        const result = await fetch(thumbnailResource.url);
+        const response = await fetch(thumbnailCollectionResource.url);
+        const jsonResult = await response.json();
 
         // Create thumbnail collection Element
-        const thumbnailElement = document.createElement("div");
-        thumbnailElement.className = "avp-thumbnail";
-        containerElement.appendChild(thumbnailElement);
+        const thumbnailCollectionElement = document.createElement("ul");
+        thumbnailCollectionElement.className = "avp-thumbnail-collection";
+
+        for (let index = 0; index < jsonResult.thumbnails.length; index++) {
+            const jsonItem =  jsonResult.thumbnails[index];
+            const thumbnailElement = document.createElement("li");
+            thumbnailElement.innerHTML = '<button data-timecode="' + jsonItem.timecode + '"><img src="' + jsonItem.imageUrl + '" /></button>'
+            thumbnailCollectionElement.appendChild(thumbnailElement);
+        }
+
+        containerElement.appendChild(thumbnailCollectionElement);
 
         return {
-            thumbnailElement,
-            thumbnailResource
+            thumbnailCollectionElement,
+            thumbnailCollectionResource
         };
     }
 
     public async remove(
         containerElement: HTMLElement,
-        ThumbnailContent: ThumbnailContent
+        thumbnailCollectionContent: ThumbnailCollectionContent
     ): Promise<void> {
         containerElement.innerHTML = "";
     }

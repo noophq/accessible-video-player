@@ -8,7 +8,7 @@ import { PlayerData, Resource } from "lib/models/player";
 import { ShakaVideoManager } from "lib/player-content/shaka";
 import { DefaultVideoManager, VideoContent } from "lib/player-content/video";
 import { TranscriptionManager, TranscriptionContent } from "lib/player-content/transcription";
-import { ThumbnailManager, ThumbnailContent } from "lib/player-content/thumbnail";
+import { ThumbnailManager, ThumbnailCollectionContent } from "lib/player-content/thumbnail";
 
 import { LanguageType } from "lib/models/language";
 import { SubtitleType } from "lib/models/subtitle";
@@ -47,7 +47,7 @@ export class Player extends EventProvider {
     public mainVideoContent: VideoContent;
     public secondaryVideoContent: VideoContent;
     public transcriptionContent: TranscriptionContent;
-    public thumbnailContent: any;
+    public thumbnailCollectionContent: ThumbnailCollectionContent;
 
     constructor(
         settingsManager: SettingsManager,
@@ -182,7 +182,7 @@ export class Player extends EventProvider {
         await this.loadTranscription();
 
         // Thumbnail
-        await this.loadThumbnail();
+        await this.loadThumbnailCollection();
 
         // Synchronize videos ?
         if (this.secondaryVideoContent) {
@@ -269,6 +269,28 @@ export class Player extends EventProvider {
                 "timeupdate",
                 this.transcriptionContent.wordHighlighterHandler
             );
+        }
+
+        if (this.thumbnailCollectionContent &&
+            this.settingsManager.settings.player.thumbnail.enabled
+        ) {
+            const gotoTimecodeHandler = (event: any) => {
+                const buttonElement = event.target;
+                const timecode = Math.round(parseInt(buttonElement.dataset.timecode)/1000);
+                console.log(timecode);
+                this.mainVideoContent.videoElement.currentTime = timecode;
+            };
+
+            // Click
+            const buttonElements = this.thumbnailContainerElement.getElementsByTagName("button");
+
+            Array.prototype.forEach.call(buttonElements, (element: HTMLElement) => {
+                this.contentEventRegistry.register(
+                    element,
+                    "click",
+                    gotoTimecodeHandler
+                );
+            });
         }
     }
 
@@ -401,14 +423,29 @@ export class Player extends EventProvider {
         );
     }
 
-    private async loadThumbnail() {
-        if (!this.loadedData.thumbnail) {
+    private async loadThumbnailCollection() {
+        if (this.thumbnailCollectionContent &&
+            this.loadedData.thumbnailCollection &&
+            this.thumbnailCollectionContent.thumbnailCollectionResource.url === this.loadedData.thumbnailCollection.url) {
+            // This is the same content do not reload
             return;
         }
 
-        this.thumbnailContent = await thumbnailManager.create(
+        if (!this.loadedData.thumbnailCollection) {
+            if (this.thumbnailCollectionContent) {
+                // Remove old thumbnail content
+                await thumbnailManager.remove(
+                    this.thumbnailContainerElement,
+                    this.thumbnailCollectionContent
+                );
+                this.thumbnailCollectionContent = null;
+            }
+            return;
+        }
+
+        this.thumbnailCollectionContent = await thumbnailManager.create(
             this.thumbnailContainerElement,
-            this.loadedData.thumbnail
+            this.loadedData.thumbnailCollection
         );
     }
 

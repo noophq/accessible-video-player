@@ -4,6 +4,7 @@ var cuedSpeechManifestUrl = "https://s3-eu-west-1.amazonaws.com/vodstorage.arte.
 var signedLanguageManifestUrl = "https://vodstorage.arte.tv/fovea/182427/HLS_182427_0-LPC-16_9_240p_dash.mpd";
 var transcriptionUrl = "https://vodstorage.arte.tv/movies/VTT/182427/HLS_182427_0-VF-RETR.sjson";
 var closedCaptionUrl = "https://s3-eu-west-1.amazonaws.com/vodstorage.arte.tv/movies/VTT/182427/HLS_182427_0-VF-STSM.xml";
+var thumbnailCollectionUrl = "https://demo.noop.fr/fovea/avp/data/thumbnails.json";
 
 function buildUrlWithQueryParams(url, params) {
     // Add additionalParams
@@ -134,18 +135,9 @@ var playerData = {
     transcription: {
         url: transcriptionUrl,
     },
-    markers: [
-        {
-            id: "marker-1",
-            title: "Marker 1",
-            timecode: 21000,
-        },
-        {
-            id: "marker-2",
-            title: "Marker 2",
-            timecode: 200000,
-        },
-    ]
+    thumbnailCollection: {
+        url: thumbnailCollectionUrl,
+    }
 };
 var playerSettings = {
     locale: "fr",
@@ -161,7 +153,7 @@ var playerSettings = {
         type: "DEFAULT"
     },
     subtitle: {
-        type: "CLOSED_CAPTION"
+        type: "NONE"
     }
 };
 
