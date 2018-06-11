@@ -6,8 +6,16 @@ import { BaseComponent, ComponentProperties } from "./base";
 import { renderRangeSlider } from "lib/utils/range-slider";
 import { dispatchEvent } from "lib/utils/event";
 
+import { MarkerBarComponent } from "./marker-bar";
+
 export class TimeBarComponent extends  BaseComponent<ComponentProperties> {
     public view = timeBarView;
+
+    public registerChilds() {
+        return {
+            markerBar: new MarkerBarComponent(this.props),
+        };
+    }
 
     public async registerDomElements(rootElement: HTMLElement) {
         const rangeSliderElement = rootElement.getElementsByClassName("avp-range-slider")[0];

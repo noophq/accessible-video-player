@@ -3,7 +3,7 @@
     color: #fff;
     display: flex;
     justify-content: space-between;
-    padding-bottom: 0.5rem;
+    z-index: 100;
 
     & svg {
         height: 2rem;

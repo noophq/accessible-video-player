@@ -38,6 +38,7 @@
     }
 
     & .avp-player-control-group {
+        position: relative;
         background: #ee3333;
     }
 

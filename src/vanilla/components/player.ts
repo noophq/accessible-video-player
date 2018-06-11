@@ -11,7 +11,6 @@ import { TranscriptionPanelComponent } from "./transcription-panel";
 import { ThumbnailPanelComponent } from "./thumbnail-panel";
 import { BaseComponent, ComponentProperties } from "./base";
 import { TimeBarComponent } from "./time-bar";
-import { MarkerBarComponent } from "./marker-bar";
 
 export class PlayerComponent extends BaseComponent<ComponentProperties> {
     public view = playerView;
@@ -32,7 +31,6 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
             transcriptionPanel: new TranscriptionPanelComponent(this.props),
             thumbnailPanel: new ThumbnailPanelComponent(this.props),
             timeBar: new TimeBarComponent(this.props),
-            markerBar: new MarkerBarComponent(this.props),
             markerForm: new MarkerFormComponent(this.props)
         }
     }
