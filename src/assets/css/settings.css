@@ -29,6 +29,7 @@
 
 .avp-subtitle-settings,
 .avp-language-settings,
+.avp-playback-quality-settings,
 .avp-general-settings {
     & .avp-radio label,
     & .avp-switch label {
@@ -68,5 +69,11 @@
         & label {
            margin-left: 2rem;
         }
+    }
+}
+
+.avp-playback-quality-settings {
+    & .avp-disabled {
+        display: none;
     }
 }

@@ -6,11 +6,11 @@ export enum VideoType {
 
 export enum QualityType {
     Auto = "AUTO",
-    Q240P = "240P",
-    Q360P = "360P",
-    Q480P = "480P",
-    Q720P = "720P",
-    Q1080P = "1080P",
+    Q240P = "240",
+    Q360P = "360",
+    Q480P = "480",
+    Q720P = "720",
+    Q1080P = "1080",
 }
 
 export enum PlaybackSpeedType {
@@ -27,8 +27,9 @@ export enum PlayerType {
 }
 
 export interface VideoSettings {
-    quality: QualityType | string;
-    playbackSpeed: PlaybackSpeedType | number;
+    quality: QualityType;
+    availableQualities: QualityType[],
+    playbackSpeed: number;
 }
 
 export interface VideoResource {

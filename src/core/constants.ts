@@ -22,6 +22,7 @@ export const DEFAULT_SETTINGS: GlobalSettings = {
     },
     video: {
         quality: QualityType.Auto,
+        availableQualities: [QualityType.Auto],
         playbackSpeed: PlaybackSpeedType.Default,
     },
     player: {

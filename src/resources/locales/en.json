@@ -51,7 +51,13 @@
         "increaseLabel": "Increase speed"
     },
     "playbackQualitySettings": {
-        "header": "Playback quality settings"
+        "header": "Playback quality settings",
+        "autoLabel": "Auto",
+        "240Label": "240p",
+        "360Label": "360p",
+        "480Label": "480p",
+        "720Label": "720p",
+        "1080Label": "1080p"
     },
     "markerForm": {
         "addHeader": "Add marker",

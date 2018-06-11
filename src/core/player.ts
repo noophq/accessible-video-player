@@ -5,9 +5,9 @@ import { EventRegistry } from "lib/event/registry";
 import { EventProvider } from "lib/event/provider";
 import { dispatchEvent } from "lib/utils/event";
 
-import { VideoResource, VideoType, PlayerType } from "lib/models/video";
+import { VideoResource, VideoType, PlayerType, QualityType } from "lib/models/video";
 import { PlayerData, Resource } from "lib/models/player";
-import { ShakaVideoManager } from "lib/player-content/shaka";
+import { ShakaVideoManager, ShakaVideoContent } from "lib/player-content/shaka";
 import { DefaultVideoManager, VideoContent } from "lib/player-content/video";
 import { TranscriptionManager, TranscriptionContent } from "lib/player-content/transcription";
 import { ThumbnailManager, ThumbnailCollectionContent } from "lib/player-content/thumbnail";
@@ -106,6 +106,10 @@ export class Player extends EventProvider {
                 if (key.indexOf("video.playbackSpeed") === 0) {
                     // Playback speed
                     this.mainVideoContent.videoElement.playbackRate = value;
+                }
+
+                if (key.indexOf("video.quality") === 0) {
+                    this.updateMainVideoQuality();
                 }
             }
 
@@ -395,10 +399,43 @@ export class Player extends EventProvider {
             videoResource
         );
 
-        // FIXME control from settings
-        // Load 720p
-        // (this.mainVideoContent as any).shakaPlayer.configure("abr.restrictions.maxHeight", 720);
-        // (this.mainVideoContent as any).shakaPlayer.configure("abr.restrictions.minHeight", 720);
+        // Update available qualities
+        const availableQualities = [ QualityType.Auto ];
+
+        if (this.mainVideoContent.videoResource.player === PlayerType.Shaka) {
+            const videoContent = this.mainVideoContent as ShakaVideoContent;
+            videoContent.availableQualities.forEach((quality: QualityType) => {
+                availableQualities.push(quality);
+            });
+        }
+
+        this.settingsManager.settings.video.availableQualities = availableQualities;
+        this.updateMainVideoQuality();
+    }
+
+    private updateMainVideoQuality() {
+        if (this.mainVideoContent.videoResource.player != PlayerType.Shaka) {
+            // Only shaka player is able to deal with video quality
+            return;
+        }
+
+        const currentQuality = this.settingsManager.settings.video.quality;
+        const videoContent = this.mainVideoContent as ShakaVideoContent;
+        const shakaPlayer = videoContent.shakaPlayer;
+
+        if (currentQuality === QualityType.Auto) {
+            videoContent.shakaPlayer.configure("abr.enabled", true);
+        } else {
+            videoContent.shakaPlayer.configure("abr.enabled", false);
+
+            // FIXME: select the right audio track
+            for (const track of shakaPlayer.getVariantTracks()) {
+                if (track.height === parseInt(currentQuality)) {
+                    shakaPlayer.selectVariantTrack(track, true);
+                    break;
+                }
+            }
+        }
     }
 
     /**

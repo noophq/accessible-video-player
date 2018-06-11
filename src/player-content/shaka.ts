@@ -10,7 +10,7 @@ if (shaka.polyfill) {
 
 export interface ShakaVideoContent extends VideoContent {
     shakaPlayer: any;
-    availableHeights: number[],
+    availableQualities: string[],
 }
 
 export class ShakaVideoManager {
@@ -56,31 +56,33 @@ export class ShakaVideoManager {
 
         // Try to load a manifest.
         // This is an asynchronous process.
-        const availableHeights: number[] = [];
+        const availableQualities: string[] = [];
 
         try {
             await shakaPlayer.load(videoResource.url)
             console.log("Video has been loaded", videoResource.url);
 
-            // Get available heights
+            // Get available qualities
             for (const track of shakaPlayer.getVariantTracks()) {
-                if (availableHeights.indexOf(track.height) >= 0) {
+                const quality = "" + track.height;
+                if (availableQualities.indexOf(quality) >= 0) {
                     continue;
                 }
-                availableHeights.push(track.height);
+                // convert into string
+                availableQualities.push(quality);
             }
         } catch (error) {
             displayError(error)
         };
 
         // Sort by resolution: lower to higher
-        availableHeights.sort();
+        availableQualities.sort();
 
         return {
             videoElement,
             videoResource,
             shakaPlayer,
-            availableHeights
+            availableQualities
         };
     }
 
