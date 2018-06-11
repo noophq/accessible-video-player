@@ -13,7 +13,6 @@ import { SubtitleSettingsComponent } from "./subtitle-settings";
 import { SubtitleDisplaySettingsComponent } from "./subtitle-display-settings";
 import { PlaybackSpeedSettingsComponent } from "./playback-speed-settings";
 import { PlaybackQualitySettingsComponent } from "./playback-quality-settings";
-import { MarkerFormComponent } from "./marker-form";
 
 import { renderRangeSlider } from "lib/utils/range-slider";
 import { initPopin, togglePopin } from "lib/utils/popin";
@@ -41,8 +40,7 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
             subtitleSettings: new SubtitleSettingsComponent(backToDisplaySettingsProps),
             subtitleDisplaySettings: new SubtitleDisplaySettingsComponent(backToDisplaySettingsProps),
             playbackSpeedSettings: new PlaybackSpeedSettingsComponent(backToDisplaySettingsProps),
-            playbackQualitySettings: new PlaybackQualitySettingsComponent(backToDisplaySettingsProps),
-            markerForm: new MarkerFormComponent(this.props)
+            playbackQualitySettings: new PlaybackQualitySettingsComponent(backToDisplaySettingsProps)
         };
     }
 

@@ -22,7 +22,7 @@ export class MarkerManager {
         });
     }
 
-    public addMarker(marker: Marker): void {
+    public setMarker(marker: Marker): void {
         this._markers[marker.id] = marker;
     }
 

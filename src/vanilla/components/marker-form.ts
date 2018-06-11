@@ -85,7 +85,7 @@ export class MarkerFormComponent extends BaseComponent<ComponentProperties> {
             const marker = event.marker;
             idInputElement.value = marker.id;
             timecodeInputElement.value = marker.timecode;
-            titleInputElement.title = marker.title;
+            titleInputElement.value = marker.title;
             togglePopin(markerFormElement, markerButtonElement);
             event.stopPropagation();
         };

@@ -1,0 +1,16 @@
+.avp-tooltip {
+    & .avp-target {
+        display: none;
+        position: absolute;
+        z-index: 70000;
+        background: #ee3333;
+        padding: 1rem;
+        border-radius: 0.5rem;
+    }
+}
+
+.avp-tooltip.avp-open {
+    & .avp-target {
+        display: block;
+    }
+}

@@ -1,3 +1,5 @@
+import * as uuid from "uuid";
+
 import { MarkerEventType, PlayerEventType, SettingsEventType } from "lib/models/event";
 import { EventRegistry } from "lib/event/registry";
 import { EventProvider } from "lib/event/provider";
@@ -73,6 +75,7 @@ export class Player extends EventProvider {
             }
         );
 
+        // Handlers
         // Listen to settings update submitted by player dom element
         const updateSettingsHandler = (event: any) => {
             const updatedSettings = event.updatedSettings;
@@ -98,12 +101,21 @@ export class Player extends EventProvider {
             this.reload();
         };
 
+        // Add or update marker
         const addUpdateMarkerHandler = (event: any) => {
             const marker = event.marker;
             const successEventType = (!marker.id) ?
                 MarkerEventType.AddSuccess :
                 MarkerEventType.UpdateSuccess;
-            this.markerManager.addMarker(marker);
+
+            // Create marker uuid
+            if (!marker.id) {
+                marker.id = uuid.v4();
+            }
+
+            // Add, update marker in database
+            this.markerManager.setMarker(marker);
+
             dispatchEvent(
                 this.playerElement,
                 successEventType,
@@ -111,9 +123,22 @@ export class Player extends EventProvider {
                     player: this
                 }
             );
-
         };
 
+        // Delete marker
+        const deleteMarkerHandler = (event: any) => {
+            const marker = event.marker;
+            this.markerManager.removeMarker(marker.id);
+            dispatchEvent(
+                this.playerElement,
+                MarkerEventType.DeleteSuccess,
+                {
+                    player: this
+                }
+            );
+        }
+
+        // Listeners
         this.eventRegistry.register(
             this.playerElement,
             SettingsEventType.UpdateRequest,
@@ -126,8 +151,13 @@ export class Player extends EventProvider {
         );
         this.eventRegistry.register(
             this.playerElement,
-            MarkerEventType.AddRequest,
+            MarkerEventType.UpdateRequest,
             addUpdateMarkerHandler
+        );
+        this.eventRegistry.register(
+            this.playerElement,
+            MarkerEventType.DeleteRequest,
+            deleteMarkerHandler
         );
     }
 

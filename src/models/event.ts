@@ -24,7 +24,7 @@ export enum MarkerEventType {
     UpdateRequest = "marker.update.request",
     UpdateSuccess = "marker.update.success",
     UpdateFailed = "marker.update.failed",
-    RemoveRequest = "marker.remove.request",
-    RemoveSuccess = "marker.remove.success",
-    RemoveFailed = "marker.remove.failed",
+    DeleteRequest = "marker.delete.request",
+    DeleteSuccess = "marker.delete.success",
+    DeleteFailed = "marker.delete.failed",
 }

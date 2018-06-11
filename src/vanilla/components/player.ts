@@ -1,15 +1,17 @@
 import playerView from "ejs-loader!lib/vanilla/views/player.ejs";
 
 import { PlayerEventType, SettingsEventType } from "lib/models/event";
+import { LanguageType } from "lib/models/language";
+import { Player } from "lib/core/player";
 
+import { MarkerFormComponent } from "./marker-form";
 import { ControlBarComponent } from "./control-bar";
 import { VideoComponent } from "./video";
 import { TranscriptionPanelComponent } from "./transcription-panel";
 import { ThumbnailPanelComponent } from "./thumbnail-panel";
 import { BaseComponent, ComponentProperties } from "./base";
 import { TimeBarComponent } from "./time-bar";
-import { LanguageType } from "lib/models/language";
-import { Player } from "lib/core/player";
+import { MarkerBarComponent } from "./marker-bar";
 
 export class PlayerComponent extends BaseComponent<ComponentProperties> {
     public view = playerView;
@@ -30,6 +32,8 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
             transcriptionPanel: new TranscriptionPanelComponent(this.props),
             thumbnailPanel: new ThumbnailPanelComponent(this.props),
             timeBar: new TimeBarComponent(this.props),
+            markerBar: new MarkerBarComponent(this.props),
+            markerForm: new MarkerFormComponent(this.props)
         }
     }
 

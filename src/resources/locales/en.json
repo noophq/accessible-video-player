@@ -55,5 +55,9 @@
         "addLabel": "Add",
         "editLabel": "Update",
         "titleLabel": "Title"
+    },
+    "marker": {
+        "editLabel": "Edit",
+        "deleteLabel": "Delete"
     }
 }

@@ -1,9 +1,8 @@
 .avp-marker-form {
     background: #ee3333;
     padding: 1rem;
-    right: 1rem;
-    bottom: 5rem;
     border-radius: 0.5rem;
+    color: #fff;
 
     & .avp-header {
         margin-bottom: 1rem;
@@ -18,6 +17,7 @@
     & button {
         background: #ff6666;
         border-radius: 0.2rem;
+        border: none;
         padding: 0.5rem;
         color: #fff;
     }
@@ -45,5 +45,46 @@
 
     & .avp-mode-2 {
         display: inline-block;
+    }
+}
+
+.avp-marker-bar {
+    position: absolute;
+    box-sizing: border-box;
+    z-index: 10;
+    width: 100%;
+    height: 1rem;
+}
+
+.avp-marker.avp-template {
+    display: none;
+}
+
+.avp-marker {
+    position: absolute;
+
+    & button.avp-trigger {
+        width: 4pt;
+        height: 1.5rem;
+        background: #ccc;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        cursor: pointer;
+    }
+
+    & .avp-target {
+        left: -0.5rem;
+        bottom: 2rem;
+        white-space: nowrap;
+        color: #fff;
+
+        & button {
+            display: inline-block;
+        }
+    }
+
+    & .avp-target.avp-popin.avp-open {
+        display: block;
     }
 }
