@@ -9,8 +9,14 @@ import { BaseSettingsComponent } from "./base-settings";
 export class GeneralSettingsComponent extends BaseSettingsComponent {
     public view = generalSettingsView;
 
-    public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
-        super.postDomUpdate(rootElement, domElements);
+    public async updateView(
+        rootElement: HTMLElement,
+        domElements: any,
+        player: any
+    ): Promise<any> {
+        super.updateView(rootElement, domElements, player);
+
+        // Get elements
         const playerElement = domElements["origin"]["root"];
         const transcriptionInputElement = document.getElementById(
             "transcription-" + rootElement.id
@@ -20,16 +26,13 @@ export class GeneralSettingsComponent extends BaseSettingsComponent {
         ) as HTMLInputElement;
         const playerSettings = this.props.settings.player;
 
+        // Apply settings to buttons
         const applySettings = () => {
             transcriptionInputElement.checked = playerSettings.transcription.enabled;
             thumbnailInputElement.checked = playerSettings.thumbnail.enabled;
         };
 
         // Handlers
-        const refreshSettingsHandler = (event: any) => {
-            applySettings();
-        };
-
         const transcriptionChangeHandler = (event: any) => {
             // Alert player about a settings change
             this.updateSettings(domElements, [
@@ -44,11 +47,6 @@ export class GeneralSettingsComponent extends BaseSettingsComponent {
         }
 
         // Listeners
-        this.eventRegistry.register(
-            playerElement,
-            PlayerEventType.UiRefreshRequest,
-            refreshSettingsHandler
-        );
         this.eventRegistry.register(
             transcriptionInputElement,
             "change",

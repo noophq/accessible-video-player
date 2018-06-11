@@ -4,6 +4,7 @@
     height: 0;
     width: 100%;
     padding-bottom: 57%;
+    z-index: 10;
 
     & .avp-marker-form {
         top: 50%;

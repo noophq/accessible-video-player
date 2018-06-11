@@ -11,10 +11,16 @@ const SPEED_SLIDER_VALUES = [0.5, 0.75, 1, 1.25, 1.5];
 export class PlaybackSpeedSettingsComponent extends BaseSettingsComponent {
     public view = playbackSpeedSettingsView;
 
-    public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
-        await super.postDomUpdate(rootElement, domElements);
+    public async updateView(
+        rootElement: HTMLElement,
+        domElements: any,
+        player: any
+    ): Promise<any> {
+        super.updateView(rootElement, domElements, player);
+
+        // Get dom elements
         const playerElement = domElements["origin"]["root"];
-        //const mainVideoElement = domElements["mainVideo"]["video"];
+        const mainVideoElement = player.mainVideoContent.videoElement;
         const speedInputElement = rootElement.getElementsByTagName("input")[0];
         const rangeSliderElement = rootElement.getElementsByClassName("avp-range-slider")[0];
         renderRangeSlider(rangeSliderElement);
@@ -38,11 +44,6 @@ export class PlaybackSpeedSettingsComponent extends BaseSettingsComponent {
         };
 
         // Listeners
-        this.eventRegistry.register(
-            playerElement,
-            PlayerEventType.UiRefreshRequest,
-            refreshSettingsHandler
-        );
         this.eventRegistry.register(
             speedInputElement,
             "change",

@@ -1,30 +1,26 @@
 export enum PlayerEventType {
-    PlayingChange = "playing.change",
-    PlayerAttached= "player.attached",
-    PlayerDetached = "player.detached",
-    ContentAttached = "content.attached",
-    ContentDetached = "content.detached",
-    ContentLoaded = "content.loaded",
-    UiRefreshRequest = "ui.refresh.request",
-    UiRefreshSuccess = "ui.refresh.success"
+    PlayingChange = "PLAYING.CHANGE",
+    PlayerAttached= "PLAYER.ATTACHED",
+    PlayerDetached = "PLAYER.DETACHED",
+    ContentLoaded = "CONTENT.LOADED",
 }
 
 export enum SettingsEventType {
-    UpdateRequest = "settings.update.request",
-    UpdateSuccess = "settings.update.success",
-    UpdateFailed = "settings.update.failed",
+    UpdateRequest = "SETTINGS.UPDATE.REQUEST",
+    UpdateSuccess = "SETTINGS.UPDATE.SUCCESS",
+    UpdateFailed = "SETTINGS.UPDATE.FAILED",
 }
 
 export enum MarkerEventType {
-    AddFormDisplay ="marker.form.add.display",
-    EditFormDisplay ="marker.form.edit.display",
-    AddRequest = "marker.add.request",
-    AddSuccess = "marker.add.success",
-    AddFailed = "marker.add.failed",
-    UpdateRequest = "marker.update.request",
-    UpdateSuccess = "marker.update.success",
-    UpdateFailed = "marker.update.failed",
-    DeleteRequest = "marker.delete.request",
-    DeleteSuccess = "marker.delete.success",
-    DeleteFailed = "marker.delete.failed",
+    AddFormDisplay ="MARKER.FORM.ADD.DISPLAY",
+    EditFormDisplay ="MARKER.FORM.EDIT.DISPLAY",
+    AddRequest = "MARKER.ADD.REQUEST",
+    AddSuccess = "MARKER.ADD.SUCCESS",
+    AddFailed = "MARKER.ADD.FAILED",
+    UpdateRequest = "MARKER.UPDATE.REQUEST",
+    UpdateSuccess = "MARKER.UPDATE.SUCCESS",
+    UpdateFailed = "MARKER.UPDATE.FAILED",
+    DeleteRequest = "MARKER.DELETE.REQUEST",
+    DeleteSuccess = "MARKER.DELETE.SUCCESS",
+    DeleteFailed = "MARKER.DELETE.FAILED",
 }

@@ -17,8 +17,11 @@ export abstract class BaseSettingsComponent extends BaseComponent<SettingsCompon
         };
     }
 
-    public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
-        super.postDomUpdate(rootElement, domElements);
+    public async updateView(
+        rootElement: HTMLElement,
+        domElements: any,
+        player: any,
+    ): Promise<any> {
         this.registerLinkEvent(
             rootElement,
             domElements,

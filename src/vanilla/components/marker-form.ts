@@ -38,7 +38,11 @@ export class MarkerFormComponent extends BaseComponent<ComponentProperties> {
         return classNames;
     }
 
-    public async postDomUpdate(rootElement: HTMLElement, domElements: any) {
+    public async updateView(
+        rootElement: HTMLElement,
+        domElements: any,
+        player: any
+    ) {
         const playerElement = domElements["origin"]["root"];
         const markerFormElement = domElements["markerForm"]["root"];
         const markerButtonElement = domElements["controlBar"]["markerButton"];

@@ -52,10 +52,12 @@ export abstract class BaseComponent<T extends ComponentProperties> {
                     settings: player.settingsManager.settings
                 }
             );
+            this.eventRegistry.unregisterAll();
             this.updateView(rootElement, domElements, player);
         };
         const contentLoadedHandler = (event: any) => {
             const player: Player = event.player;
+            this.eventRegistry.unregisterAll();
             this.updateView(rootElement, domElements, player);
         };
 

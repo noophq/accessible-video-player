@@ -35,9 +35,14 @@ export class LanguageSettingsComponent extends BaseSettingsComponent {
         };
     }
 
-    public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
-        await super.postDomUpdate(rootElement, domElements);
-        const playerElement = domElements["origin"]["root"];
+    public async updateView(
+        rootElement: HTMLElement,
+        domElements: any,
+        player: any
+    ): Promise<void> {
+        super.updateView(rootElement, domElements, player);
+
+        // Get dom elements
         const languageInputElements = document
             .getElementsByName("language[" + rootElement.id + "]");
 
@@ -57,15 +62,8 @@ export class LanguageSettingsComponent extends BaseSettingsComponent {
             );
         });
 
-        // Update UI
-        this.updateView(rootElement, domElements);
-    }
-
-    public async updateView(rootElement: HTMLElement, domElements: any) {
-        // Update view
-       const selectedLanguage = this.props.settings.language.type.toLocaleLowerCase();
-       const languageInputElements = document
-            .getElementsByName("language[" + rootElement.id + "]");
+        // Update radio buttons
+        const selectedLanguage = this.props.settings.language.type.toLocaleLowerCase();
 
         Array.prototype.forEach.call(languageInputElements, (element: any) => {
             element.checked = (element.value === selectedLanguage);

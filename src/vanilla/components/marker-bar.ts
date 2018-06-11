@@ -30,9 +30,6 @@ export class MarkerBarComponent extends BaseComponent<ComponentProperties> {
         player: any
     ) {
         const playerElement = domElements["origin"]["root"];
-
-        // Unregister all events
-        this.eventRegistry.unregisterAll();
         const mainVideoElement = player.mainVideoContent.videoElement;
 
         // Display markers when video metadata is loaded

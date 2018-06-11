@@ -6,6 +6,7 @@ import { Player } from "lib/core/player";
 import { Marker, MarkerDictionary } from "./marker";
 import { GlobalSettings } from "./settings";
 import { VideoResource } from "./video";
+import { SubtitleType } from "./subtitle";
 
 export interface TranscriptionSettings {
     enabled: boolean,
@@ -24,6 +25,11 @@ export interface Resource {
     url: string,
 }
 
+export interface SubtitleResource extends Resource {
+    name?: string;
+    type: SubtitleType;
+}
+
 export interface Thumbnail {
     id: string;
     timecode: number;
@@ -37,7 +43,7 @@ export interface PlayerData {
     mainAudioDescriptionVideo?: VideoResource,
     cuedSpeechVideo?: VideoResource,
     signedLanguageVideo?: VideoResource,
-    closedCaption?: Resource,
+    subtitles: SubtitleResource[],
     transcription?: Resource,
     thumbnailCollection?: Resource
 }

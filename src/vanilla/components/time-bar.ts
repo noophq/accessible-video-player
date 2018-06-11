@@ -32,9 +32,6 @@ export class TimeBarComponent extends  BaseComponent<ComponentProperties> {
         domElements: any,
         player: any
     ) {
-        // Clean all events
-        this.eventRegistry.unregisterAll();
-
         // Retrieve dom elements
         const mainVideoElement = player.mainVideoContent.videoElement;
         const timeBarInputElement = domElements["timeBar"]["input"];

@@ -223,16 +223,24 @@ export class Player extends EventProvider {
         }
 
         // Closed captions
-        if (
-            this.settingsManager.settings.subtitle.type === SubtitleType.ClosedCaption &&
-            data.closedCaption
-        ) {
-            // Display closed captions
-            this.subtitlePlayerInstance = subtitlePlayer.wrap(
-                this.mainVideoContent.videoElement
-            );
-            await this.subtitlePlayerInstance.addCueTrack("default", data.closedCaption.url);
-            this.subtitlePlayerInstance.displayCueTrack("default");
+        const subtitleType = this.settingsManager.settings.subtitle.type
+        // Display closed captions
+        this.subtitlePlayerInstance = subtitlePlayer.wrap(
+            this.mainVideoContent.videoElement
+        );
+
+        if (data.subtitles) {
+            for (const subtitleResource of data.subtitles) {
+                await this.subtitlePlayerInstance.addCueTrack(
+                    subtitleResource.type,
+                    subtitleResource.url,
+                );
+            }
+        }
+
+        if (subtitleType !== SubtitleType.None) {
+            // Display the right subtitle
+            this.subtitlePlayerInstance.displayCueTrack(subtitleType);
         }
 
         // Content is loaded
@@ -359,6 +367,11 @@ export class Player extends EventProvider {
             this.mainVideoContainerElement,
             videoResource
         );
+
+        // FIXME control from settings
+        // Load 720p
+        // (this.mainVideoContent as any).shakaPlayer.configure("abr.restrictions.maxHeight", 720);
+        // (this.mainVideoContent as any).shakaPlayer.configure("abr.restrictions.minHeight", 720);
     }
 
     /**
@@ -476,17 +489,6 @@ export class Player extends EventProvider {
         this.thumbnailCollectionContent = await thumbnailManager.create(
             this.thumbnailContainerElement,
             this.loadedData.thumbnailCollection
-        );
-    }
-
-    public refreshUi() {
-        if (!this.playerElement) {
-            return;
-        }
-
-        dispatchEvent(
-            this.playerElement,
-            PlayerEventType.UiRefreshRequest
         );
     }
 

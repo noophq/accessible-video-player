@@ -5,8 +5,12 @@ import { BaseSettingsComponent } from "./base-settings";
 export class DisplaySettingsComponent extends BaseSettingsComponent {
     public view = displaySettingsView;
 
-    public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
-        super.postDomUpdate(rootElement, domElements);
+    public async updateView(
+        rootElement: HTMLElement,
+        domElements: any,
+        player: any,
+    ): Promise<any> {
+        super.updateView(rootElement, domElements, player);
         this.registerLinkEvent(
             rootElement,
             domElements,

@@ -1,6 +1,7 @@
 export enum SubtitleType {
     None = "NONE",
     ClosedCaption = "CLOSED_CAPTION",
+    Transcription = "TRANSCRIPTION"
 }
 
 export enum SubtitleFont {
@@ -9,16 +10,16 @@ export enum SubtitleFont {
 
 export enum SubtitleFontColor {
     Default = "DEFAULT",
-    White = "white",
-    Yellow = "yellow",
-    Blue = "blue",
+    White = "WHITE",
+    Yellow = "YELLOW",
+    Blue = "BLUE",
 }
 
 export enum SubtitleBackgroundColor {
-    Transparent = "none",
-    White = "white",
-    Blue = "blue",
-    Red = "red",
+    Transparent = "NONE",
+    White = "WHITE",
+    Blue = "BLUE",
+    Red = "RED",
 }
 
 export interface SubtitleSettings {
