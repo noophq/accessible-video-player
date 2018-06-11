@@ -1,0 +1,59 @@
+.avp-subtitle-font-color-white {
+    & .rendering-container .cue span {
+        color: white;
+    }
+}
+
+.avp-subtitle-font-color-yellow {
+    & .rendering-container .cue span {
+        color: yellow;
+    }
+}
+
+.avp-subtitle-bg-color-transparent {
+    & .rendering-container .cue span {
+        background: none;
+    }
+}
+
+.avp-subtitle-bg-color-black {
+    & .rendering-container .cue span {
+        background: black;
+    }
+}
+
+.avp-subtitle-bg-color-blue {
+    & .rendering-container .cue span {
+        background: blue;
+    }
+}
+
+.avp-subtitle-scaling-factor-100 {
+    & .rendering-container .cue {
+        font-size: 1rem;
+    }
+}
+
+.avp-subtitle-scaling-factor-150 {
+    & .rendering-container .cue {
+        font-size: 1.5rem;
+    }
+}
+
+.avp-subtitle-scaling-factor-200 {
+    & .rendering-container .cue {
+        font-size: 2rem;
+    }
+}
+
+.avp-subtitle-scaling-factor-250 {
+    & .rendering-container .cue {
+        font-size: 2.5rem;
+    }
+}
+
+.avp-subtitle-scaling-factor-300 {
+    & .rendering-container .cue {
+        font-size: 3rem;
+    }
+}

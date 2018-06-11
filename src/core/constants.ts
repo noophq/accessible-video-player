@@ -18,7 +18,7 @@ export const DEFAULT_SETTINGS: GlobalSettings = {
         font: SubtitleFont.Default,
         fontColor: SubtitleFontColor.Default,
         backgroundColor: SubtitleBackgroundColor.Transparent,
-        fontSize: 10,
+        scalingFactor: 1,
     },
     video: {
         quality: QualityType.Auto,

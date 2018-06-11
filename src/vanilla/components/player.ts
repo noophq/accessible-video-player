@@ -78,6 +78,12 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
             }
         }
 
+        // Subtitles
+        const subtitleSettings = this.props.settings.subtitle;
+        classNames.push("avp-subtitle-font-" + subtitleSettings.font.toLocaleLowerCase());
+        classNames.push("avp-subtitle-font-color-" + subtitleSettings.fontColor.toLocaleLowerCase());
+        classNames.push("avp-subtitle-bg-color-" + subtitleSettings.backgroundColor.toLocaleLowerCase());
+        classNames.push("avp-subtitle-scaling-factor-" + subtitleSettings.scalingFactor*100);
         return classNames;
     }
 

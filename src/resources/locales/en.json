@@ -40,8 +40,10 @@
         "header": "Subtitle display settings",
         "fontLabel": "Font",
         "fontColorLabel": "Font color",
-        "fontBackgroundColorLabel": "Font background color",
-        "fontSizeLabel": "Font size"
+        "backgroundColorLabel": "Font background color",
+        "fontSizeLabel": "Font size",
+        "fontSizeIncreaseLabel": "Increase",
+        "fontSizeDecreaseLabel": "Decrease"
     },
     "playbackSpeedSettings": {
         "header": "Playback speed settings"

@@ -8,16 +8,26 @@
 
     <div class="avp-row">
         <label><%= t("subtitleDisplaySettings.fontLabel") %></label>
-        <%= renderRadioGroup(id, "font", fontRadioItems) %>
+        <%= renderRadioGroup(id, "subtitle_font", fontRadioItems) %>
     </div>
 
     <div class="avp-row">
         <label><%= t("subtitleDisplaySettings.fontColorLabel") %></label>
-        <%= renderRadioGroup(id, "font_color", fontColorRadioItems) %>
+        <%= renderRadioGroup(id, "subtitle_font_color", fontColorRadioItems) %>
     </div>
 
     <div class="avp-row">
-        <label><%= t("subtitleDisplaySettings.fontBackgroundColorLabel") %></label>
-        <%= renderRadioGroup(id, "font_bg_color", fontBgColorRadioItems) %>
+        <label><%= t("subtitleDisplaySettings.backgroundColorLabel") %></label>
+        <%= renderRadioGroup(id, "subtitle_bg_color", bgColorRadioItems) %>
+    </div>
+    <div class="avp-row">
+        <label><%= t("subtitleDisplaySettings.fontSizeLabel") %></label>
+        <button class="avp-font-size-decrease-button">
+            <%= renderIcon("decrease", t("subtitleDisplaySettings.fontSizeDecreaseLabel")) %>
+        </button>
+        <span class="avp-font-size-scaling-factor">X1</span>
+        <button class="avp-font-size-increase-button">
+            <%= renderIcon("increase", t("subtitleDisplaySettings.fontSizeIncreaseLabel")) %>
+        </button>
     </div>
 </div>

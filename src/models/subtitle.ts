@@ -16,7 +16,7 @@ export enum SubtitleFontColor {
 }
 
 export enum SubtitleBackgroundColor {
-    Transparent = "NONE",
+    Transparent = "TRANSPARENT",
     White = "WHITE",
     Blue = "BLUE",
     Red = "RED",
@@ -27,5 +27,5 @@ export interface SubtitleSettings {
     font: SubtitleFont | string;
     fontColor: SubtitleFontColor | string;
     backgroundColor: SubtitleBackgroundColor | string;
-    fontSize: number;
+    scalingFactor: number;
 }
