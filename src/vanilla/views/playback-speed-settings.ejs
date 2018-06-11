@@ -6,10 +6,13 @@
         <span role="header"><%= t("playbackSpeedSettings.header") %></span>
     </div>
 
-    <div class="avp-range-slider">
-        <input type="range" min="1" max="5" />
-        <div class="avp-range-slider-total">
-            <div class="avp-range-slider-lower"></div>
-        </div>
+    <div class="avp-row">
+        <button class="avp-speed-decrease-button">
+            <%= renderIcon("decrease", t("playbackSpeedSettings.decreaseLabel")) %>
+        </button>
+        <span class="avp-speed-factor">X1</span>
+        <button class="avp-speed-increase-button">
+            <%= renderIcon("increase", t("playbackSpeedSettings.increaseLabel")) %>
+        </button>
     </div>
 </div>

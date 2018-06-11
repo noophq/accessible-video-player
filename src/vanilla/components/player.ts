@@ -114,11 +114,8 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
         domElements: any,
         player: any
     ) {
-        // Unregister all events
-        this.eventRegistry.unregisterAll();
-
         // Update view
-        this.updateRootClassname(rootElement);
+        this.updateRootClassname(rootElement, player);
 
         // Handlers
         const playingChangeHandler = (event: any) => {

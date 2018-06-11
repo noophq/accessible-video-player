@@ -79,13 +79,34 @@ export class Player extends EventProvider {
         // Listen to settings update submitted by player dom element
         const updateSettingsHandler = (event: any) => {
             const updatedSettings = event.updatedSettings;
+            let reload = false;
 
             for (const settingUpdate of updatedSettings) {
+                const key = settingUpdate[0];
+                const value = settingUpdate[1];
                 updateObjectAttribute(
                     this.settingsManager.settings,
-                    settingUpdate[0],
-                    settingUpdate[1],
+                    key,
+                    value,
                 );
+
+                if (key.indexOf("language") === 0) {
+                    reload = true;
+                }
+
+                if (key.indexOf("subtitle.type") === 0) {
+                    if (value === SubtitleType.None) {
+                        this.subtitlePlayerInstance.hideCueTracks();
+                    } else {
+                        // Display the right subtitle
+                        this.subtitlePlayerInstance.displayCueTrack(value);
+                    }
+                }
+
+                if (key.indexOf("video.playbackSpeed") === 0) {
+                    // Playback speed
+                    this.mainVideoContent.videoElement.playbackRate = value;
+                }
             }
 
             // Fire success event on player dom node
@@ -98,7 +119,10 @@ export class Player extends EventProvider {
             );
 
             // Reload content
-            this.reload();
+            // if language has changed
+            if (reload) {
+                this.reload();
+            }
         };
 
         // Add or update marker
@@ -242,6 +266,9 @@ export class Player extends EventProvider {
             // Display the right subtitle
             this.subtitlePlayerInstance.displayCueTrack(subtitleType);
         }
+
+        // Playback speed
+        this.mainVideoContent.videoElement.playbackRate = this.settingsManager.settings.video.playbackSpeed;
 
         // Content is loaded
         dispatchEvent(

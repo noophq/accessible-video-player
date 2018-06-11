@@ -104,7 +104,6 @@ export class SubtitleDisplaySettingsComponent extends BaseSettingsComponent {
             ]);
         };
 
-
         // Listeners
         Array.prototype.forEach.call(subtitleFontInputElements, (element: any) => {
             const subtitleFontChangeHandler = (event: any) => {

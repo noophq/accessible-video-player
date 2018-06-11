@@ -2,11 +2,9 @@ import playbackSpeedSettingsView from "ejs-loader!lib/vanilla/views/playback-spe
 
 import { PlayerEventType } from "lib/models/event";
 
-import { renderRangeSlider } from "lib/utils/range-slider";
-
 import { BaseSettingsComponent } from "./base-settings";
 
-const SPEED_SLIDER_VALUES = [0.5, 0.75, 1, 1.25, 1.5];
+const AVAILABLE_SPEED_VALUES = [0.5, 0.75, 1, 1.25, 1.5];
 
 export class PlaybackSpeedSettingsComponent extends BaseSettingsComponent {
     public view = playbackSpeedSettingsView;
@@ -17,40 +15,59 @@ export class PlaybackSpeedSettingsComponent extends BaseSettingsComponent {
         player: any
     ): Promise<any> {
         super.updateView(rootElement, domElements, player);
+        const playbackSpeed = this.props.settings.video.playbackSpeed;
+        let currentSpeedIndex = AVAILABLE_SPEED_VALUES.indexOf(playbackSpeed);
+
+        if (currentSpeedIndex === -1) {
+            // Unable to find current speed reinitialize
+            currentSpeedIndex = 1;
+        }
 
         // Get dom elements
-        const playerElement = domElements["origin"]["root"];
-        const mainVideoElement = player.mainVideoContent.videoElement;
-        const speedInputElement = rootElement.getElementsByTagName("input")[0];
-        const rangeSliderElement = rootElement.getElementsByClassName("avp-range-slider")[0];
-        renderRangeSlider(rangeSliderElement);
-
-        const applySettings = () => {
-            const speedValue = this.props.settings.video.playbackSpeed;
-            const inputValue = SPEED_SLIDER_VALUES.indexOf(speedValue) + 1;
-            //mainVideoElement.playbackRate = speedValue;
-            (speedInputElement as any).value = inputValue;
-        };
+        const speedFactorElement = rootElement
+            .getElementsByClassName("avp-speed-factor")[0];
+        const speedDecreaseButtonElement = rootElement
+            .getElementsByClassName("avp-speed-decrease-button")[0];
+        const speedIncreaseButtonElement = rootElement
+            .getElementsByClassName("avp-speed-increase-button")[0];
 
         // Handlers
-        const refreshSettingsHandler = (event: any) => {
-            applySettings();
+        const speedDecreaseHandler = (event: any) => {
+            if (currentSpeedIndex === 0) {
+                // Could not decrease anymore
+                return;
+            }
+            this.updateSettings(domElements, [
+                [
+                    "video.playbackSpeed",
+                    AVAILABLE_SPEED_VALUES[currentSpeedIndex-1]
+                ]
+            ]);
         };
-        const speedChangeHandler = (event: any) => {
-            const inputValue = event.target.value as number;
-            const speedValue = SPEED_SLIDER_VALUES[inputValue-1];
-            this.props.settings.video.playbackSpeed = speedValue;
-            //mainVideoElement.playbackRate = speedValue;
+        const speedIncreaseHandler = (event: any) => {
+            if (currentSpeedIndex === AVAILABLE_SPEED_VALUES.length-1) {
+                // Could not increase anymore
+                return;
+            }
+            this.updateSettings(domElements, [
+                [
+                    "video.playbackSpeed",
+                    AVAILABLE_SPEED_VALUES[currentSpeedIndex+1]
+                ]
+            ]);
         };
-
-        // Listeners
         this.eventRegistry.register(
-            speedInputElement,
-            "change",
-            speedChangeHandler
+            speedDecreaseButtonElement,
+            "click",
+            speedDecreaseHandler
+        );
+        this.eventRegistry.register(
+            speedIncreaseButtonElement,
+            "click",
+            speedIncreaseHandler
         );
 
-        // Update UI
-        applySettings();
+        // Set speed factor
+        speedFactorElement.innerHTML = "X" + playbackSpeed;
     }
 }

@@ -46,7 +46,9 @@
         "fontSizeDecreaseLabel": "Decrease"
     },
     "playbackSpeedSettings": {
-        "header": "Playback speed settings"
+        "header": "Playback speed settings",
+        "decreaseLabel": "Decrease speed",
+        "increaseLabel": "Increase speed"
     },
     "playbackQualitySettings": {
         "header": "Playback quality settings"
