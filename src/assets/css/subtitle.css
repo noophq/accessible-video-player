@@ -30,30 +30,30 @@
 
 .avp-subtitle-scaling-factor-100 {
     & .rendering-container .cue {
-        font-size: 1rem;
+        font-size: 1.5rem;
     }
 }
 
 .avp-subtitle-scaling-factor-150 {
     & .rendering-container .cue {
-        font-size: 1.5rem;
+        font-size: 2rem;
     }
 }
 
 .avp-subtitle-scaling-factor-200 {
     & .rendering-container .cue {
-        font-size: 2rem;
+        font-size: 2.5rem;
     }
 }
 
 .avp-subtitle-scaling-factor-250 {
     & .rendering-container .cue {
-        font-size: 2.5rem;
+        font-size: 3rem;
     }
 }
 
 .avp-subtitle-scaling-factor-300 {
     & .rendering-container .cue {
-        font-size: 3rem;
+        font-size: 3.5rem;
     }
 }

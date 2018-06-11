@@ -50,8 +50,8 @@ export class Player extends EventProvider {
     public secondaryVideoContent: VideoContent;
     public transcriptionContent: TranscriptionContent;
     public thumbnailCollectionContent: ThumbnailCollectionContent;
-    public mouseActivity: boolean;
-    public mouseActivityTimer: any;
+    public userActivity: boolean;
+    public userActivityTimer: any;
 
     constructor(
         settingsManager: SettingsManager,
@@ -64,8 +64,8 @@ export class Player extends EventProvider {
         this.playerElement = null;
         this.settingsManager = settingsManager;
         this.markerManager = markerManager;
-        this.mouseActivity = true;
-        this.mouseActivityTimer = null;
+        this.userActivity = true;
+        this.userActivityTimer = null;
     }
 
     public attachPlayer(playerElement: HTMLElement) {
@@ -369,17 +369,26 @@ export class Player extends EventProvider {
             });
         }
 
-        // Catch mouse activity
-        if (this.mouseActivityTimer) {
-            clearTimeout(this.mouseActivityTimer);
+        // Catch user activity
+        if (this.userActivityTimer) {
+            clearTimeout(this.userActivityTimer);
         }
 
-        const mouseActivityHandler = (event: any) => {
-            clearTimeout(this.mouseActivityTimer);
+        const userActivityHandler = (event: any) => {
+            clearTimeout(this.userActivityTimer);
 
-            // Consider there is no mouse activity after 5 seconds
-            this.mouseActivityTimer = setTimeout(() => {
-                    this.mouseActivity = false;
+            if (!this.userActivity) {
+                this.userActivity = true;
+                dispatchEvent(
+                    this.playerElement,
+                    PlayerEventType.PlayingChange,
+                    { player: this }
+                );
+            }
+
+            // Consider there is no activity after 5 seconds
+            this.userActivityTimer = setTimeout(() => {
+                    this.userActivity = false;
                     dispatchEvent(
                         this.playerElement,
                         PlayerEventType.PlayingChange,
@@ -392,7 +401,12 @@ export class Player extends EventProvider {
         this.eventRegistry.register(
             document,
             "mousemove",
-            mouseActivityHandler
+            userActivityHandler
+        );
+        this.eventRegistry.register(
+            document,
+            "keydown",
+            userActivityHandler
         );
     }
 

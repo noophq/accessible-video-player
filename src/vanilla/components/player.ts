@@ -78,9 +78,9 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
             }
         }
 
-        // Mouse activity
-        if (player && !player.mouseActivity) {
-            classNames.push("no-mouse-activity");
+        // Mouse and keyboard activity
+        if (player && !player.userActivity) {
+            classNames.push("avp-no-user-activity");
         }
 
         // Subtitles

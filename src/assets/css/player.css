@@ -150,6 +150,7 @@
 
     & .avp-player-control-group {
         position: absolute;
+        z-index: 15;
         width: 80vw;
         bottom: 2vh;
         left: 10vw;
@@ -159,6 +160,10 @@
 
     & .avp-thumbnail {
         display: none;
+    }
+
+    & .cue {
+        transform: translateY(-6vh);
     }
 }
 
@@ -177,5 +182,21 @@
         width: 20vw;
         height: 11.25vw;
         padding: 0;
+    }
+}
+
+.avp-player.avp-fullscreen-enabled.avp-no-user-activity {
+    cursor: none;
+
+    & * {
+        cursor: none;
+    }
+
+    & .avp-player-control-group {
+        display: none;
+    }
+
+    & .cue {
+        transform: none;
     }
 }
