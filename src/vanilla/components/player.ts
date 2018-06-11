@@ -78,6 +78,11 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
             }
         }
 
+        // Mouse activity
+        if (player && !player.mouseActivity) {
+            classNames.push("no-mouse-activity");
+        }
+
         // Subtitles
         const subtitleSettings = this.props.settings.subtitle;
         classNames.push("avp-subtitle-font-" + subtitleSettings.font.toLocaleLowerCase());

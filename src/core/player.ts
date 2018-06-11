@@ -50,6 +50,8 @@ export class Player extends EventProvider {
     public secondaryVideoContent: VideoContent;
     public transcriptionContent: TranscriptionContent;
     public thumbnailCollectionContent: ThumbnailCollectionContent;
+    public mouseActivity: boolean;
+    public mouseActivityTimer: any;
 
     constructor(
         settingsManager: SettingsManager,
@@ -62,6 +64,8 @@ export class Player extends EventProvider {
         this.playerElement = null;
         this.settingsManager = settingsManager;
         this.markerManager = markerManager;
+        this.mouseActivity = true;
+        this.mouseActivityTimer = null;
     }
 
     public attachPlayer(playerElement: HTMLElement) {
@@ -90,7 +94,10 @@ export class Player extends EventProvider {
                     value,
                 );
 
-                if (key.indexOf("language") === 0) {
+                if (
+                    key.indexOf("language") === 0 ||
+                    key.indexOf("player") === 0
+                ) {
                     reload = true;
                 }
 
@@ -361,6 +368,32 @@ export class Player extends EventProvider {
                 );
             });
         }
+
+        // Catch mouse activity
+        if (this.mouseActivityTimer) {
+            clearTimeout(this.mouseActivityTimer);
+        }
+
+        const mouseActivityHandler = (event: any) => {
+            clearTimeout(this.mouseActivityTimer);
+
+            // Consider there is no mouse activity after 5 seconds
+            this.mouseActivityTimer = setTimeout(() => {
+                    this.mouseActivity = false;
+                    dispatchEvent(
+                        this.playerElement,
+                        PlayerEventType.PlayingChange,
+                        { player: this }
+                    );
+                },
+                5000
+            );
+        }
+        this.eventRegistry.register(
+            document,
+            "mousemove",
+            mouseActivityHandler
+        );
     }
 
     /**
