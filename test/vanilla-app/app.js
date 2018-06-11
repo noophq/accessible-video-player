@@ -7,16 +7,17 @@ var thumbnailCollectionUrl = "https://demo.noop.fr/fovea/avp/data/thumbnails.jso
 var subtitleClosedCaptionUrl = "https://s3-eu-west-1.amazonaws.com/vodstorage.arte.tv/movies/VTT/182427/HLS_182427_0-VF-STSM.xml";
 var subtitleTranscriptionUrl = "https://demo.noop.fr/fovea/avp/data/HLS_182427_0-VF-RETR.xml";
 
-
 function buildUrlWithQueryParams(url, params) {
     // Add additionalParams
-    const queryStringParams = [];
+    var queryStringParams = [];
+    var keys = Object.keys(params);
 
-    for (const key of Object.keys(params)) {
+    for (var i=0; i<keys.length; i++) {
+        var key = keys[i];
         queryStringParams.push(key + "=" + encodeURIComponent(params[key]))
     }
 
-    const queryString = queryStringParams.join("&");
+    var queryString = queryStringParams.join("&");
 
     if (url.indexOf("?") >= 0) {
         return url + "&" + queryString;
@@ -31,7 +32,7 @@ var widevineRequestFilter = function(shakaPlayer, videoSource) {
             return
         }
 
-        const drmServerUrl = videoSource.playerOptions.config.drm.servers["com.widevine.alpha"];
+        var drmServerUrl = videoSource.playerOptions.config.drm.servers["com.widevine.alpha"];
 
         if (!request.uris || request.uris[0] !== drmServerUrl) {
             return
@@ -54,11 +55,20 @@ var playreadyRequestFilter = function(shakaPlayer, videoSource) {
             return
         }
 
-        const drmServerUrl = videoSource.playerOptions.config.drm.servers["com.microsoft.playready"];
+        var drmServerUrl = videoSource.playerOptions.config.drm.servers["com.microsoft.playready"];
 
         if (!request.uris || request.uris[0] !== drmServerUrl) {
             return
         }
+
+        if (shakaPlayer.drmInfo().keyIds.length <= 0) {
+            throw new Error('No KID found in manifest.')
+        }
+
+        request.uris[0] = buildUrlWithQueryParams(
+            request.uris[0],
+            videoSource.additionalMetadata
+        );
     }
  }
 
@@ -70,8 +80,8 @@ var shakaPlayerOptions = {
     config: {
         drm: {
             servers: {
-                "com.widevine.alpha": "http://widevine-dash.ezdrm.com/proxy?pX=BA5EDC",
-                "com.microsoft.playready": "http://playready.ezdrm.com/cency/preauth.aspx?pX=ED14D7"
+                "com.widevine.alpha": "https://widevine-dash.ezdrm.com/proxy?pX=BA5EDC",
+                "com.microsoft.playready": "https://playready.ezdrm.com/cency/preauth.aspx?pX=ED14D7"
             }
         },
         streaming: {
@@ -162,7 +172,7 @@ var playerSettings = {
 
 avp
     .init(document.getElementById("player"), playerSettings)
-        .then((avpInstance) => {
+        .then(function(avpInstance) {
             // avpInstance.markerManager.removeMarker("marker-2");
             // avpInstance.settingsManager.settings.player.transcription.enabled = true;
             // avpInstance.settingsManager.settings.language.type = "CUED_SPEECH";
@@ -172,6 +182,6 @@ avp
                 playerData
             );
         })
-        .catch((err) => {;
+        .catch(function(err) {;
             console.log(err);
         });
