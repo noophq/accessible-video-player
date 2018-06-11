@@ -12,6 +12,7 @@ export class DefaultVideoManager {
     ): Promise<VideoContent> {
         // Create videoElement
         const videoElement = document.createElement("video");
+        videoElement.src = videoResource.url;
         containerElement.appendChild(videoElement);
 
         return {
