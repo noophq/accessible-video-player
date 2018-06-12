@@ -64,7 +64,8 @@ export async function init(
     // Render player
     const renderer = new ComponentRenderer(
         new PlayerComponent({ settings: newSettings }),
-        i18n
+        i18n,
+        newSettings.skin.renderer
     );
     containerElement.innerHTML = await renderer.render();
     await renderer.update();

@@ -1,7 +1,7 @@
 {
-  "name": "video_reader",
+  "name": "avp",
   "version": "0.0.1",
-  "description": "accessible video reader",
+  "description": "accessible video player",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\"",

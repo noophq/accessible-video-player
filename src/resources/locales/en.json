@@ -10,7 +10,7 @@
         "volumeLabel": "Change volume",
         "settingsLabel": "Settings",
         "enterFullscreenLabel": "Enter fullscreen",
-        "existFullscreenLabel": "Exit fullscreen"
+        "exitFullscreenLabel": "Exit fullscreen"
     },
     "generalSettings": {
         "header": "Settings",

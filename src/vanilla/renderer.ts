@@ -1,28 +1,12 @@
 import * as uuid from "uuid";
 
+import radioGroupView from "ejs-loader!lib/vanilla/views/radio-group.ejs";
+
 import { Translator } from "lib/core/translator";
 import { BaseComponent, ComponentProperties } from "lib/vanilla/components/base";
+import { SkinRenderer } from "lib/models/skin";
 
-import radioGroupView from "ejs-loader!lib/vanilla/views/radio-group.ejs";
-import svgView from "ejs-loader!lib/vanilla/views/svg.ejs";
-
-import pauseIcon from "app/assets/icons/pause.svg";
-import playIcon from "app/assets/icons/play.svg";
-import markerIcon from "app/assets/icons/marker.svg";
-import volumeOnIcon from "app/assets/icons/volume-on.svg";
-import fullscreenOffIcon from "app/assets/icons/fullscreen-off.svg";
-import fullscreenOnIcon from "app/assets/icons/fullscreen-on.svg";
-import settingsIcon from "app/assets/icons/settings.svg";
-
-const SVG_ICONS: any = {
-    "pause": pauseIcon,
-    "play": playIcon,
-    "marker": markerIcon,
-    "volume": volumeOnIcon,
-    "settings": settingsIcon,
-    "fullscreen-off": fullscreenOffIcon,
-    "fullscreen-on": fullscreenOnIcon,
-}
+import { renderIcon as defaultRenderIcon } from "./skin";
 
 export interface RadioItem {
     label: string;
@@ -34,16 +18,19 @@ export class ComponentRenderer {
     private translator: Translator;
     private component: BaseComponent<ComponentProperties>;
     private childRenderers: any;
+    private skinRenderer: any;
     private id: string;
 
     constructor(
         component: BaseComponent<ComponentProperties>,
-        translator: Translator
+        translator: Translator,
+        skinRenderer: SkinRenderer
     ) {
         this.component = component;
         this.translator = translator;
         this.childRenderers = {};
         this.id = uuid.v4();
+        this.skinRenderer = skinRenderer;
     }
 
     public renderRadioGroup(formId: any, inputName: any, radioItems: any) {
@@ -58,19 +45,12 @@ export class ComponentRenderer {
         );
     }
 
-    public renderIcon(iconId: any, label: any) {
-        if (SVG_ICONS.hasOwnProperty(iconId)) {
-            return svgView({
-                icon: SVG_ICONS[iconId],
-                label
-            });
-        } else if (iconId == "next") {
-            return '<span "avp-icon avp-icon-next">&gt;</span>';
-        } else if (iconId == "previous" || iconId == "back") {
-            return '<span "avp-icon avp-icon-previous">&lt;</span>';
+    public renderIcon(iconId: string, label: string): string {
+        if (this.skinRenderer && this.skinRenderer.renderIcon) {
+            return this.skinRenderer.renderIcon(iconId, label);
         }
 
-        return label;
+        return defaultRenderIcon(iconId, label);
     }
 
     public render() {
@@ -96,7 +76,8 @@ export class ComponentRenderer {
             // Append view
             const childRenderer = new ComponentRenderer(
                 childs[key],
-                this.translator
+                this.translator,
+                this.skinRenderer
             )
             this.childRenderers[key] = childRenderer;
             viewData[key] =  childRenderer.render();

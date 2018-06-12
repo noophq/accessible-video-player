@@ -10,6 +10,9 @@ import { GlobalSettings } from "lib/models/settings";
 
 export const DEFAULT_SETTINGS: GlobalSettings = {
     locale: "en",
+    skin: {
+        name: "default",
+    },
     language: {
         type: LanguageType.Default,
     },

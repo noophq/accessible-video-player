@@ -158,6 +158,8 @@ var playerData = {
         url: thumbnailCollectionUrl,
     }
 };
+
+
 var playerSettings = {
     locale: "fr",
     player: {

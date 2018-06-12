@@ -41,6 +41,10 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
     private buildClassNames(rootElement?: HTMLElement, player?: any): string[] {
         const classNames = ["avp-player"];
 
+        if (this.props.settings.skin.name) {
+            classNames.push("avp-skin-" + this.props.settings.skin.name);
+        }
+
         if (this.props.settings.player.transcription.enabled) {
             classNames.push("avp-transcription-enabled");
         } else {
