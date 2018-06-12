@@ -15,17 +15,17 @@ export class SubtitleSettingsComponent extends BaseSettingsComponent {
             subtitleRadioItems: [
                 {
                     id: "subtitle-none",
-                    label: "None",
+                    label: "subtitleSettings.noneSubtitleLabel",
                     value: "none",
                 },
                 {
                     id: "subtitle-transcription",
-                    label: "Transcription",
+                    label: "subtitleSettings.transcriptionSubtitleLabel",
                     value: "transcription",
                 },
                 {
                     id: "subtitle-closed-caption",
-                    label: "Closed caption",
+                    label: "subtitleSettings.closedCaptionSubtitleLabel",
                     value: "closed_caption",
                 }
             ],

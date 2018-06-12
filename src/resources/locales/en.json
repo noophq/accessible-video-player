@@ -34,7 +34,10 @@
         "signedLanguageLabel": "Signed language"
     },
     "subtitleSettings": {
-        "header": "Subtitle settings"
+        "header": "Subtitle settings",
+        "noneSubtitleLabel": "None",
+        "transcriptionSubtitleLabel": "Transcription",
+        "closedCaptionSubtitleLabel": "Closed caption"
     },
     "subtitleDisplaySettings": {
         "header": "Subtitle display settings",
@@ -43,7 +46,14 @@
         "backgroundColorLabel": "Font background color",
         "fontSizeLabel": "Font size",
         "fontSizeIncreaseLabel": "Increase",
-        "fontSizeDecreaseLabel": "Decrease"
+        "fontSizeDecreaseLabel": "Decrease",
+        "transparentBackgroundLabel": "Transparent",
+        "blackBackgroundLabel": "Black",
+        "blueBackgroundLabel": "Blue",
+        "defaultColorLabel": "Default",
+        "whiteColorLabel": "White",
+        "yellowColorLabel": "Yellow",
+        "defaultFontLabel": "Default"
     },
     "playbackSpeedSettings": {
         "header": "Playback speed settings",

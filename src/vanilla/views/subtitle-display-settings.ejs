@@ -22,12 +22,14 @@
     </div>
     <div class="avp-row">
         <label><%= t("subtitleDisplaySettings.fontSizeLabel") %></label>
-        <button class="avp-font-size-decrease-button">
-            <%= renderIcon("decrease", t("subtitleDisplaySettings.fontSizeDecreaseLabel")) %>
-        </button>
-        <span class="avp-font-size-scaling-factor">X1</span>
-        <button class="avp-font-size-increase-button">
-            <%= renderIcon("increase", t("subtitleDisplaySettings.fontSizeIncreaseLabel")) %>
-        </button>
+        <span class="avp-input-group">
+            <button class="avp-font-size-decrease-button">
+                <%= renderIcon("decrease", t("subtitleDisplaySettings.fontSizeDecreaseLabel")) %>
+            </button>
+            <span class="avp-font-size-scaling-factor">X1</span>
+            <button class="avp-font-size-increase-button">
+                <%= renderIcon("increase", t("subtitleDisplaySettings.fontSizeIncreaseLabel")) %>
+            </button>
+        </span>
     </div>
 </div>

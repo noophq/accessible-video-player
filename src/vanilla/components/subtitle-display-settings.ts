@@ -13,7 +13,7 @@ export class SubtitleDisplaySettingsComponent extends BaseSettingsComponent {
             fontRadioItems: [
                 {
                     id: "font-default",
-                    label: "Default",
+                    label: "subtitleDisplaySettings.defaultFontLabel",
                     value: "default",
                 },
                 {
@@ -30,34 +30,34 @@ export class SubtitleDisplaySettingsComponent extends BaseSettingsComponent {
             fontColorRadioItems: [
                 {
                     id: "font-color-default",
-                    label: "Default",
+                    label: "subtitleDisplaySettings.defaultColorLabel",
                     value: "default",
                 },
                 {
                     id: "font-color-white",
-                    label: "White",
+                    label: "subtitleDisplaySettings.whiteColorLabel",
                     value: "white",
                 },
                 {
                     id: "font-color-yellow",
-                    label: "Yellow",
+                    label: "subtitleDisplaySettings.yellowColorLabel",
                     value: "yellow",
                 }
             ],
             bgColorRadioItems: [
                 {
                     id: "font-bg-color-default",
-                    label: "Transparent",
+                    label: "subtitleDisplaySettings.transparentBackgroundLabel",
                     value: "transparent",
                 },
                 {
                     id: "font-bg-color-black",
-                    label: "Black",
+                    label: "subtitleDisplaySettings.blackBackgroundLabel",
                     value: "black",
                 },
                 {
                     id: "font-bg-color-blue",
-                    label: "Blue",
+                    label: "subtitleDisplaySettings.blueBackgroundLabel",
                     value: "blue",
                 }
             ],

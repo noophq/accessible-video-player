@@ -1,6 +1,7 @@
 {
     "settings": {
-        "header": "Paramètres"
+        "header": "Paramètres",
+        "backLabel": "Retour"
     },
     "controlBar": {
         "play": "Jouer la vidéo",
@@ -10,5 +11,73 @@
         "settings": "Paramètres",
         "enterFullscreen": "Entrer en mode plein écran",
         "existFullscreen": "Sortir du mode plein écran"
+    },
+    "generalSettings": {
+        "header": "Paramètres",
+        "thumbnailLabel": "Bandeau d'imagettes",
+        "transcriptionLabel": "Transcription",
+        "displaySettingsLabel": "Paramètres de lecture"
+    },
+    "displaySettings": {
+        "header": "Paramètres de lecture",
+        "languageSettingsLabel": "Langues",
+        "subtitleSettingsLabel": "Sous-titres",
+        "subtitleDisplaySettingsLabel": "Affichage des sous-titres",
+        "playbackSpeedSettingsLabel": "Vitesse de lecture",
+        "playbackQualitySettingsLabel": "Qualité"
+    },
+    "languageSettings": {
+        "header": "Langues",
+        "defaultLanguageLabel": "Défaut",
+        "audioDescriptionLanguageLabel": "Audio description",
+        "cuedSpeechLanguageLabel": "Langue parlée complétée",
+        "signedLanguageLabel": "Langue des signes français"
+    },
+    "subtitleSettings": {
+        "header": "Sous-titres",
+        "noneSubtitleLabel": "Aucun",
+        "transcriptionSubtitleLabel": "Transcription",
+        "closedCaptionSubtitleLabel": "STSM"
+    },
+    "subtitleDisplaySettings": {
+        "header": "Affichage des sous-titres",
+        "fontLabel": "Police",
+        "fontColorLabel": "Couleur de police",
+        "backgroundColorLabel": "Couleur de l'arrière plan",
+        "fontSizeLabel": "Taille de police",
+        "fontSizeIncreaseLabel": "Augmenter la taille de la police",
+        "fontSizeDecreaseLabel": "Diminuer la taille de la police",
+        "transparentBackgroundLabel": "Transparent",
+        "blackBackgroundLabel": "Noir",
+        "blueBackgroundLabel": "Bleu",
+        "defaultColorLabel": "Par défaut",
+        "whiteColorLabel": "Blanc",
+        "yellowColorLabel": "Jaune",
+        "defaultFontLabel": "Par défaut"
+    },
+    "playbackSpeedSettings": {
+        "header": "Vitesse de lecture",
+        "decreaseLabel": "Augmenter la vitesse de lecture",
+        "increaseLabel": "Diminuer la vitesse de lecture"
+    },
+    "playbackQualitySettings": {
+        "header": "Playback quality settings",
+        "autoLabel": "Auto",
+        "240Label": "240p",
+        "360Label": "360p",
+        "480Label": "480p",
+        "720Label": "720p",
+        "1080Label": "1080p"
+    },
+    "markerForm": {
+        "addHeader": "Ajout d'un marqueur",
+        "editHeader": "Modification d'un marqueur",
+        "addLabel": "Ajouter",
+        "editLabel": "Modifier",
+        "titleLabel": "Titre"
+    },
+    "marker": {
+        "editLabel": "Modifier un marqueur",
+        "deleteLabel": "Supprimer un marqueur"
     }
 }
