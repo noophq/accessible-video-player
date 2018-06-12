@@ -7,7 +7,8 @@ export function renderRangeSlider(rangeSliderElement: any) {
         const rangeValue = parseInt(inputElement.max)-parseInt(inputElement.min);
         const currentValue = parseInt(inputElement.value)-parseInt(inputElement.min);
         const percent = currentValue/rangeValue*100;
-        lowerElement.style.width = percent + "%";
+        const extra = 0.5*(50-percent)/100;
+        lowerElement.style.width = "calc(" + percent + "% + " + extra + "rem)";
     };
 
     inputElement.addEventListener("input", function(event: any) {
