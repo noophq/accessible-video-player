@@ -37,7 +37,7 @@
         "header": "Sous-titres",
         "noneSubtitleLabel": "Aucun",
         "transcriptionSubtitleLabel": "Transcription",
-        "closedCaptionSubtitleLabel": "STSM"
+        "closedCaptionSubtitleLabel": "Sourds et malentendants"
     },
     "subtitleDisplaySettings": {
         "header": "Affichage des sous-titres",
