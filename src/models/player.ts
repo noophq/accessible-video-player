@@ -1,28 +1,35 @@
 import { MarkerManager } from "lib/core/marker";
+import { Player } from "lib/core/player";
 import { SettingsManager } from "lib/core/settings";
 import { Translator } from "lib/core/translator";
-import { Player } from "lib/core/player";
 
-import { Marker, MarkerDictionary } from "./marker";
-import { GlobalSettings } from "./settings";
-import { VideoResource } from "./video";
 import { SubtitleType } from "./subtitle";
+import { VideoResource } from "./video";
 
 export interface TranscriptionSettings {
-    enabled: boolean,
+    enabled: boolean;
 }
 
 export interface ThumbnailSettings {
-    enabled: boolean,
+    enabled: boolean;
 }
 
 export interface PlayerSettings {
-    transcription: TranscriptionSettings,
-    thumbnail: ThumbnailSettings,
+    transcription: TranscriptionSettings;
+    thumbnail: ThumbnailSettings;
 }
 
 export interface Resource {
-    url: string,
+    url: string;
+}
+
+export interface ThumbnailCollection {
+    thumbnails: Thumbnail[];
+}
+
+export interface ThumbnailCollectionResource {
+    url?: string;
+    thumbnails?: Thumbnail[];
 }
 
 export interface SubtitleResource extends Resource {
@@ -39,18 +46,18 @@ export interface Thumbnail {
 }
 
 export interface PlayerData {
-    mainVideo: VideoResource,
-    mainAudioDescriptionVideo?: VideoResource,
-    cuedSpeechVideo?: VideoResource,
-    signedLanguageVideo?: VideoResource,
-    subtitles: SubtitleResource[],
-    transcription?: Resource,
-    thumbnailCollection?: Resource
+    mainVideo: VideoResource;
+    mainAudioDescriptionVideo?: VideoResource;
+    cuedSpeechVideo?: VideoResource;
+    signedLanguageVideo?: VideoResource;
+    subtitles: SubtitleResource[];
+    transcription?: Resource;
+    thumbnailCollection?: ThumbnailCollectionResource;
 }
 
 export interface AvpObject {
-    i18n: Translator,
-    player: Player,
-    markerManager: MarkerManager,
-    settingsManager: SettingsManager,
+    i18n: Translator;
+    player: Player;
+    markerManager: MarkerManager;
+    settingsManager: SettingsManager;
 }

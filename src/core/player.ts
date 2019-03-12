@@ -580,9 +580,14 @@ export class Player extends EventProvider {
     }
 
     private async loadThumbnailCollection() {
-        if (this.thumbnailCollectionContent &&
-            this.loadedData.thumbnailCollection &&
-            this.thumbnailCollectionContent.thumbnailCollectionResource.url === this.loadedData.thumbnailCollection.url) {
+        if (
+            this.thumbnailCollectionContent
+            && this.loadedData.thumbnailCollection
+            && (
+                this.thumbnailCollectionContent.thumbnailCollectionResource.url ===
+                this.loadedData.thumbnailCollection.url
+            )
+        ) {
             // This is the same content do not reload
             return;
         }
@@ -592,7 +597,7 @@ export class Player extends EventProvider {
                 // Remove old thumbnail content
                 await thumbnailManager.remove(
                     this.thumbnailContainerElement,
-                    this.thumbnailCollectionContent
+                    this.thumbnailCollectionContent,
                 );
                 this.thumbnailCollectionContent = null;
             }
@@ -601,7 +606,7 @@ export class Player extends EventProvider {
 
         this.thumbnailCollectionContent = await thumbnailManager.create(
             this.thumbnailContainerElement,
-            this.loadedData.thumbnailCollection
+            this.loadedData.thumbnailCollection,
         );
     }
 
