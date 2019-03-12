@@ -1,4 +1,5 @@
-var mainManifestUrl = "https://dpk3dq0d69joz.cloudfront.net/origin/HLS_182427_0-VF-cenc.ism/stream.mpd";
+//var mainManifestUrl = "https://dpk3dq0d69joz.cloudfront.net/origin/HLS_182427_0-VF-cenc.ism/stream.mpd";
+var mainManifestUrl = "https://vodstorage.arte.tv/fovea/182427/HLS_182427_0-VF_dash.mpd";
 var mainAudioDescriptionManifestUrl = "https://dpk3dq0d69joz.cloudfront.net/origin/HLS_182427_0-VFAUD-cenc.ism/stream.mpd";
 var cuedSpeechManifestUrl = "https://s3-eu-west-1.amazonaws.com/vodstorage.arte.tv/fovea/182427/HLS_182427_0-LPC-16_9.mpd";
 var signedLanguageManifestUrl = "https://vodstorage.arte.tv/fovea/182427/HLS_182427_0-LPC-16_9_240p_dash.mpd";
@@ -73,17 +74,17 @@ var playreadyRequestFilter = function(shakaPlayer, videoSource) {
  }
 
 var shakaPlayerOptions = {
-    requestFilters: [
-        widevineRequestFilter,
-        playreadyRequestFilter
-    ],
+    // requestFilters: [
+    //     widevineRequestFilter,
+    //     playreadyRequestFilter
+    // ],
     config: {
-        drm: {
-            servers: {
-                "com.widevine.alpha": "https://widevine-dash.ezdrm.com/proxy?pX=BA5EDC",
-                "com.microsoft.playready": "https://playready.ezdrm.com/cency/preauth.aspx?pX=ED14D7"
-            }
-        },
+        // drm: {
+        //     servers: {
+        //         "com.widevine.alpha": "https://widevine-dash.ezdrm.com/proxy?pX=BA5EDC",
+        //         "com.microsoft.playready": "https://playready.ezdrm.com/cency/preauth.aspx?pX=ED14D7"
+        //     }
+        // },
         streaming: {
             bufferingGoal: 60
         }
