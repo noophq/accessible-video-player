@@ -155,7 +155,8 @@ export class Player extends EventProvider {
                 this.playerElement,
                 successEventType,
                 {
-                    player: this
+                    player: this,
+                    marker,
                 }
             );
         };
@@ -168,7 +169,8 @@ export class Player extends EventProvider {
                 this.playerElement,
                 MarkerEventType.DeleteSuccess,
                 {
-                    player: this
+                    player: this,
+                    marker,
                 }
             );
         }
