@@ -2,35 +2,36 @@ import { GlobalSettings } from "lib/models/settings";
 
 import { DEFAULT_SETTINGS } from "lib/core/constants";
 
-import { Player } from "lib/core/player";
-import { Translator } from "lib/core/translator";
 import { MarkerManager } from "lib/core/marker";
+import { Player } from "lib/core/player";
 import { SettingsManager } from "lib/core/settings";
+import { Translator } from "lib/core/translator";
 
 import { PlayerComponent } from "./components/player";
 
 import { install as installPolyfills } from "lib/polyfill";
-import { closeAllPopins }  from "lib/utils/popin";
+import { closeAllPopins } from "lib/utils/popin";
+
+import { ComponentRenderer } from "app/vanilla/renderer";
 
 import "lib/assets/css/player.css";
-import { ComponentRenderer } from "app/vanilla/renderer";
 
 // Install polyfills
 installPolyfills();
 
 const popinCloseHandler = (event: any) => {
-    if (event.key && event.key != "Escape") {
+    if (event.key && event.key !== "Escape") {
         return;
     }
 
     closeAllPopins();
 };
 
-window.addEventListener(
+document.addEventListener(
     "click",
     popinCloseHandler,
 );
-window.addEventListener(
+document.addEventListener(
     "keydown",
     popinCloseHandler,
 );
