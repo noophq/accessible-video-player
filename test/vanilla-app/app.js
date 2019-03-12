@@ -182,9 +182,17 @@ avp
             // avpInstance.settingsManager.settings.video.playbackSpeed = 1.5;
             // avpInstance.player.refreshUi();
             avpInstance.player.load(
-                playerData
+                playerData,
             );
+
+            // Handle capture screenshot
+            const captureButton = document.getElementById("capture-screenshot");
+            const capturedImg = document.getElementById("captured-img");
+            captureButton.addEventListener("click", () => {
+                const screenshotDataUrl = avpInstance.player.captureScreenshot(640, 360);
+                capturedImg.src = screenshotDataUrl;
+            });
         })
-        .catch(function(err) {;
+        .catch(function(err) {
             console.log(err);
         });

@@ -211,6 +211,22 @@ export class Player extends EventProvider {
     }
 
     /**
+     * Takes a capture screenshot
+     */
+    public captureScreenshot(width: number, height: number) {
+        // Create canvas with the dimension of video
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(this.mainVideoContent.videoElement, 0, 0, canvas.width, canvas.height);
+
+        // Export to jpeg
+        const data = canvas.toDataURL("image/jpeg");
+        return data;
+    }
+
+    /**
      * Reload content for the given settings defined in settings manager
      */
     public async reload() {
