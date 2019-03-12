@@ -1,11 +1,9 @@
 .avp-range-slider {
     position: relative;
-    display: inline-block;
-    width: 4rem;
-    height: 2rem;
+    display: block;
 
-    & input {
-        appearance: none; /* override default look */
+    & input[type="range"] {
+        -webkit-appearance: none; /* override default look */
         display: inline-block;
         margin: 0;
         padding: 0;
