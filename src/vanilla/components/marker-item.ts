@@ -6,13 +6,14 @@ export class MarkerItemComponent extends BaseComponent<ComponentProperties> {
 
     public registerViewData() {
         return {
-            title: ""
+            title: "",
+            description: "",
         };
     }
 
     public async registerDomElements(rootElement: HTMLElement): Promise<any> {
         return {
             root: rootElement,
-        }
+        };
     }
 }

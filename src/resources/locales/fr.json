@@ -74,7 +74,8 @@
         "editHeader": "Modification d'un marqueur",
         "addLabel": "Ajouter",
         "editLabel": "Modifier",
-        "titleLabel": "Titre"
+        "titleLabel": "Titre",
+        "descriptionLabel": "Description"
     },
     "marker": {
         "editLabel": "Modifier un marqueur",

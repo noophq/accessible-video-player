@@ -100,11 +100,13 @@ export class MarkerBarComponent extends BaseComponent<ComponentProperties> {
             const deleteButtonElement = markerElement.getElementsByClassName("avp-delete-button")[0];
             const triggerElement = markerElement.getElementsByClassName("avp-trigger")[0];
             const targetElement = markerElement.getElementsByClassName("avp-target")[0] as HTMLElement;
-            const titleElement = markerElement.getElementsByTagName("label")[0];
-            const leftPosition = marker.timecode*100/mainVideoDuration;
+            const titleElement = markerElement.getElementsByClassName("avp-marker-title")[0];
+            const descriptionElement = markerElement.getElementsByClassName("avp-marker-description")[0];
+            const leftPosition = (marker.timecode * 100) / mainVideoDuration;
             markerElement.style.left = leftPosition + "%";
             markerElement.removeAttribute("id");
             titleElement.innerHTML = marker.title;
+            descriptionElement.innerHTML = marker.description;
 
             // Initialize popin in tooltip
             initPopin(targetElement);

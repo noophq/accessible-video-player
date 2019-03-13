@@ -1,7 +1,7 @@
 export interface Marker {
     id: string;
     timecode: number;
-    title: string;
+    title?: string;
     description?: string;
 }
 

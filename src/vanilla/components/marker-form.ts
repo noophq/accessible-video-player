@@ -23,21 +23,6 @@ export class MarkerFormComponent extends BaseComponent<ComponentProperties> {
         };
     }
 
-    /**
-     * Returns a list of additional class names
-     */
-    private buildClassNames(type: MarkerFormType): string[] {
-        const classNames = ["avp-marker-form", "avp-popin"];
-
-        if (type == MarkerFormType.Edit) {
-            classNames.push("avp-edit-form");
-        } else {
-            classNames.push("avp-add-form");
-        }
-
-        return classNames;
-    }
-
     public async updateView(
         rootElement: HTMLElement,
         domElements: any,
@@ -51,12 +36,14 @@ export class MarkerFormComponent extends BaseComponent<ComponentProperties> {
         const idInputElement = rootElement.querySelector("input[name='id']") as HTMLInputElement;
         const timecodeInputElement = rootElement.querySelector("input[name='timecode']") as HTMLInputElement;
         const titleInputElement = rootElement.querySelector("input[name='title']") as HTMLInputElement;
+        const descriptionInputElement = rootElement.querySelector("textarea[name='description']") as HTMLInputElement;
 
         // Handlers
         const submitButtonHandler = (event: any) => {
             event.preventDefault();
             const marker: any = {
                 title: titleInputElement.value,
+                description: descriptionInputElement.value,
                 timecode: timecodeInputElement.value,
             };
             let eventType = MarkerEventType.AddRequest;
@@ -90,6 +77,7 @@ export class MarkerFormComponent extends BaseComponent<ComponentProperties> {
             idInputElement.value = marker.id;
             timecodeInputElement.value = marker.timecode;
             titleInputElement.value = marker.title;
+            descriptionInputElement.value = marker.description;
             togglePopin(markerFormElement, markerButtonElement);
             event.stopPropagation();
         };
@@ -106,6 +94,7 @@ export class MarkerFormComponent extends BaseComponent<ComponentProperties> {
             rootElement.className = this.buildClassNames(MarkerFormType.Add).join(" ");
             idInputElement.value = "";
             titleInputElement.value = "";
+            descriptionInputElement.value = "";
             timecodeInputElement.value = timecode.toString();
             togglePopin(markerFormElement, markerButtonElement);
             event.stopPropagation();
@@ -146,5 +135,20 @@ export class MarkerFormComponent extends BaseComponent<ComponentProperties> {
             "submit",
             submitButtonHandler,
         );
+    }
+
+    /**
+     * Returns a list of additional class names
+     */
+    private buildClassNames(type: MarkerFormType): string[] {
+        const classNames = ["avp-marker-form", "avp-popin"];
+
+        if (type === MarkerFormType.Edit) {
+            classNames.push("avp-edit-form");
+        } else {
+            classNames.push("avp-add-form");
+        }
+
+        return classNames;
     }
 }

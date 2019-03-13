@@ -74,7 +74,8 @@
         "editHeader": "Edit marker",
         "addLabel": "Add",
         "editLabel": "Update",
-        "titleLabel": "Title"
+        "titleLabel": "Title",
+        "descriptionLabel": "Description"
     },
     "marker": {
         "editLabel": "Edit",

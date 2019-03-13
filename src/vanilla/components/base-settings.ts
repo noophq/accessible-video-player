@@ -49,8 +49,8 @@ export abstract class BaseSettingsComponent extends BaseComponent<SettingsCompon
             if (!popinName) {
                 return;
             }
+
             const popinElement = domElements[popinName]["root"];
-            console.log("##", popinElement);
             togglePopin(popinElement, settingsButtonElement);
         }
 

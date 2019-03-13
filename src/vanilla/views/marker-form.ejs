@@ -4,21 +4,25 @@
         <span class="avp-mode-2" role="header"><%= t("markerForm.editHeader") %></span>
     </div>
     <form>
-    <div class="avp-row">
-        <input name="id" type="hidden" />
-        <input name="timecode" type="hidden" />
-        <label for="<%= id %>-title"><%= t("markerForm.titleLabel") %></label>
-        <input name="title" id="<%= id %>-title" type="text" />
-    </div>
-    <div class="avp-row">
-        <button class="avp-submit-button">
-            <span class="avp-mode-1">
-                <%= t("markerForm.addLabel") %>
-            </span>
-            <span class="avp-mode-2">
-                <%= t("markerForm.editLabel") %>
-            </span>
-        </button>
-    </div>
+        <div class="avp-row">
+            <input name="id" type="hidden" />
+            <input name="timecode" type="hidden" />
+            <label for="<%= id %>-title"><%= t("markerForm.titleLabel") %></label>
+            <input name="title" id="<%= id %>-title" type="text" />
+        </div>
+        <div class="avp-row">
+            <label for="<%= id %>-description"><%= t("markerForm.descriptionLabel") %></label>
+            <textarea name="description" d="<%= id %>-description"></textarea>
+        </div>
+        <div class="avp-row">
+            <button class="avp-submit-button">
+                <span class="avp-mode-1">
+                    <%= t("markerForm.addLabel") %>
+                </span>
+                <span class="avp-mode-2">
+                    <%= t("markerForm.editLabel") %>
+                </span>
+            </button>
+        </div>
     </form>
 </div>
