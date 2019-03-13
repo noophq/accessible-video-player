@@ -4,13 +4,15 @@
         "backLabel": "Retour"
     },
     "controlBar": {
-        "play": "Jouer la vidéo",
-        "pause": "Pause",
-        "marker": "Ajouter un signet",
-        "volume": "Changer le volume",
-        "settings": "Paramètres",
-        "enterFullscreen": "Entrer en mode plein écran",
-        "existFullscreen": "Sortir du mode plein écran"
+        "playLabel": "Jouer la vidéo",
+        "pauseLabel": "Pause",
+        "markerLabel": "Ajouter un signet",
+        "volumeLabel": "Changer le volume",
+        "settingsLabel": "Paramètres",
+        "enterFullscreenLabel": "Entrer en mode plein écran",
+        "existFullscreenLabel": "Sortir du mode plein écran",
+        "volumeDecreaseLabel": "Baisser le volume",
+        "volumeIncreaseLabel": "Augment le volume"
     },
     "generalSettings": {
         "header": "Paramètres",

@@ -1,23 +1,21 @@
+import { MarkerEventType } from "lib/models/event";
 import { dispatchEvent } from "lib/utils/event";
-import { PlayerEventType, MarkerEventType } from "lib/models/event";
-import { EventRegistry } from "lib/event/registry";
-import { AvpObject } from "lib/models/player";
 
 import controlBarView from "ejs-loader!lib/vanilla/views/control-bar.ejs";
 
 import { BaseComponent, ComponentProperties } from "./base";
-import { GeneralSettingsComponent } from "./general-settings";
 import { DisplaySettingsComponent } from "./display-settings";
+import { GeneralSettingsComponent } from "./general-settings";
 import { LanguageSettingsComponent } from "./language-settings";
-import { SubtitleSettingsComponent } from "./subtitle-settings";
-import { SubtitleDisplaySettingsComponent } from "./subtitle-display-settings";
-import { PlaybackSpeedSettingsComponent } from "./playback-speed-settings";
 import { PlaybackQualitySettingsComponent } from "./playback-quality-settings";
+import { PlaybackSpeedSettingsComponent } from "./playback-speed-settings";
+import { SubtitleDisplaySettingsComponent } from "./subtitle-display-settings";
+import { SubtitleSettingsComponent } from "./subtitle-settings";
 
 import { renderRangeSlider } from "lib/utils/range-slider";
+
 import { initPopin, togglePopin } from "lib/utils/popin";
 import { toPlayerTime } from "lib/utils/time";
-import { supportsGoWithoutReloadUsingHash } from "history/DOMUtils";
 
 export class ControlBarComponent extends BaseComponent<ComponentProperties> {
     public view = controlBarView;
@@ -46,7 +44,7 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
 
     public registerViewData() {
         return {
-            currentVolume: 50
+            currentVolume: 50,
         };
     }
 
@@ -67,12 +65,17 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
         // Volume panel
         const volumePanelElement = getElement("volume-panel");
         const volumeInputElement = volumePanelElement.getElementsByTagName("input")[0];
+        const volumeUpButtonElement = rootElement.getElementsByClassName("avp-volume-up-button")[0];
+        const volumeDownButtonElement = rootElement.getElementsByClassName("avp-volume-down-button")[0];
+
         const rangeSliderElement = volumePanelElement.getElementsByClassName("avp-range-slider")[0];
         initPopin(volumePanelElement);
         renderRangeSlider(rangeSliderElement);
 
         return {
             volumeButton: volumeButtonElement,
+            volumeUpButton: volumeUpButtonElement,
+            volumeDownButton: volumeDownButtonElement,
             volumePanel: volumePanelElement,
             playPauseButton: playPauseButtonElement,
             volumeInput: volumeInputElement,
@@ -85,7 +88,7 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
     public async updateView(
         rootElement: HTMLElement,
         domElements: any,
-        player: any
+        player: any,
     ) {
         // Clean all events
         this.eventRegistry.unregisterAll();
@@ -99,6 +102,8 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
         const playPauseButtonElement = domElements["controlBar"]["playPauseButton"];
         const volumePanelElement = domElements["controlBar"]["volumePanel"];
         const volumeButtonElement = domElements["controlBar"]["volumeButton"];
+        const volumeUpButtonElement = domElements["controlBar"]["volumeUpButton"];
+        const volumeDownButtonElement = domElements["controlBar"]["volumeDownButton"];
         const markerButtonElement = domElements["controlBar"]["markerButton"];
         const fullscreenButtonElement = domElements["controlBar"]["fullscreenButton"];
         const totalTimeElement = rootElement.getElementsByClassName("avp-total-time")[0];
@@ -115,7 +120,7 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
         const settingsButtonHandler = (event: any) => {
             togglePopin(generalSettingsElement, settingsButtonElement);
             event.stopPropagation();
-        }
+        };
         const playPauseHandler = (event: any) => {
             if (mainVideoElement.paused) {
                 mainVideoElement.play();
@@ -130,26 +135,36 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
             togglePopin(volumePanelElement, volumeButtonElement);
             event.stopPropagation();
         };
+        const volumeUpButtonHandler = () => {
+            // Increase volume by 10%
+            const newVolume = Math.min(mainVideoElement.volume + 0.1, 1);
+            mainVideoElement.volume = newVolume;
+        };
+        const volumeDownButtonHandler = () => {
+            // Descrease volume by 10%
+            const newVolume =  Math.max(mainVideoElement.volume - 0.1, 0);
+            mainVideoElement.volume = newVolume;
+        };
         const updateTimeHandler = () => {
-            currentTimeElement.innerHTML = toPlayerTime(mainVideoElement.currentTime*1000);
-            totalTimeElement.innerHTML = toPlayerTime(mainVideoElement.duration*1000);
+            currentTimeElement.innerHTML = toPlayerTime(mainVideoElement.currentTime * 1000);
+            totalTimeElement.innerHTML = toPlayerTime(mainVideoElement.duration * 1000);
         };
         const fullscreenButtonHandler = () => {
             if (document.fullscreenEnabled &&
-                document.fullscreenElement === playerElement
+                (document as any).fullscreenElement === playerElement
             ) {
                 document.exitFullscreen();
             } else {
                 playerElement.requestFullscreen();
             }
-        }
+        };
         const markerButtonHandler = (event: any) => {
             dispatchEvent(
                 playerElement,
-                MarkerEventType.AddFormDisplay
-            )
+                MarkerEventType.AddFormDisplay,
+            );
             event.stopPropagation();
-        }
+        };
 
         // Listeners
         this.eventRegistry.register(
@@ -160,12 +175,22 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
         this.eventRegistry.register(
             playPauseButtonElement,
             "click",
-            playPauseHandler
+            playPauseHandler,
         );
         this.eventRegistry.register(
             volumeInputElement,
             "input",
-            volumeSetHandler
+            volumeSetHandler,
+        );
+        this.eventRegistry.register(
+            volumeUpButtonElement,
+            "click",
+            volumeUpButtonHandler,
+        );
+        this.eventRegistry.register(
+            volumeDownButtonElement,
+            "click",
+            volumeDownButtonHandler,
         );
         this.eventRegistry.register(
             volumeButtonElement,
@@ -185,17 +210,17 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
         this.eventRegistry.register(
             mainVideoElement,
             "volumechange",
-            volumeChangeHandler
+            volumeChangeHandler,
         );
         this.eventRegistry.register(
             mainVideoElement,
             "timeupdate",
-            updateTimeHandler
+            updateTimeHandler,
         );
         this.eventRegistry.register(
             mainVideoElement,
             "loadedmetadata",
-            updateTimeHandler
+            updateTimeHandler,
         );
         updateTimeHandler();
     }
