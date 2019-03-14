@@ -6,5 +6,5 @@ export enum LanguageType {
 }
 
 export interface LanguageSettings {
-    type: LanguageType,
+    type: LanguageType;
 }

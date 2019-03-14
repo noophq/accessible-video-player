@@ -1,8 +1,7 @@
 import * as i18next from "i18next";
 import { i18n } from "i18next";
 
-import * as enCatalog from "app/resources/locales/en.json";
-import * as frCatalog from "app/resources/locales/fr.json";
+import { I18NCatalog } from "app/vanilla/models/skin";
 
 export class Translator {
     private locale: string;
@@ -13,20 +12,21 @@ export class Translator {
         this.i18nInstance = null;
     }
 
-    public initialize(): Promise<void> {
+    public initialize(catalogs: I18NCatalog[]): Promise<void> {
+        const resources: any = {};
+
+        for (const catalog of catalogs) {
+            resources[catalog.locale] = {
+                translation: catalog.translations,
+            };
+        }
+
         return new Promise((resolve, reject) => {
             this.i18nInstance = i18next.createInstance(
                 {
                     fallbackLng: "en",
                     lng: this.locale,
-                    resources: {
-                        en: {
-                            translation: enCatalog,
-                        },
-                        fr: {
-                            translation: frCatalog,
-                        },
-                    },
+                    resources,
                 },
                 (err, t) => {
                     if (err) {
@@ -34,8 +34,8 @@ export class Translator {
                     }
 
                     resolve();
-                }
-            )
+                },
+            );
         });
     }
 
@@ -54,7 +54,8 @@ export class Translator {
 
                     this.locale = locale;
                     resolve();
-                })
+                },
+            );
         });
     }
 

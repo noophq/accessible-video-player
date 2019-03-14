@@ -1,12 +1,10 @@
 import playbackQualitySettingsView from "ejs-loader!lib/vanilla/views/playback-quality-settings.ejs";
 
-import { AvpObject } from "lib/models/player";
-
 import { BaseSettingsComponent } from "./base-settings";
 
 export class PlaybackQualitySettingsComponent extends BaseSettingsComponent {
-    protected backComponentName = "displaySettings";
     public view = playbackQualitySettingsView;
+    protected backComponentName = "displaySettings";
 
     public registerViewData() {
         return {
@@ -48,7 +46,7 @@ export class PlaybackQualitySettingsComponent extends BaseSettingsComponent {
     public async updateView(
         rootElement: HTMLElement,
         domElements: any,
-        player: any
+        player: any,
     ): Promise<void> {
         super.updateView(rootElement, domElements, player);
         const availablequalities = this.props.settings.video.availableQualities;
@@ -83,10 +81,8 @@ export class PlaybackQualitySettingsComponent extends BaseSettingsComponent {
             this.eventRegistry.register(
                 element,
                 "change",
-                qualityChangeHandler
+                qualityChangeHandler,
             );
         });
-
-
     }
 }

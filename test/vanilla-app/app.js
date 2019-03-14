@@ -13,7 +13,7 @@ function buildUrlWithQueryParams(url, params) {
     var queryStringParams = [];
     var keys = Object.keys(params);
 
-    for (var i=0; i<keys.length; i++) {
+    for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
         queryStringParams.push(key + "=" + encodeURIComponent(params[key]))
     }
@@ -28,50 +28,50 @@ function buildUrlWithQueryParams(url, params) {
 }
 
 var widevineRequestFilter = function(shakaPlayer, videoSource) {
-    return function (type, request) {
+    return function(type, request) {
         if (type !== shaka.net.NetworkingEngine.RequestType.LICENSE) {
-            return
+            return;
         }
 
         var drmServerUrl = videoSource.playerOptions.config.drm.servers["com.widevine.alpha"];
 
         if (!request.uris || request.uris[0] !== drmServerUrl) {
-            return
+            return;
         }
 
         if (shakaPlayer.drmInfo().keyIds.length <= 0) {
-            throw new Error('No KID found in manifest.')
+            throw new Error("No KID found in manifest.");
         }
 
         request.uris[0] = buildUrlWithQueryParams(
             request.uris[0],
             videoSource.additionalMetadata
         );
-    }
- }
+    };
+};
 
 var playreadyRequestFilter = function(shakaPlayer, videoSource) {
-    return function (type, request) {
+    return function(type, request) {
         if (type !== shaka.net.NetworkingEngine.RequestType.LICENSE) {
-            return
+            return;
         }
 
         var drmServerUrl = videoSource.playerOptions.config.drm.servers["com.microsoft.playready"];
 
         if (!request.uris || request.uris[0] !== drmServerUrl) {
-            return
+            return;
         }
 
         if (shakaPlayer.drmInfo().keyIds.length <= 0) {
-            throw new Error('No KID found in manifest.')
+            throw new Error("No KID found in manifest.");
         }
 
         request.uris[0] = buildUrlWithQueryParams(
             request.uris[0],
             videoSource.additionalMetadata
         );
-    }
- }
+    };
+};
 
 var shakaPlayerOptions = {
     // requestFilters: [
@@ -160,9 +160,7 @@ var playerData = {
     }
 };
 
-
 var playerSettings = {
-    locale: "fr",
     player: {
         transcription: {
             enabled: false
@@ -171,6 +169,10 @@ var playerSettings = {
             enabled: false
         }
     }
+};
+
+var skinSettings = {
+    locale: "fr",
 };
 
 avp

@@ -1,17 +1,20 @@
-import { GlobalSettings } from "lib/models/settings";
-
 import { DEFAULT_SETTINGS } from "lib/core/constants";
 
 import { MarkerManager } from "lib/core/marker";
 import { Player } from "lib/core/player";
 import { SettingsManager } from "lib/core/settings";
-import { Translator } from "lib/core/translator";
+import { Translator } from "lib/vanilla/translator";
 
 import { PlayerComponent } from "./components/player";
 
+import { GlobalSettings } from "lib/models/settings";
 import { install as installPolyfills } from "lib/polyfill";
 import { closeAllPopins } from "lib/utils/popin";
 
+import * as enTranslations from "app/resources/locales/en.json";
+import * as frTranslations from "app/resources/locales/fr.json";
+
+import { SkinSettings } from "app/vanilla/models/skin";
 import { ComponentRenderer } from "app/vanilla/renderer";
 
 import "lib/assets/css/player.css";
@@ -38,7 +41,8 @@ document.addEventListener(
 
 export async function init(
     containerElement: HTMLElement,
-    settings = {}
+    settings = {},
+    skinSettings = {},
 ): Promise<any> {
     const newSettings: GlobalSettings = Object.assign(
         {},
@@ -46,17 +50,38 @@ export async function init(
         settings,
     );
 
+    const newSkinSettings: SkinSettings = Object.assign(
+        {},
+        {
+            name: "default",
+            i18n: {
+                locale: "en",
+                catalogs: [
+                    {
+                        locale: "en",
+                        translations: enTranslations,
+                    },
+                    {
+                        locale: "fr",
+                        translations: frTranslations,
+                    },
+                ],
+            },
+        },
+        skinSettings,
+    );
+
     // Initialize player, marker manager, translator ant he others
     const markerManager = new MarkerManager();
-    const i18n = new Translator(newSettings.locale);
-    await i18n.initialize();
+    const translator = new Translator(newSkinSettings.i18n.locale);
+    await translator.initialize(newSkinSettings.i18n.catalogs);
     const settingsManager = new SettingsManager(newSettings);
     const player = new Player(
         settingsManager,
         markerManager,
     );
     const avp = {
-        i18n,
+        translator,
         markerManager,
         player,
         settingsManager,
@@ -64,9 +89,12 @@ export async function init(
 
     // Render player
     const renderer = new ComponentRenderer(
-        new PlayerComponent({ settings: newSettings }),
-        i18n,
-        newSettings.skin.renderer
+        new PlayerComponent({
+            settings: newSettings,
+            skinSettings: newSkinSettings,
+        }),
+        translator,
+        newSkinSettings.renderer,
     );
     containerElement.innerHTML = await renderer.render();
     await renderer.update();
@@ -89,7 +117,7 @@ export async function init(
         mainVideoContainerElement as HTMLElement,
         secondaryVideoContainerElement as HTMLElement,
         transcriptionContainerElement as HTMLElement,
-        thumbnailContainerElement as HTMLElement
+        thumbnailContainerElement as HTMLElement,
     );
     return avp;
 }

@@ -1,18 +1,14 @@
 import { LanguageType } from "lib/models/language";
+import { GlobalSettings } from "lib/models/settings";
 import {
+    SubtitleBackgroundColor,
     SubtitleFont,
     SubtitleFontColor,
-    SubtitleBackgroundColor,
-    SubtitleType
+    SubtitleType,
 } from "lib/models/subtitle";
-import { QualityType, PlaybackSpeedType } from "lib/models/video";
-import { GlobalSettings } from "lib/models/settings";
+import { PlaybackSpeedType, QualityType } from "lib/models/video";
 
 export const DEFAULT_SETTINGS: GlobalSettings = {
-    locale: "en",
-    skin: {
-        name: "default",
-    },
     language: {
         type: LanguageType.Default,
     },
@@ -36,4 +32,4 @@ export const DEFAULT_SETTINGS: GlobalSettings = {
             enabled: false,
         },
     },
-}
+};

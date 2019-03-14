@@ -1,11 +1,6 @@
 import subtitleSettingsView from "ejs-loader!lib/vanilla/views/subtitle-settings.ejs";
 
-import { AvpObject } from "lib/models/player";
-
 import { BaseSettingsComponent } from "./base-settings";
-
-import { toggleElementAttribute, trapFocus, undoTrapFocus } from "lib/utils/dom";
-import { initPopin, togglePopin } from "lib/utils/popin";
 
 export class SubtitleSettingsComponent extends BaseSettingsComponent {
     public view = subtitleSettingsView;
@@ -27,7 +22,7 @@ export class SubtitleSettingsComponent extends BaseSettingsComponent {
                     id: "subtitle-closed-caption",
                     label: "subtitleSettings.closedCaptionSubtitleLabel",
                     value: "closed_caption",
-                }
+                },
             ],
         };
     }
@@ -35,7 +30,7 @@ export class SubtitleSettingsComponent extends BaseSettingsComponent {
     public async updateView(
         rootElement: HTMLElement,
         domElements: any,
-        player: any
+        player: any,
     ): Promise<void> {
         super.updateView(rootElement, domElements, player);
 
@@ -56,7 +51,7 @@ export class SubtitleSettingsComponent extends BaseSettingsComponent {
             this.eventRegistry.register(
                 element,
                 "change",
-                subtitleChangeHandler
+                subtitleChangeHandler,
             );
         });
 

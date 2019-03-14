@@ -1,7 +1,6 @@
 import { MarkerManager } from "lib/core/marker";
 import { Player } from "lib/core/player";
 import { SettingsManager } from "lib/core/settings";
-import { Translator } from "lib/core/translator";
 
 import { SubtitleType } from "./subtitle";
 import { VideoResource } from "./video";
@@ -53,11 +52,4 @@ export interface PlayerData {
     subtitles: SubtitleResource[];
     transcription?: Resource;
     thumbnailCollection?: ThumbnailCollectionResource;
-}
-
-export interface AvpObject {
-    i18n: Translator;
-    player: Player;
-    markerManager: MarkerManager;
-    settingsManager: SettingsManager;
 }

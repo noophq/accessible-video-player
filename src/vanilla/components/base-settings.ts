@@ -1,5 +1,3 @@
-import { AvpObject } from "lib/models/player";
-
 import { BaseComponent, ComponentProperties } from "./base";
 
 import { toggleElementAttribute, trapFocus, undoTrapFocus } from "lib/utils/dom";
@@ -13,7 +11,7 @@ export abstract class BaseSettingsComponent extends BaseComponent<SettingsCompon
     public async registerDomElements(rootElement: HTMLElement) {
         initPopin(rootElement);
         return {
-            root: rootElement
+            root: rootElement,
         };
     }
 
@@ -26,7 +24,7 @@ export abstract class BaseSettingsComponent extends BaseComponent<SettingsCompon
             rootElement,
             domElements,
             "avp-back-link",
-            this.props.backComponentName
+            this.props.backComponentName,
         );
     }
 
@@ -34,7 +32,7 @@ export abstract class BaseSettingsComponent extends BaseComponent<SettingsCompon
         rootElement: HTMLElement,
         domElements: any,
         triggerClassName: string,
-        popinName?: string
+        popinName?: string,
     ) {
         const triggerElement = rootElement.getElementsByClassName(triggerClassName)[0];
 
@@ -52,13 +50,13 @@ export abstract class BaseSettingsComponent extends BaseComponent<SettingsCompon
 
             const popinElement = domElements[popinName]["root"];
             togglePopin(popinElement, settingsButtonElement);
-        }
+        };
 
         // Listeners
         this.eventRegistry.register(
             triggerElement,
             "click",
-            linkHandler
+            linkHandler,
         );
     }
 }

@@ -1,18 +1,22 @@
-import { dispatchEvent } from "lib/utils/event";
+import { Player } from "lib/core/player";
 import { EventRegistry } from "lib/event/registry";
 import { PlayerEventType, SettingsEventType } from "lib/models/event";
+import { dispatchEvent } from "lib/utils/event";
+
 import { GlobalSettings } from "lib/models/settings";
-import { Player } from "lib/core/player";
+
+import { SkinSettings } from "app/vanilla/models/skin";
 
 export interface ComponentProperties {
     settings: GlobalSettings;
+    skinSettings: SkinSettings;
 }
 
 export abstract class BaseComponent<T extends ComponentProperties> {
+    public view: any;
     protected props: T;
     protected eventRegistry: EventRegistry;
     private baseEventRegistry: EventRegistry;
-    public view: any;
 
     constructor(props: T) {
         this.props = props;
@@ -34,10 +38,7 @@ export abstract class BaseComponent<T extends ComponentProperties> {
         return {};
     }
 
-    protected getMainVideoElement(domElements: any) {
-        const mainVideoContainerElement = domElements["origin"]["mainVideoContainer"];
-        return mainVideoContainerElement.getElementsByTagName("video")[0];
-    }
+
 
     public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
         const playerElement = domElements["origin"]["root"];
@@ -49,8 +50,8 @@ export abstract class BaseComponent<T extends ComponentProperties> {
                 {},
                 this.props,
                 {
-                    settings: player.settingsManager.settings
-                }
+                    settings: player.settingsManager.settings,
+                },
             );
             this.eventRegistry.unregisterAll();
             this.updateView(rootElement, domElements, player);
@@ -65,21 +66,26 @@ export abstract class BaseComponent<T extends ComponentProperties> {
         this.baseEventRegistry.register(
             playerElement,
             SettingsEventType.UpdateSuccess,
-            settingsUpdateHandler
+            settingsUpdateHandler,
         );
         this.baseEventRegistry.register(
             playerElement,
             PlayerEventType.ContentLoaded,
-            contentLoadedHandler
+            contentLoadedHandler,
         );
     }
 
     public async updateView(
         rootElement: HTMLElement,
         domElements: any,
-        player: any
+        player: any,
     ) {
         // Update view
+    }
+
+    public async destroy() {
+        this.baseEventRegistry.unregisterAll();
+        this.eventRegistry.unregisterAll();
     }
 
     /**
@@ -96,13 +102,13 @@ export abstract class BaseComponent<T extends ComponentProperties> {
             playerElement,
             SettingsEventType.UpdateRequest,
             {
-                updatedSettings
-            }
+                updatedSettings,
+            },
         );
     }
 
-    public async destroy() {
-        this.baseEventRegistry.unregisterAll();
-        this.eventRegistry.unregisterAll();
+    protected getMainVideoElement(domElements: any) {
+        const mainVideoContainerElement = domElements["origin"]["mainVideoContainer"];
+        return mainVideoContainerElement.getElementsByTagName("video")[0];
     }
 }

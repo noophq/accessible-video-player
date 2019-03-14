@@ -2,9 +2,10 @@ import * as uuid from "uuid";
 
 import radioGroupView from "ejs-loader!lib/vanilla/views/radio-group.ejs";
 
-import { Translator } from "lib/core/translator";
+import { Translator } from "app/vanilla/translator";
 import { BaseComponent, ComponentProperties } from "lib/vanilla/components/base";
-import { SkinRenderer } from "lib/models/skin";
+
+import { SkinRenderer } from "app/vanilla/models/skin";
 
 import { renderIcon as defaultRenderIcon } from "./skin";
 
@@ -24,7 +25,7 @@ export class ComponentRenderer {
     constructor(
         component: BaseComponent<ComponentProperties>,
         translator: Translator,
-        skinRenderer: SkinRenderer
+        skinRenderer: SkinRenderer,
     ) {
         this.component = component;
         this.translator = translator;
@@ -40,8 +41,8 @@ export class ComponentRenderer {
                 t,
                 formId,
                 inputName,
-                radioItems
-            }
+                radioItems,
+            },
         );
     }
 
@@ -67,9 +68,9 @@ export class ComponentRenderer {
                 id: this.id,
                 t,
                 renderRadioGroup: this.renderRadioGroup.bind(this),
-                renderIcon : this.renderIcon.bind(this)
+                renderIcon : this.renderIcon.bind(this),
             },
-            this.component.registerViewData()
+            this.component.registerViewData(),
         );
 
         for (const key of Object.keys(childs)) {
@@ -77,8 +78,8 @@ export class ComponentRenderer {
             const childRenderer = new ComponentRenderer(
                 childs[key],
                 this.translator,
-                this.skinRenderer
-            )
+                this.skinRenderer,
+            );
             this.childRenderers[key] = childRenderer;
             viewData[key] =  childRenderer.render();
         }
@@ -104,7 +105,7 @@ export class ComponentRenderer {
 
         await this.component.postDomUpdate(
             document.getElementById(this.id),
-            domElements
+            domElements,
         );
     }
 
@@ -114,7 +115,7 @@ export class ComponentRenderer {
         }
 
         domElements[componentKey] = await this.component.registerDomElements(
-            document.getElementById(this.id)
+            document.getElementById(this.id),
         );
     }
 }

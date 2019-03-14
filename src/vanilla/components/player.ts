@@ -21,12 +21,12 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
             mainVideo: new VideoComponent(Object.assign(
                 {},
                 this.props as any,
-                { name: "main" }
+                { name: "main" },
             )),
             secondaryVideo: new VideoComponent(Object.assign(
                 {},
                 this.props as any,
-                { name: "secondary" }
+                { name: "secondary" },
             )),
             transcriptionPanel: new TranscriptionPanelComponent(this.props),
             thumbnailPanel: new ThumbnailPanelComponent(this.props),
@@ -41,8 +41,8 @@ export class PlayerComponent extends BaseComponent<ComponentProperties> {
     private buildClassNames(rootElement?: HTMLElement, player?: any): string[] {
         const classNames = ["avp-player"];
 
-        if (this.props.settings.skin.name) {
-            classNames.push("avp-skin-" + this.props.settings.skin.name);
+        if (this.props.skinSettings.name) {
+            classNames.push("avp-skin-" + this.props.skinSettings.name);
         }
 
         if (this.props.settings.player.transcription.enabled) {

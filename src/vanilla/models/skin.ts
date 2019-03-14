@@ -1,13 +1,15 @@
 export interface SkinRenderer {
     renderIcon?: any;
+    renderView?: any;
 }
 
 export interface I18NCatalog {
-    lang: string;
-    data: any;
+    locale: string;
+    translations: any;
 }
 
 export interface I18NSettings {
+    locale: string;
     catalogs: I18NCatalog[];
 }
 
