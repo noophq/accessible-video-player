@@ -81,7 +81,7 @@ export class ComponentRenderer {
                 this.skinRenderer,
             );
             this.childRenderers[key] = childRenderer;
-            viewData[key] =  childRenderer.render();
+            viewData[key] = childRenderer.render();
         }
 
         // Render view
