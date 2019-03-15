@@ -172,11 +172,13 @@ var playerSettings = {
 };
 
 var skinSettings = {
-    locale: "fr",
+    i18n: {
+        locale: "fr",
+    },
 };
 
 avp
-    .init(document.getElementById("player"), playerSettings)
+    .init(document.getElementById("player"), playerSettings, skinSettings)
         .then(function(avpInstance) {
             // avpInstance.markerManager.removeMarker("marker-2");
             // avpInstance.settingsManager.settings.player.transcription.enabled = true;

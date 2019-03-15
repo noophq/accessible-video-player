@@ -6,10 +6,12 @@ import { dispatchEvent } from "lib/utils/event";
 import { GlobalSettings } from "lib/models/settings";
 
 import { SkinSettings } from "app/vanilla/models/skin";
+import { Translator } from "app/vanilla/translator";
 
 export interface ComponentProperties {
     settings: GlobalSettings;
     skinSettings: SkinSettings;
+    translator: Translator;
 }
 
 export abstract class BaseComponent<T extends ComponentProperties> {
@@ -37,8 +39,6 @@ export abstract class BaseComponent<T extends ComponentProperties> {
     public async registerDomElements(rootElement: HTMLElement) {
         return {};
     }
-
-
 
     public async postDomUpdate(rootElement: HTMLElement, domElements: any): Promise<any> {
         const playerElement = domElements["origin"]["root"];

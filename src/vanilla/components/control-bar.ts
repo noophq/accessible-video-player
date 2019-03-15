@@ -109,10 +109,19 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
         const totalTimeElement = rootElement.getElementsByClassName("avp-total-time")[0];
         const currentTimeElement = rootElement.getElementsByClassName("avp-current-time")[0];
 
+        const translate = this.props.translator.translate.bind(this.props.translator);
+
         // Handlers
         // Set volume input to the current video volume
         const volumeChangeHandler = (event: any) => {
             volumeInputElement.value = (mainVideoElement.volume * 100) as any;
+            volumeInputElement.setAttribute(
+                "aria-valuetext",
+                translate(
+                    "controlBar.volumeDescription",
+                    { volume: volumeInputElement.value },
+                ),
+            );
             dispatchEvent(volumeInputElement, "input");
         };
         volumeChangeHandler(null);
@@ -130,6 +139,13 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
         };
         const volumeSetHandler = (event: any) => {
             mainVideoElement.volume = event.target.value / 100;
+            // volumeInputElement.setAttribute(
+            //     "aria-valuetext",
+            //     translate(
+            //         "controlBar.volumeDescription",
+            //         { volume: event.target.value },
+            //     ),
+            // );
         };
         const volumeButtonHandler = (event: any) => {
             togglePopin(volumePanelElement, volumeButtonElement);
@@ -138,12 +154,20 @@ export class ControlBarComponent extends BaseComponent<ComponentProperties> {
         const volumeUpButtonHandler = () => {
             // Increase volume by 10%
             const newVolume = Math.min(mainVideoElement.volume + 0.1, 1);
+            volumeUpButtonElement.setAttribute("aria-valuenow", "Volume " +  mainVideoElement.volume);
             mainVideoElement.volume = newVolume;
         };
         const volumeDownButtonHandler = () => {
             // Descrease volume by 10%
             const newVolume =  Math.max(mainVideoElement.volume - 0.1, 0);
             mainVideoElement.volume = newVolume;
+            // volumeDownButtonElement.setAttribute(
+            //     "aria-valuetext",
+            //     translate(
+            //         "controlBar.volumeDescription",
+            //         { volume: volumeInputElement.value },
+            //     ),
+            // );
         };
         const updateTimeHandler = () => {
             currentTimeElement.innerHTML = toPlayerTime(mainVideoElement.currentTime * 1000);

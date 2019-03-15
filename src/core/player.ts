@@ -33,12 +33,6 @@ declare var videoSynchronizer: any;
 declare var subtitlePlayer: any;
 
 export class Player extends EventProvider {
-    private loadedData: PlayerData;
-    private wrappedVideos: any;
-    private eventRegistry: EventRegistry;
-    private contentEventRegistry: EventRegistry;
-    private videoSynchronizerInstance: any;
-    private subtitlePlayerInstance: any;
     public settingsManager: SettingsManager;
     public markerManager: MarkerManager;
     public playerElement: HTMLElement;
@@ -52,6 +46,12 @@ export class Player extends EventProvider {
     public thumbnailCollectionContent: ThumbnailCollectionContent;
     public userActivity: boolean;
     public userActivityTimer: any;
+    private loadedData: PlayerData;
+    private wrappedVideos: any;
+    private eventRegistry: EventRegistry;
+    private contentEventRegistry: EventRegistry;
+    private videoSynchronizerInstance: any;
+    private subtitlePlayerInstance: any;
 
     constructor(
         settingsManager: SettingsManager,
@@ -75,8 +75,8 @@ export class Player extends EventProvider {
             this.playerElement,
             PlayerEventType.PlayerAttached,
             {
-                player: this
-            }
+                player: this,
+            },
         );
 
         // Handlers
@@ -125,8 +125,8 @@ export class Player extends EventProvider {
                 this.playerElement,
                 SettingsEventType.UpdateSuccess,
                 {
-                    player: this
-                }
+                    player: this,
+                },
             );
 
             // Reload content
@@ -157,7 +157,7 @@ export class Player extends EventProvider {
                 {
                     player: this,
                     marker,
-                }
+                },
             );
         };
 
@@ -171,30 +171,30 @@ export class Player extends EventProvider {
                 {
                     player: this,
                     marker,
-                }
+                },
             );
-        }
+        };
 
         // Listeners
         this.eventRegistry.register(
             this.playerElement,
             SettingsEventType.UpdateRequest,
-            updateSettingsHandler
+            updateSettingsHandler,
         );
         this.eventRegistry.register(
             this.playerElement,
             MarkerEventType.AddRequest,
-            addUpdateMarkerHandler
+            addUpdateMarkerHandler,
         );
         this.eventRegistry.register(
             this.playerElement,
             MarkerEventType.UpdateRequest,
-            addUpdateMarkerHandler
+            addUpdateMarkerHandler,
         );
         this.eventRegistry.register(
             this.playerElement,
             MarkerEventType.DeleteRequest,
-            deleteMarkerHandler
+            deleteMarkerHandler,
         );
     }
 
@@ -202,7 +202,7 @@ export class Player extends EventProvider {
         mainVideoContainerElement: HTMLElement,
         secondaryVideoContainerElement: HTMLElement,
         transcriptionContainerElement: HTMLElement,
-        thumbnailContainerElement: HTMLElement
+        thumbnailContainerElement: HTMLElement,
     ) {
         this.mainVideoContainerElement = mainVideoContainerElement;
         this.secondaryVideoContainerElement = secondaryVideoContainerElement;
@@ -242,7 +242,7 @@ export class Player extends EventProvider {
         this.contentEventRegistry.unregisterAll();
 
         // Store current time
-        let currentTime = (this.mainVideoContent) ?
+        const currentTime = (this.mainVideoContent) ?
             this.mainVideoContent.videoElement.currentTime : 0;
 
         // Remove sync
@@ -271,15 +271,16 @@ export class Player extends EventProvider {
         if (this.secondaryVideoContent) {
             this.videoSynchronizerInstance = videoSynchronizer.sync(
                 this.mainVideoContent.videoElement,
-                [this.secondaryVideoContent.videoElement]
+                [this.secondaryVideoContent.videoElement],
             );
         }
 
         // Closed captions
-        const subtitleType = this.settingsManager.settings.subtitle.type
+        const subtitleType = this.settingsManager.settings.subtitle.type;
+
         // Display closed captions
         this.subtitlePlayerInstance = subtitlePlayer.wrap(
-            this.mainVideoContent.videoElement
+            this.mainVideoContent.videoElement,
         );
 
         if (data.subtitles) {
@@ -303,12 +304,18 @@ export class Player extends EventProvider {
         dispatchEvent(
             this.playerElement,
             PlayerEventType.ContentLoaded,
-            { player: this }
+            { player: this },
         );
 
         this.mainVideoContent.videoElement.currentTime = currentTime;
         this.initMainVideoListeners();
         this.disableVideoContextMenus();
+    }
+
+    public destroy() {
+        this.eventRegistry.unregisterAll();
+        this.contentEventRegistry.unregisterAll();
+        this.wrappedVideos = null;
     }
 
     private disableVideoContextMenus() {
@@ -324,7 +331,7 @@ export class Player extends EventProvider {
             this.contentEventRegistry.register(
                 content.videoElement,
                 "contextmenu",
-                noneHandler
+                noneHandler,
             );
         });
     }
@@ -334,7 +341,7 @@ export class Player extends EventProvider {
             dispatchEvent(
                 this.playerElement,
                 PlayerEventType.PlayingChange,
-                { player: this }
+                { player: this },
             );
         };
 
@@ -361,7 +368,7 @@ export class Player extends EventProvider {
             this.contentEventRegistry.register(
                 this.mainVideoContent.videoElement,
                 "timeupdate",
-                this.transcriptionContent.wordHighlighterHandler
+                this.transcriptionContent.wordHighlighterHandler,
             );
         }
 
@@ -370,7 +377,7 @@ export class Player extends EventProvider {
         ) {
             const gotoTimecodeHandler = (event: any) => {
                 const buttonElement = event.target;
-                const timecode = Math.round(parseInt(buttonElement.dataset.timecode)/1000);
+                const timecode = Math.round(parseInt(buttonElement.dataset.timecode, 10) / 1000);
                 console.log(timecode);
                 this.mainVideoContent.videoElement.currentTime = timecode;
             };
@@ -382,7 +389,7 @@ export class Player extends EventProvider {
                 this.contentEventRegistry.register(
                     element,
                     "click",
-                    gotoTimecodeHandler
+                    gotoTimecodeHandler,
                 );
             });
         }
@@ -400,7 +407,7 @@ export class Player extends EventProvider {
                 dispatchEvent(
                     this.playerElement,
                     PlayerEventType.PlayingChange,
-                    { player: this }
+                    { player: this },
                 );
             }
 
@@ -410,21 +417,21 @@ export class Player extends EventProvider {
                     dispatchEvent(
                         this.playerElement,
                         PlayerEventType.PlayingChange,
-                        { player: this }
+                        { player: this },
                     );
                 },
-                5000
+                5000,
             );
-        }
+        };
         this.eventRegistry.register(
             document,
             "mousemove",
-            userActivityHandler
+            userActivityHandler,
         );
         this.eventRegistry.register(
             document,
             "keydown",
-            userActivityHandler
+            userActivityHandler,
         );
     }
 
@@ -453,7 +460,7 @@ export class Player extends EventProvider {
                 // Remove old main video content
                 await this.removeVideo(
                     this.mainVideoContainerElement,
-                    this.mainVideoContent
+                    this.mainVideoContent,
                 );
                 this.mainVideoContent = null;
             }
@@ -461,7 +468,7 @@ export class Player extends EventProvider {
 
         this.mainVideoContent = await this.loadVideo(
             this.mainVideoContainerElement,
-            videoResource
+            videoResource,
         );
 
         // Update available qualities
@@ -479,7 +486,7 @@ export class Player extends EventProvider {
     }
 
     private updateMainVideoQuality() {
-        if (this.mainVideoContent.videoResource.player != PlayerType.Shaka) {
+        if (this.mainVideoContent.videoResource.player !== PlayerType.Shaka) {
             // Only shaka player is able to deal with video quality
             return;
         }
@@ -495,7 +502,7 @@ export class Player extends EventProvider {
 
             // FIXME: select the right audio track
             for (const track of shakaPlayer.getVariantTracks()) {
-                if (track.height === parseInt(currentQuality)) {
+                if (track.height === parseInt(currentQuality, 10)) {
                     shakaPlayer.selectVariantTrack(track, true);
                     break;
                 }
@@ -512,8 +519,7 @@ export class Player extends EventProvider {
 
         if (languageType === LanguageType.CuedSpeech) {
             // Synchronized cued speech video
-            videoResource = this.loadedData.cuedSpeechVideo
-
+            videoResource = this.loadedData.cuedSpeechVideo;
         } else if (languageType === LanguageType.SignedLanguage) {
             // Synchronized signed language video
             videoResource = this.loadedData.signedLanguageVideo;
@@ -526,44 +532,44 @@ export class Player extends EventProvider {
             return;
         }
 
-        if (!videoResource) {
-            if (this.secondaryVideoContent) {
-                // Remove old secondary video content
-                await this.removeVideo(
-                    this.secondaryVideoContainerElement,
-                    this.secondaryVideoContent
-                );
-                this.secondaryVideoContent = null;
-            }
+        if (this.secondaryVideoContent) {
+            // Remove old secondary video content
+            await this.removeVideo(
+                this.secondaryVideoContainerElement,
+                this.secondaryVideoContent,
+            );
+            this.secondaryVideoContent = null;
+        }
 
+        if (!videoResource) {
             return;
         }
 
         this.secondaryVideoContent = await this.loadVideo(
             this.secondaryVideoContainerElement,
-            videoResource
+            videoResource,
         );
     }
 
     private async loadVideo(
         containerElement: HTMLElement,
-        videoResource: VideoResource
+        videoResource: VideoResource,
     ): Promise<VideoContent> {
         const contentManager = videoContentManagers[videoResource.player];
         return await contentManager.create(
             containerElement,
-            videoResource
+            videoResource,
         );
     }
 
     private async removeVideo(
         containerElement: HTMLElement,
-        videoContent: VideoContent
+        videoContent: VideoContent,
     ): Promise<void> {
         const contentManager = videoContentManagers[videoContent.videoResource.player];
         await contentManager.remove(
             containerElement,
-            videoContent
+            videoContent,
         );
     }
 
@@ -580,7 +586,7 @@ export class Player extends EventProvider {
                 // Remove old transcription content
                 await transcriptionManager.remove(
                     this.transcriptionContainerElement,
-                    this.transcriptionContent
+                    this.transcriptionContent,
                 );
                 this.transcriptionContent = null;
             }
@@ -591,7 +597,7 @@ export class Player extends EventProvider {
         // Load new transcription content
         this.transcriptionContent = await transcriptionManager.create(
             this.transcriptionContainerElement,
-            this.loadedData.transcription
+            this.loadedData.transcription,
         );
     }
 
@@ -624,11 +630,5 @@ export class Player extends EventProvider {
             this.thumbnailContainerElement,
             this.loadedData.thumbnailCollection,
         );
-    }
-
-    public destroy() {
-        this.eventRegistry.unregisterAll();
-        this.contentEventRegistry.unregisterAll();
-        this.wrappedVideos = null;
     }
 }

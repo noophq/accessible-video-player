@@ -30,9 +30,9 @@ export function renderIcon(iconId: string, label: string) {
             label,
         });
     } else if (iconId === "next") {
-        return '<span "avp-icon avp-icon-next">&gt;</span>';
+        return '<span "avp-icon avp-icon-next" aria-hidden="true">&gt;</span>';
     } else if (iconId === "previous" || iconId === "back") {
-        return '<span "avp-icon avp-icon-previous">&lt;</span>';
+        return '<span "avp-icon avp-icon-previous" aria-hidden="true">&lt;</span>';
     }
 
     return label;

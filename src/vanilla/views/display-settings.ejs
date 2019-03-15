@@ -1,9 +1,16 @@
-<div id="<%= id %>" class="avp-display-settings avp-settings avp-popin">
+<div
+    id="<%= id %>"
+    class="avp-display-settings avp-settings avp-popin"
+    role="dialog"
+    aria-labelledby="avp-display-settings-title"
+>
     <div class="avp-header">
-        <button class="avp-back-link">
+        <button
+            class="avp-back-link"
+            aria-label="<%= t('settings.backLabel') %> - <%= t('generalSettings.header') %>">
             <%= renderIcon("back", t("settings.back")) %>
         </button>
-        <span role="header"><%= t("displaySettings.header") %></span>
+        <span id="avp-display-settings-title" role="header"><%= t("displaySettings.header") %></span>
     </div>
     <div class="avp-row">
         <button class="avp-language-settings-link">

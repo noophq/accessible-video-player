@@ -33,11 +33,22 @@ export class TimeBarComponent extends  BaseComponent<ComponentProperties> {
         player: any
     ) {
         // Retrieve dom elements
+        const translate = this.props.translator.translate.bind(this.props.translator);
         const mainVideoElement = player.mainVideoContent.videoElement;
         const timeBarInputElement = domElements["timeBar"]["input"];
         const timeUpdateHandler = (event: any) => {
-            const progress = Math.round((mainVideoElement.currentTime/mainVideoElement.duration)*1000);
+            const progress = Math.round((mainVideoElement.currentTime / mainVideoElement.duration ) * 1000 );
             timeBarInputElement.value = progress;
+            timeBarInputElement.setAttribute(
+                "aria-valuetext",
+                translate(
+                    "controlBar.timeDescription",
+                    {
+                        value: Math.round(mainVideoElement.currentTime),
+                        total: Math.round(mainVideoElement.duration),
+                    },
+                ),
+            );
             dispatchEvent(timeBarInputElement, "input");
         };
         const seekHandler = (event: any) => {

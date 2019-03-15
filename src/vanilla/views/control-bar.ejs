@@ -22,17 +22,39 @@
             <button class="avp-control-bar-volume">
                 <%= renderIcon("volume", t("controlBar.volumeLabel")) %>
             </button>
-            <div class="avp-control-bar-volume-panel avp-popin">
-                <button class="avp-volume-down-button">
+            <div
+                class="avp-control-bar-volume-panel avp-popin"
+                role="dialog"
+                aria-labelledby="avp-control-bar-volume-panel-title"
+            >
+                <span
+                    class="invisible"
+                    id="avp-control-bar-volume-panel-title"
+                >
+                    <%= t("controlBar.volumeLabel") %>
+                </span>
+                <button aria-controls="avp-control-bar-volume-slider" class="avp-volume-down-button">
                     <%= renderIcon("volume-down", t("controlBar.volumeDecreaseLabel")) %>
                 </button>
                 <div class="avp-range-slider">
-                    <input type="range" min="0" max="100" value="<%= currentVolume %>" />
+                    <input
+                        id="avp-control-bar-volume-slider"
+                        type="range"
+                        min="0"
+                        max="100"
+                        role="slider"
+                        aria-valuemin="1"
+                        aria-valuemax="100"
+                        aria-valuenow="<%= currentVolume %>"
+                        aria-valuetext="<%= t('controlBar.volumeDescription', {volume: currentVolume}) %>"
+                        value="<%= currentVolume %>"
+                        aria-label="<%= t('controlBar.volumeBarLabel') %>"
+                    />
                     <div class="avp-range-slider-total">
                         <div class="avp-range-slider-lower"></div>
                     </div>
                 </div>
-                <button class="avp-volume-up-button">
+                <button aria-controls="avp-control-bar-volume-slider" class="avp-volume-up-button">
                     <%= renderIcon("volume-up", t("controlBar.volumeIncreaseLabel")) %>
                 </button>
             </div>

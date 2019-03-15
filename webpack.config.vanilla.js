@@ -88,6 +88,8 @@ if (process.env.NODE_ENV === "production") {
         open: true,
         openPage: "test/vanilla-app",
         hot: true,
+        host: "0.0.0.0",
+        disableHostCheck: true,
         watchContentBase: true,
     };
     config.plugins.push(

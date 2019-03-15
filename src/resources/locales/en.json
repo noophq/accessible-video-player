@@ -4,6 +4,10 @@
         "backLabel": "Back"
     },
     "controlBar": {
+        "timeBarLabel": "Time bar",
+        "timeDescription": "{{value}} on {{total}} seconds",
+        "volumeBarLabel": "Volume bar",
+        "volumeDescription": "Volume {{volume}}%",
         "playLabel": "Play",
         "pauseLabel": "Pause",
         "markerLabel": "Add marker",

@@ -1,6 +1,11 @@
-<div id="<%= id %>" class="avp-general-settings avp-settings avp-popin">
+<div
+    id="<%= id %>"
+    class="avp-general-settings avp-settings avp-popin"
+    role="dialog"
+    aria-labelledby="avp-general-settings-title"
+>
     <div class="avp-header">
-        <span role="header"><%= t("generalSettings.header") %></span>
+        <span id="avp-general-settings-title" role="header"><%= t("generalSettings.header") %></span>
     </div>
 
     <div class="avp-switch">

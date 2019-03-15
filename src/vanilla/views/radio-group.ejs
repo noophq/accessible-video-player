@@ -1,8 +1,8 @@
 <div class="avp-radio-group">
     <% radioItems.forEach(function(radioItem) { %>
         <div class="avp-radio">
-            <input type="radio" value="<%= radioItem.value %>" name="<%= inputName %>[<%= formId %>]" id="<%= radioItem.id %>-<%= formId %>">
-            <label for="<%= radioItem.id %>-<%= formId %>"><%= t(radioItem.label) %></label>
+            <input type="radio" value="<%= radioItem.value %>" name="<%= inputName %>[<%= formId %>]" id="<%= formId %>-<%= radioItem.id %>">
+            <label for="<%= formId %>-<%= radioItem.id %>"><%= t(radioItem.label) %></label>
         </div>
     <% }) %>
 </div>

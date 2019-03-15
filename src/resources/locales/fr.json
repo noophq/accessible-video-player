@@ -4,15 +4,19 @@
         "backLabel": "Retour"
     },
     "controlBar": {
+        "timeBarLabel": "Barre de progression",
+        "timeDescription": "{{value}} secondes sur {{total}}",
+        "volumeBarLabel": "Barre de volume",
+        "volumeDescription": "Volume {{volume}}%",
         "playLabel": "Jouer la vidéo",
-        "pauseLabel": "Pause",
+        "pauseLabel": "Mettre en pause la vidéo",
         "markerLabel": "Ajouter un signet",
         "volumeLabel": "Changer le volume",
         "settingsLabel": "Paramètres",
         "enterFullscreenLabel": "Entrer en mode plein écran",
         "existFullscreenLabel": "Sortir du mode plein écran",
         "volumeDecreaseLabel": "Baisser le volume",
-        "volumeIncreaseLabel": "Augment le volume"
+        "volumeIncreaseLabel": "Augmenter le volume"
     },
     "generalSettings": {
         "header": "Paramètres",
@@ -63,7 +67,7 @@
         "increaseLabel": "Diminuer la vitesse de lecture"
     },
     "playbackQualitySettings": {
-        "header": "Playback quality settings",
+        "header": "Qualité vidéo",
         "autoLabel": "Auto",
         "240Label": "240p",
         "360Label": "360p",

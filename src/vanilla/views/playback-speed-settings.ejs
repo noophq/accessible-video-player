@@ -1,9 +1,17 @@
-<div id="<%= id %>" class="avp-playback-speed-settings avp-settings avp-popin">
+<div
+    id="<%= id %>"
+    class="avp-playback-speed-settings avp-settings avp-popin"
+    role="dialog"
+    aria-labelledby="avp-playback-speed-settings-title"
+>
     <div class="avp-header">
-        <button class="avp-back-link">
+        <button
+            class="avp-back-link"
+            aria-label="<%= t('settings.backLabel') %> - <%= t('displaySettings.header') %>"
+        >
             <%= renderIcon("back", t("settings.back")) %>
         </button>
-        <span role="header"><%= t("playbackSpeedSettings.header") %></span>
+        <span id="avp-playback-speed-settings-title" role="header"><%= t("playbackSpeedSettings.header") %></span>
     </div>
 
     <div class="avp-row">

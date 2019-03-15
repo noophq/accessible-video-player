@@ -42,7 +42,7 @@ document.addEventListener(
 export async function init(
     containerElement: HTMLElement,
     settings = {},
-    skinSettings = {},
+    skinSettings: any = {},
 ): Promise<any> {
     const newSettings: GlobalSettings = Object.assign(
         {},
@@ -50,26 +50,35 @@ export async function init(
         settings,
     );
 
+    const newSkinI18NSettings = Object.assign(
+        {},
+        {
+            locale: "en",
+            catalogs: [
+                {
+                    locale: "en",
+                    translations: enTranslations,
+                },
+                {
+                    locale: "fr",
+                    translations: frTranslations,
+                },
+            ],
+        },
+        skinSettings.i18n ? skinSettings.i18n : {},
+    );
+
     const newSkinSettings: SkinSettings = Object.assign(
         {},
         {
             name: "default",
-            i18n: {
-                locale: "en",
-                catalogs: [
-                    {
-                        locale: "en",
-                        translations: enTranslations,
-                    },
-                    {
-                        locale: "fr",
-                        translations: frTranslations,
-                    },
-                ],
-            },
         },
         skinSettings,
+        {
+            i18n: newSkinI18NSettings,
+        },
     );
+    console.log("### skin settings", newSkinSettings);
 
     // Initialize player, marker manager, translator ant he others
     const markerManager = new MarkerManager();
@@ -92,6 +101,7 @@ export async function init(
         new PlayerComponent({
             settings: newSettings,
             skinSettings: newSkinSettings,
+            translator,
         }),
         translator,
         newSkinSettings.renderer,

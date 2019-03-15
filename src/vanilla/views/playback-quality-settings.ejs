@@ -1,9 +1,17 @@
-<div id="<%= id %>" class="avp-playback-quality-settings avp-settings avp-popin">
+<div
+    id="<%= id %>"
+    class="avp-playback-quality-settings avp-settings avp-popin"
+    role="dialog"
+    aria-labelledby="avp-playback-quality-settings-title"
+>
     <div class="avp-header">
-        <button class="avp-back-link">
+        <button
+            class="avp-back-link"
+            aria-label="<%= t('settings.backLabel') %> - <%= t('displaySettings.header') %>"
+        >
             <%= renderIcon("back", t("settings.back")) %>
         </button>
-        <span role="header"><%= t("playbackQualitySettings.header") %></span>
+        <span id="avp-playback-quality-settings-title" role="header"><%= t("playbackQualitySettings.header") %></span>
     </div>
 
     <%= renderRadioGroup(id, "video_quality", qualityRadioItems) %>

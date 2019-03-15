@@ -1,9 +1,17 @@
-<div id="<%= id %>" class="avp-language-settings avp-settings avp-popin">
+<div
+    id="<%= id %>"
+    class="avp-language-settings avp-settings avp-popin"
+    role="dialog"
+    aria-labelledby="avp-language-settings-title"
+>
     <div class="avp-header">
-        <button class="avp-back-link">
-            <%= renderIcon("back", t("settings.back")) %>
+        <button
+            class="avp-back-link"
+            aria-label="<%= t('settings.backLabel') %> - <%= t('displaySettings.header') %>"
+        >
+            <%= renderIcon("back", t("settings.backLabel")) %>
         </button>
-        <span role="header"><%= t("languageSettings.header") %></span>
+        <span id="avp-language-settings-title" role="header"><%= t("languageSettings.header") %></span>
     </div>
 
     <%= renderRadioGroup(id, "language", languageRadioItems) %>
