@@ -193,8 +193,9 @@ avp
             const captureButton = document.getElementById("capture-screenshot");
             const capturedImg = document.getElementById("captured-img");
             captureButton.addEventListener("click", () => {
-                const screenshotDataUrl = avpInstance.player.captureScreenshot(640, 360);
-                capturedImg.src = screenshotDataUrl;
+                const screenshot = avpInstance.player.captureScreenshot(640, 360);
+                console.log(screenshot);
+                capturedImg.src = screenshot.imageData;
             });
         })
         .catch(function(err) {

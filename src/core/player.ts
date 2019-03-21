@@ -5,8 +5,8 @@ import { EventRegistry } from "lib/event/registry";
 import { EventProvider } from "lib/event/provider";
 import { dispatchEvent } from "lib/utils/event";
 
-import { VideoResource, VideoType, PlayerType, QualityType } from "lib/models/video";
-import { PlayerData, Resource } from "lib/models/player";
+import { VideoResource,  PlayerType, QualityType } from "lib/models/video";
+import { CapturedScreenshot, PlayerData } from "lib/models/player";
 import { ShakaVideoManager, ShakaVideoContent } from "lib/player-content/shaka";
 import { DefaultVideoManager, VideoContent } from "lib/player-content/video";
 import { TranscriptionManager, TranscriptionContent } from "lib/player-content/transcription";
@@ -213,7 +213,7 @@ export class Player extends EventProvider {
     /**
      * Takes a capture screenshot
      */
-    public captureScreenshot(width: number, height: number) {
+    public captureScreenshot(width: number, height: number): CapturedScreenshot {
         // Create canvas with the dimension of video
         const canvas = document.createElement("canvas");
         canvas.width = width;
@@ -222,8 +222,12 @@ export class Player extends EventProvider {
         ctx.drawImage(this.mainVideoContent.videoElement, 0, 0, canvas.width, canvas.height);
 
         // Export to jpeg
-        const data = canvas.toDataURL("image/jpeg");
-        return data;
+        const imageData = canvas.toDataURL("image/jpeg");
+
+        return {
+            timecode: this.mainVideoContent.videoElement.currentTime,
+            imageData,
+        };
     }
 
     /**

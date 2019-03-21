@@ -5,6 +5,11 @@ import { SettingsManager } from "lib/core/settings";
 import { SubtitleType } from "./subtitle";
 import { VideoResource } from "./video";
 
+export interface CapturedScreenshot {
+    timecode: number;
+    imageData: any;
+}
+
 export interface TranscriptionSettings {
     enabled: boolean;
 }
