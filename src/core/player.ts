@@ -427,6 +427,35 @@ export class Player extends EventProvider {
                 5000,
             );
         };
+
+        const playerShortcutHandler = (event: any) => {
+            const videoElement = this.mainVideoContent && this.mainVideoContent.videoElement || null;
+
+            if (!videoElement) {
+                return;
+            }
+
+            if (event.target && event.key === " ") {
+                if (event.target.localName !== "body") {
+                    return;
+                }
+
+                if (videoElement.paused) {
+                    videoElement.play();
+                } else {
+                    videoElement.pause();
+                }
+            } else if (event.ctrlKey && event.key === "m") {
+                // Pause video and open marker panel
+                videoElement.pause();
+                dispatchEvent(
+                    this.playerElement,
+                    MarkerEventType.AddFormDisplay,
+                );
+            }
+        };
+
+
         this.eventRegistry.register(
             document,
             "mousemove",
@@ -436,6 +465,11 @@ export class Player extends EventProvider {
             document,
             "keydown",
             userActivityHandler,
+        );
+        this.eventRegistry.register(
+            document,
+            "keydown",
+            playerShortcutHandler,
         );
     }
 
