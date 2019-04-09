@@ -86,5 +86,9 @@
     "marker": {
         "editLabel": "Modifier un marqueur",
         "deleteLabel": "Supprimer un marqueur"
+    },
+    "switchControl": {
+        "offLabel": "non",
+        "onLabel": "oui"
     }
 }

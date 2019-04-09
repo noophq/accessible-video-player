@@ -1,9 +1,5 @@
 import generalSettingsView from "ejs-loader!lib/vanilla/views/general-settings.ejs";
 
-import { PlayerEventType, SettingsEventType } from "lib/models/event";
-
-import { dispatchEvent } from "lib/utils/event";
-
 import { BaseSettingsComponent } from "./base-settings";
 
 export class GeneralSettingsComponent extends BaseSettingsComponent {
@@ -12,17 +8,16 @@ export class GeneralSettingsComponent extends BaseSettingsComponent {
     public async updateView(
         rootElement: HTMLElement,
         domElements: any,
-        player: any
+        player: any,
     ): Promise<any> {
         super.updateView(rootElement, domElements, player);
 
         // Get elements
-        const playerElement = domElements["origin"]["root"];
         const transcriptionInputElement = document.getElementById(
-            "transcription-" + rootElement.id
+            "transcription-" + rootElement.id,
         ) as HTMLInputElement;
         const thumbnailInputElement = document.getElementById(
-            "thumbnail-" + rootElement.id
+            "thumbnail-" + rootElement.id,
         ) as HTMLInputElement;
         const playerSettings = this.props.settings.player;
 
@@ -50,18 +45,18 @@ export class GeneralSettingsComponent extends BaseSettingsComponent {
         this.eventRegistry.register(
             transcriptionInputElement,
             "change",
-            transcriptionChangeHandler
+            transcriptionChangeHandler,
         );
         this.eventRegistry.register(
             thumbnailInputElement,
             "change",
-            thumbnailChangeHandler
+            thumbnailChangeHandler,
         );
         this.registerLinkEvent(
             rootElement,
             domElements,
             "avp-display-settings-link",
-            "displaySettings"
+            "displaySettings",
         );
 
         // Update UI

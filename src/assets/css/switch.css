@@ -1,25 +1,35 @@
 .avp-switch {
+
     & input{
         position: absolute;
         left: -99999rem;
 
-        &:checked + label:after {
+        &:checked + label .avp-control:after {
             transform: translateX(1rem);
         }
 
-        &:checked + label:before {
+        &:checked + label .avp-control:before {
             background-color: #666;
         }
 
-        &:focus + label:before {
+        &:focus + label .avp-control:before {
             outline: 1pt dotted white;
         }
     }
 
-    & label {
+    & label .label {
+        padding-right: 1rem;
+    }
+
+    & label .avp-off,
+    & label .avp-on {
+        padding: 0 0.2rem;
+    }
+
+    & label .avp-control {
         position: relative;
         cursor: pointer;
-        padding-right: 4rem;
+        padding-right: 2rem;
 
         &:before {
             content: "";

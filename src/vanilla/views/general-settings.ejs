@@ -10,11 +10,21 @@
 
     <div class="avp-switch">
         <input type="checkbox" id="thumbnail-<%= id %>">
-        <label for="thumbnail-<%= id %>"><%= t("generalSettings.thumbnailLabel") %></label>
+        <label for="thumbnail-<%= id %>">
+            <span class="label">
+                <%= t("generalSettings.thumbnailLabel") %>
+            </span>
+            <span class="avp-off"><%= t("switchControl.offLabel") %></span><span class="avp-control"></span><span class="avp-on"><%= t("switchControl.onLabel") %></span>
+        </label>
     </div>
     <div class="avp-switch">
         <input type="checkbox" id="transcription-<%= id %>">
-        <label for="transcription-<%= id %>"><%= t("generalSettings.transcriptionLabel") %></label>
+        <label for="transcription-<%= id %>">
+            <span class="label">
+                <%= t("generalSettings.transcriptionLabel") %>
+            </span>
+            <span class="avp-off"><%= t("switchControl.offLabel") %></span><span class="avp-control"></span><span class="avp-on"><%= t("switchControl.onLabel") %></span>
+        </label>
     </div>
     <div class="avp-row">
         <button class="avp-display-settings-link">
