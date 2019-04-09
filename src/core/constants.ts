@@ -14,8 +14,8 @@ export const DEFAULT_SETTINGS: GlobalSettings = {
     },
     subtitle: {
         type: SubtitleType.None,
-        font: SubtitleFont.Default,
-        fontColor: SubtitleFontColor.Default,
+        font: SubtitleFont.Arial,
+        fontColor: SubtitleFontColor.White,
         backgroundColor: SubtitleBackgroundColor.Transparent,
         scalingFactor: 1,
     },

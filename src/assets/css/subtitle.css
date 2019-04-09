@@ -22,6 +22,12 @@
     }
 }
 
+.avp-subtitle-bg-color-white {
+    & .rendering-container .cue span {
+        background: white;
+    }
+}
+
 .avp-subtitle-bg-color-blue {
     & .rendering-container .cue span {
         background: blue;

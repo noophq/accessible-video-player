@@ -56,8 +56,10 @@
         "transparentBackgroundLabel": "Transparent",
         "blackBackgroundLabel": "Black",
         "blueBackgroundLabel": "Blue",
+        "whiteBackgroundLabel": "White",
         "defaultColorLabel": "Default",
         "whiteColorLabel": "White",
+        "blackColorLabel": "Black",
         "yellowColorLabel": "Yellow",
         "defaultFontLabel": "Default"
     },

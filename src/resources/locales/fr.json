@@ -56,9 +56,11 @@
         "transparentBackgroundLabel": "Transparent",
         "blackBackgroundLabel": "Noir",
         "blueBackgroundLabel": "Bleu",
+        "whiteBackgroundLabel": "Blanc",
         "defaultColorLabel": "Par défaut",
         "whiteColorLabel": "Blanc",
         "yellowColorLabel": "Jaune",
+        "blackColorLabel": "Noir",
         "defaultFontLabel": "Par défaut"
     },
     "playbackSpeedSettings": {

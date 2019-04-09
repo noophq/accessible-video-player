@@ -12,11 +12,6 @@ export class SubtitleDisplaySettingsComponent extends BaseSettingsComponent {
         return {
             fontRadioItems: [
                 {
-                    id: "font-default",
-                    label: "subtitleDisplaySettings.defaultFontLabel",
-                    value: "default",
-                },
-                {
                     id: "font-arial",
                     label: "Arial",
                     value: "arial",
@@ -25,24 +20,24 @@ export class SubtitleDisplaySettingsComponent extends BaseSettingsComponent {
                     id: "font-dyslexic",
                     label: "Open Dyslexic",
                     value: "dyslexic",
-                }
+                },
             ],
             fontColorRadioItems: [
-                {
-                    id: "font-color-default",
-                    label: "subtitleDisplaySettings.defaultColorLabel",
-                    value: "default",
-                },
                 {
                     id: "font-color-white",
                     label: "subtitleDisplaySettings.whiteColorLabel",
                     value: "white",
                 },
                 {
+                    id: "font-color-black",
+                    label: "subtitleDisplaySettings.blackColorLabel",
+                    value: "black",
+                },
+                {
                     id: "font-color-yellow",
                     label: "subtitleDisplaySettings.yellowColorLabel",
                     value: "yellow",
-                }
+                },
             ],
             bgColorRadioItems: [
                 {
@@ -56,10 +51,10 @@ export class SubtitleDisplaySettingsComponent extends BaseSettingsComponent {
                     value: "black",
                 },
                 {
-                    id: "font-bg-color-blue",
-                    label: "subtitleDisplaySettings.blueBackgroundLabel",
-                    value: "blue",
-                }
+                    id: "font-bg-color-white",
+                    label: "subtitleDisplaySettings.whiteBackgroundLabel",
+                    value: "white",
+                },
             ],
         };
     }
@@ -91,7 +86,7 @@ export class SubtitleDisplaySettingsComponent extends BaseSettingsComponent {
             this.updateSettings(domElements, [
                 [
                     "subtitle.scalingFactor",
-                    Math.max(subtitleSettings.scalingFactor-0.5, 1)
+                    Math.max(subtitleSettings.scalingFactor - 0.5, 1),
                 ]
             ]);
         };
@@ -99,7 +94,7 @@ export class SubtitleDisplaySettingsComponent extends BaseSettingsComponent {
             this.updateSettings(domElements, [
                 [
                     "subtitle.scalingFactor",
-                    Math.min(subtitleSettings.scalingFactor+0.5, 3)
+                    Math.min(subtitleSettings.scalingFactor + 0.5, 3),
                 ]
             ]);
         };
@@ -110,14 +105,17 @@ export class SubtitleDisplaySettingsComponent extends BaseSettingsComponent {
                 const newSubtitleFont = event.target.value as string;
 
                 // Alert player about a settings change
-                this.updateSettings(domElements, [
-                    ["subtitle.font", newSubtitleFont.toUpperCase()]
-                ]);
+                this.updateSettings(
+                    domElements,
+                    [
+                        ["subtitle.font", newSubtitleFont.toUpperCase()],
+                    ],
+                );
             };
             this.eventRegistry.register(
                 element,
                 "change",
-                subtitleFontChangeHandler
+                subtitleFontChangeHandler,
             );
         });
         Array.prototype.forEach.call(subtitleFontColorInputElements, (element: any) => {
@@ -126,13 +124,13 @@ export class SubtitleDisplaySettingsComponent extends BaseSettingsComponent {
 
                 // Alert player about a settings change
                 this.updateSettings(domElements, [
-                    ["subtitle.fontColor", newSubtitleFontColor.toUpperCase()]
+                    ["subtitle.fontColor", newSubtitleFontColor.toUpperCase()],
                 ]);
             };
             this.eventRegistry.register(
                 element,
                 "change",
-                subtitleFontColorChangeHandler
+                subtitleFontColorChangeHandler,
             );
         });
         Array.prototype.forEach.call(subtitleBgColorInputElements, (element: any) => {
@@ -141,24 +139,24 @@ export class SubtitleDisplaySettingsComponent extends BaseSettingsComponent {
 
                 // Alert player about a settings change
                 this.updateSettings(domElements, [
-                    ["subtitle.backgroundColor", newSubtitleFontBgColor.toUpperCase()]
+                    ["subtitle.backgroundColor", newSubtitleFontBgColor.toUpperCase()],
                 ]);
             };
             this.eventRegistry.register(
                 element,
                 "change",
-                subtitleBgColorChangeHandler
+                subtitleBgColorChangeHandler,
             );
         });
         this.eventRegistry.register(
             fontSizeDecreaseButtonElement,
             "click",
-            fontSizeDecreaseHandler
+            fontSizeDecreaseHandler,
         );
         this.eventRegistry.register(
             fontSizeIncreaseButtonElement,
             "click",
-            fontSizeIncreaseHandler
+            fontSizeIncreaseHandler,
         );
 
         // Update radio buttons
