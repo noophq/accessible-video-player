@@ -92,9 +92,13 @@ export class MarkerFormComponent extends BaseComponent<ComponentProperties> {
             mainVideoElement.pause();
             const timecode = Math.round(mainVideoElement.currentTime*1000);
             rootElement.className = this.buildClassNames(MarkerFormType.Add).join(" ");
-            idInputElement.value = "";
-            titleInputElement.value = "";
-            descriptionInputElement.value = "";
+
+            // Create new marker
+            const newMarker = player.markerManager.createNewMarker();
+
+            idInputElement.value = newMarker.id;
+            titleInputElement.value = newMarker.title;
+            descriptionInputElement.value = newMarker.description;
             timecodeInputElement.value = timecode.toString();
             togglePopin(markerFormElement, markerButtonElement);
             event.stopPropagation();

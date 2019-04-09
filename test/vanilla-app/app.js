@@ -189,6 +189,18 @@ avp
                 playerData,
             );
 
+            // Register marker creation hook
+            const markerCreationHook = (timecode) => {
+                return {
+                    id: null,
+                    timecode,
+                    title: "new title",
+                    description: "new description",
+                };
+            };
+
+            avpInstance.markerManager.registerCreationHook(markerCreationHook);
+
             // Handle capture screenshot
             const captureButton = document.getElementById("capture-screenshot");
             const capturedImg = document.getElementById("captured-img");

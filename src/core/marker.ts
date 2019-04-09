@@ -1,13 +1,17 @@
 import { Marker, MarkerDictionary } from "lib/models/marker";
 
+type CreationHookFunc = (timecode: number) => Marker;
+
 /**
  * Manage markers
  */
 export class MarkerManager {
     private _markers: MarkerDictionary;
+    private _creationHook: CreationHookFunc;
 
     public constructor() {
         this._markers = {};
+        this._creationHook = null;
     }
 
     get markers(): Marker[] {
@@ -34,4 +38,20 @@ export class MarkerManager {
         this._markers = {};
     }
 
+    public registerCreationHook(creationHook: CreationHookFunc) {
+        this._creationHook = creationHook;
+    }
+
+    public createNewMarker(timecode: number): Marker {
+        if (this._creationHook) {
+            return this._creationHook(timecode);
+        }
+
+        return {
+            id: null,
+            title: "",
+            description: "",
+            timecode,
+        };
+    }
 }
