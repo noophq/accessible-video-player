@@ -90,9 +90,15 @@ export function initPopin(popinElement: HTMLElement) {
 }
 
 export function closeAllPopins() {
-    // Get all popins
+    // Close all popins
     const popinElements = document.getElementsByClassName("avp-popin") as any;
     Array.prototype.forEach.call(popinElements, (element: any) => {
+        closePopin(element);
+    });
+
+    // Close all tooltips
+    const tooltipElements = document.getElementsByClassName("avp-tooltip") as any;
+    Array.prototype.forEach.call(tooltipElements, (element: any) => {
         closePopin(element);
     });
 }
