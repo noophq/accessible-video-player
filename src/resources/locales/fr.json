@@ -86,8 +86,8 @@
         "descriptionLabel": "Description"
     },
     "marker": {
-        "editLabel": "Modifier un marqueur",
-        "deleteLabel": "Supprimer un marqueur"
+        "editLabel": "Modifier",
+        "deleteLabel": "Supprimer"
     },
     "switchControl": {
         "offLabel": "non",
