@@ -175,6 +175,9 @@ var skinSettings = {
     i18n: {
         locale: "fr",
     },
+    marker: {
+        titleAsHeader: true,
+    },
 };
 
 avp

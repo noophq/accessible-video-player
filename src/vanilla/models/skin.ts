@@ -1,3 +1,7 @@
+export interface SkinMarkerSettings {
+    titleAsHeader: boolean;
+}
+
 export interface SkinRenderer {
     renderIcon?: any;
     renderView?: any;
@@ -17,4 +21,5 @@ export interface SkinSettings {
     name: string;
     i18n?: I18NSettings;
     renderer?: SkinRenderer;
+    marker?: SkinMarkerSettings;
 }

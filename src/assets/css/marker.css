@@ -29,21 +29,35 @@
 }
 
 .avp-marker-form.avp-add-form {
-    & .avp-mode-1 {
+    & .avp-mode-1, {
         display: inline-block;
     }
 
-    & .avp-mode-2 {
+    & .avp-mode-2,
+    & .avp-mode-3 {
         display: none;
     }
 }
 
 .avp-marker-form.avp-edit-form {
-    & .avp-mode-1 {
+    & .avp-mode-1,
+    & .avp-mode-3 {
         display: none;
     }
 
     & .avp-mode-2 {
+        display: inline-block;
+    }
+}
+
+.avp-marker-form.avp-add-form.avp-header-title,
+.avp-marker-form.avp-edit-form.avp-header-title {
+    & .avp-header .avp-mode-1,
+    & .avp-header .avp-mode-2 {
+        display: none;
+    }
+
+    & .avp-mode-3 {
         display: inline-block;
     }
 }

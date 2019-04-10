@@ -19,20 +19,21 @@ export class MarkerFormComponent extends BaseComponent<ComponentProperties> {
     public async registerDomElements(rootElement: HTMLElement) {
         initPopin(rootElement);
         return {
-            root: rootElement
+            root: rootElement,
         };
     }
 
     public async updateView(
         rootElement: HTMLElement,
         domElements: any,
-        player: any
+        player: any,
     ) {
         const playerElement = domElements["origin"]["root"];
         const markerFormElement = domElements["markerForm"]["root"];
         const markerButtonElement = domElements["controlBar"]["markerButton"];
         const formElement = rootElement.getElementsByTagName("form")[0];
         const submitButtonElement = rootElement.getElementsByTagName("button")[0];
+        const titleHeaderElement = rootElement.querySelector(".avp-header .avp-mode-3") as HTMLElement;
         const idInputElement = rootElement.querySelector("input[name='id']") as HTMLInputElement;
         const timecodeInputElement = rootElement.querySelector("input[name='timecode']") as HTMLInputElement;
         const titleInputElement = rootElement.querySelector("input[name='title']") as HTMLInputElement;
@@ -77,6 +78,7 @@ export class MarkerFormComponent extends BaseComponent<ComponentProperties> {
             idInputElement.value = marker.id;
             timecodeInputElement.value = marker.timecode;
             titleInputElement.value = marker.title;
+            titleHeaderElement.innerHTML = marker.title;
             descriptionInputElement.value = marker.description;
             togglePopin(markerFormElement, markerButtonElement);
             event.stopPropagation();
@@ -98,6 +100,7 @@ export class MarkerFormComponent extends BaseComponent<ComponentProperties> {
 
             idInputElement.value = newMarker.id;
             titleInputElement.value = newMarker.title;
+            titleHeaderElement.innerHTML = newMarker.title;
             descriptionInputElement.value = newMarker.description;
             timecodeInputElement.value = timecode.toString();
             togglePopin(markerFormElement, markerButtonElement);
@@ -146,6 +149,12 @@ export class MarkerFormComponent extends BaseComponent<ComponentProperties> {
      */
     private buildClassNames(type: MarkerFormType): string[] {
         const classNames = ["avp-marker-form", "avp-popin"];
+
+        if (this.props.skinSettings.marker
+            && this.props.skinSettings.marker.titleAsHeader
+        ) {
+            classNames.push("avp-header-title");
+        }
 
         if (type === MarkerFormType.Edit) {
             classNames.push("avp-edit-form");
